@@ -21,6 +21,71 @@
                        Canvas.Top="16"
                        Canvas.Left="16"
                        Source="/res/Login-Window-Header.png"/>
+                <Label FontFamily="Cambria"
+                       FontWeight="Bold"
+                       FontSize="18"
+                       Canvas.Top="170"
+                       Width="500"
+                       HorizontalContentAlignment="Center"
+                       Foreground="#505050">
+                    Login to access the Sky Elevator System
+                </Label>
+                <Label FontFamily="Cambria"
+                       FontWeight="Bold"
+                       FontSize="14"
+                       Canvas.Top="200"
+                       Width="500"
+                       Foreground="#505050"
+                       HorizontalContentAlignment="Center">
+                     Enter your user name and password below
+                </Label>
+                <TextBox Height="40"
+                         Width="300"
+                         BorderBrush="#505050"
+                         Canvas.Top="260"
+                         Canvas.Left="100"
+                         FontFamily="Cambria"
+                         FontWeight="Bold"
+                         FontSize="14"
+                         VerticalContentAlignment="Center">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <TextBox Height="40"
+                         Width="300"
+                         BorderBrush="#505050"
+                         Canvas.Top="320"
+                         Canvas.Left="100"
+                         FontFamily="Cambria"
+                         FontWeight="Bold"
+                         FontSize="14"
+                         VerticalContentAlignment="Center">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <Button Height="40"
+                        Width="300"
+                        BorderThickness="0"
+                        Canvas.Top="380"
+                        Canvas.Left="100"
+                        Foreground="White"
+                        Background="#3367BA"
+                        FontFamily="Cambria"
+                        FontWeight="Bold"
+                        FontSize="14">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    LOGIN
+                </Button>
             </Canvas>
         </Border>
         <Border Background="Blue"
