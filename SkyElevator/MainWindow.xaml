@@ -1,0 +1,70 @@
+﻿<Window x:Class="SkyElevator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SkyElevator"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Height="600"
+        Width="1000">
+
+    <StackPanel Orientation="Horizontal">
+        <Border Background="White"
+                CornerRadius="10,0,0,10">
+            <Canvas Width="500">
+                <Image Height="33"
+                       Width="279"
+                       Canvas.Top="16"
+                       Canvas.Left="16"
+                       Source="/res/Login-Window-Header.png"/>
+            </Canvas>
+        </Border>
+        <Border Background="Blue"
+                CornerRadius="0,10,10,0">
+            <Canvas Width="500">
+                <Image Height="600"
+                       Canvas.Left="0"
+                       Canvas.Top="0"
+                       Width="500"
+                       Source="/res/Login-Window-Side.png"/>
+                <Button Width="20"
+                       Height="24"
+                       Canvas.Top="16"
+                       Canvas.Right="16"
+                       Background="Transparent"
+                       Foreground="White"
+                       BorderBrush="Transparent"
+                       FontFamily="Arial"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Click="CloseButtonClicked">
+                    X
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="LightBlue" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Transparent" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Canvas>
+        </Border>
+    </StackPanel>
+
+</Window>
