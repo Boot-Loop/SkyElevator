@@ -1,14 +1,14 @@
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\bin\x64\Debug\SkyElevator.exe.config
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\bin\x64\Debug\SkyElevator.exe
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\bin\x64\Debug\SkyElevator.pdb
-C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\MainWindow.g.cs
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\App.g.cs
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator_MarkupCompile.cache
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator_MarkupCompile.lref
-C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\MainWindow.baml
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.g.resources
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.Properties.Resources.resources
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.csproj.GenerateResource.cache
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.exe
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.pdb
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.csprojAssemblyReference.cache
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\Login.g.cs
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\Login.baml
