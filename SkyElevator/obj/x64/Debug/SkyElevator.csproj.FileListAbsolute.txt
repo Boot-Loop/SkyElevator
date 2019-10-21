@@ -10,5 +10,7 @@ C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyEl
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.exe
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.pdb
 C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\SkyElevator.csprojAssemblyReference.cache
-C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\Login.g.cs
-C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\Login.baml
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\src\ui\Home.g.cs
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\src\ui\Home.baml
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\src\ui\Login.g.cs
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\src\ui\Login.baml
