@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SkyElevator.src.ui"
         mc:Ignorable="d"
         Title="Home" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ContentControl x:Name="home"/>
+    </ScrollViewer>
 </Window>
