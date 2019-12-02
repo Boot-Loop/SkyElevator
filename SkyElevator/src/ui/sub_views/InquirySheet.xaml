@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:SkyElevator.src.ui.sub_views"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="1568" d:DesignWidth="1080">
-    
+
     <!--TextBox Resources-->
-    
+
     <UserControl.Resources>
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
         <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
@@ -24,11 +24,11 @@
             <Setter Property="AllowDrop" Value="true"/>
             <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
             <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Height" Value="36"/>
+            <Setter Property="Height" Value="32"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="Arial Rounded MT Bold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Margin" Value="8 4 0 8"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="16 0 0 8"/>
             <Setter Property="Padding" Value="8 0 0 0"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -60,82 +60,110 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
+
+        <!--Label Resources-->
+
+        <Style x:Key="InquirySheetLabel" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="#FF3367BA"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="16 0 0 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    
+
     <!-- ================================================================================================================================ -->
 
     <DockPanel>
 
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="540" Width="*"/>
-                <ColumnDefinition MinWidth="540" Width="*"/>
+                <ColumnDefinition MinWidth="440" Width="*"/>
+                <ColumnDefinition MinWidth="440" Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column='0'>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1092"/>
-                    <RowDefinition Height="296"/>
+                    <RowDefinition Height="912"/>
+                    <RowDefinition Height="240"/>
                 </Grid.RowDefinitions>
 
                 <!--Basic info grid-->
                 <Grid Grid.Row="0" Margin="16 16 8 16">
                     <Border CornerRadius="10" Background="#F4F7FC"/>
-                    
-                    <Label Content="BASIC INFO" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
-  
 
-                    <StackPanel Margin="8 54 8 8">
+                    <Label Content="BASIC INFO" FontSize="16" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
+
+
+                    <StackPanel Margin="8 40 8 8">
                         <StackPanel>
-                            <Label Content="Type :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Type :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Capacity :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Capacity :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Speed :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Speed :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Travel Height :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Travel Height :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Serving floors &amp; Stops :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Serving floors &amp; Stops :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Floor Displaying :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Floor Displaying :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Quantity :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Quantity :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Motor Controller :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Motor Controller :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Drive Control :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Drive Control :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Possition of M/C Room :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Possition of M/C Room :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Door Operator :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Door Operator :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Door Open Type :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Door Open Type :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Power Supply :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Power Supply :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
@@ -145,19 +173,19 @@
 
                 <Grid Grid.Row="1" Margin="16 0 8 0" >
                     <Border CornerRadius="10" Background="#F4F7FC"/>
-                    <Label Content="SHAFT SIZE" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
+                    <Label Content="SHAFT SIZE" FontSize="16" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
 
-                    <StackPanel Margin="8 54 8 8">
+                    <StackPanel Margin="8 40 8 8">
                         <StackPanel>
-                            <Label Content="Available :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Available :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Overhead Height :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Overhead Height :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Pit Depth :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Pit Depth :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
@@ -168,102 +196,102 @@
 
             <Grid Grid.Column='1'>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="938"/>
-                    <RowDefinition Height="230"/>
-                    <RowDefinition Height="288"/>
+                    <RowDefinition Height="784"/>
+                    <RowDefinition Height="192"/>
+                    <RowDefinition Height="240"/>
                 </Grid.RowDefinitions>
-                
+
                 <!--Elevator Car grid-->
 
                 <Grid Grid.Row="0" Margin="8 16 16 16">
                     <Border CornerRadius="10" Background="#F4F7FC"/>
-                    <Label Content="ELEVATOR CAR" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
+                    <Label Content="ELEVATOR CAR" FontSize="16" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
 
-                    <StackPanel Margin="8 54 8 8">
+                    <StackPanel Margin="8 40 8 8">
                         <StackPanel>
-                            <Label Content="Car diamension (mm) :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Car diamension (mm) :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Car side walls :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Car side walls :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Rear walls :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Rear walls :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Car door :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Car door :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Hand rail :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Hand rail :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Flooring :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Flooring :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Ceiling light :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Ceiling light :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Ventilation :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Ventilation :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Car still :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Car still :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Safety :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Safety :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Pit buffers :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Pit buffers :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
-                    
+
                 </Grid>
 
                 <!--car operating panel -->
 
                 <Grid Grid.Row="1" Margin="8 0 16 16" >
                     <Border CornerRadius="10" Background="#F4F7FC"/>
-                    <Label Content="CAR OPERATING PANEL" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
+                    <Label Content="CAR OPERATING PANEL" FontSize="16" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
 
-                    <StackPanel Margin="8 54 8 8">
+                    <StackPanel Margin="8 40 8 8">
                         <StackPanel>
-                            <Label Content="Indiactor Type :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Indiactor Type :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Push Button :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Push Button :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
 
                 </Grid>
-                
-                    <!--Enternce design grid-->
+
+                <!--Enternce design grid-->
 
                 <Grid Grid.Row="2" Margin="8 0 16 0" >
                     <Border CornerRadius="10" Background="#F4F7FC"/>
-                    <Label Content="ENTRANCE DESIGN" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
+                    <Label Content="ENTRANCE DESIGN" FontSize="16" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="8"/>
 
-                    <StackPanel Margin="8 54 8 8">
+                    <StackPanel Margin="8 40 8 8">
                         <StackPanel>
-                            <Label Content="Landing Door Size :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Landing Door Size :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Landing Door Finishing :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Landing Door Finishing :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Landing Door Jambs :" FontSize="16" FontFamily="Arial Rounded MT Bold" Foreground="#FF3367BA"/>
+                            <Label Content="Landing Door Jambs :" Style="{DynamicResource InquirySheetLabel}"/>
                             <TextBox Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
@@ -274,10 +302,10 @@
 
         </Grid>
 
-        <Grid DockPanel.Dock="Bottom" Height="72" Margin="16">
+        <Grid DockPanel.Dock="Bottom" Height="64" Margin="16">
             <Border CornerRadius="10" Background="#F4F7FC"/>
 
-            <Button Content="Delete" Grid.Column="0" Width='200' Height="40" HorizontalAlignment="Left" Margin="16" Background="#EF4680"  FontSize="16" FontWeight="Bold" Foreground="White" FontFamily="Arial Rounded MT Bold">
+            <Button Content="Delete" Grid.Column="0" Width='160' Height="32" HorizontalAlignment="Left" Margin="16" Background="#EF4680"  FontSize="12" FontWeight="Bold" Foreground="White" FontFamily="Arial">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -306,7 +334,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
 
-                <Button Content="Draft" Grid.Column="0" Width='200' Height="40" Margin="16" Background="#4687EF"  FontSize="16" FontWeight="Bold" Foreground="White" FontFamily="Arial Rounded MT Bold">
+                <Button Content="Draft" Grid.Column="0" Width='160' Height="32" Margin="16" Background="#4687EF"  FontSize="12" FontWeight="Bold" Foreground="White" FontFamily="Arial">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -333,7 +361,7 @@
                 </Button>
 
 
-                <Button Content="Save" Grid.Column="0" Width='200' Height="40"  HorizontalAlignment="Right" Background="#4687EF" FontSize="16" FontWeight="Bold" Foreground="White" FontFamily="Arial Rounded MT Bold">
+                <Button Content="Save" Grid.Column="0" Width="160" Height="32"  HorizontalAlignment="Right" Background="#4687EF" FontSize="12" FontWeight="Bold" Foreground="White" FontFamily="Arial">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -360,7 +388,7 @@
                 </Button>
 
 
-                <Button Content="Generate" Grid.Column="0" Width='200' Height="40" Margin="16" HorizontalAlignment="Right" Background="#3367BA"  FontSize="16" FontWeight="Bold" Foreground="White" FontFamily="Arial Rounded MT Bold">
+                <Button Content="Generate" Grid.Column="0" Width="160" Height="32" Margin="16" HorizontalAlignment="Right" Background="#3367BA"  FontSize="12" FontWeight="Bold" Foreground="White" FontFamily="Arial">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
