@@ -10,20 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SkyElevator.src.ui.sub_views;
 
-namespace SkyElevator.src.ui
+namespace SkyElevator.src.ui.sub_views
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for InquirySheet.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class InquirySheet : UserControl
     {
-        public Home()
+        public InquirySheet()
         {
             InitializeComponent();
-            home.Content = new InquirySheet();
         }
     }
 }
