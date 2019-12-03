@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\
+C:\Users\Lap.lk\Desktop\dev\C#\SkyElevator\SkyElevator\obj\x64\Debug\
 SkyElevator
 none
 false
 DEBUG;TRACE
-C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\App.xaml
-2-238389609
+C:\Users\Lap.lk\Desktop\dev\C#\SkyElevator\SkyElevator\App.xaml
+5-2071964299
 
-6783101450
+7-1401335861
 13-1505183044
-src\ui\Login.xaml;src\ui\Home.xaml;
+Resources\Button.xaml;Resources\TextBox.xaml;src\ui\Login.xaml;src\ui\Home.xaml;src\ui\sub_views\InquirySheet.xaml;
 
 False
 
