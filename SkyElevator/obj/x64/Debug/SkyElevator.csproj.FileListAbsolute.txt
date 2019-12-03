@@ -35,3 +35,8 @@ C:\Users\Lap.lk\Desktop\dev\C#\SkyElevator\SkyElevator\obj\x64\Debug\App.baml
 C:\Users\Lap.lk\Desktop\dev\C#\SkyElevator\SkyElevator\obj\x64\Debug\Resources\Button.baml
 C:\Users\Lap.lk\Desktop\dev\C#\SkyElevator\SkyElevator\obj\x64\Debug\Resources\TextBox.baml
 C:\Users\Lap.lk\Desktop\dev\C#\SkyElevator\SkyElevator\obj\x64\Debug\src\ui\sub_views\InquirySheet.baml
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\src\ui\sub_views\InquirySheet.g.cs
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\App.baml
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\Resources\Button.baml
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\Resources\TextBox.baml
+C:\Users\Azeem Muzammil\source\repos\SkyElevator\SkyElevator\obj\x64\Debug\src\ui\sub_views\InquirySheet.baml
