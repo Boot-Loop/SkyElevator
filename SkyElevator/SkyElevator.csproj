@@ -83,7 +83,7 @@
     <Compile Include="src\ui\sub_views\InquirySheet.xaml.cs">
       <DependentUpon>InquirySheet.xaml</DependentUpon>
     </Compile>
-    <Page Include="Resources\Button.xaml">
+    <Page Include="Resources\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

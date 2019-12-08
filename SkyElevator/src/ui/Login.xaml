@@ -59,35 +59,38 @@
         </Style>
     </Window.Resources>
 
+    <Grid>
 
-    <StackPanel Orientation="Horizontal">
-        <Border Background="White"
+        <Grid MouseDown="Grid_MouseDown">
+            <StackPanel Orientation="Horizontal">
+                <Border Background="White"
                 CornerRadius="10,0,0,10">
-            <Canvas Width="500">
-                <Image Height="33"
+
+                    <Canvas Width="500">
+                        <Image Height="33"
                        Width="279"
                        Canvas.Top="16"
                        Canvas.Left="16"
                        Source="/res/Login-Window-Header.png"/>
-                <Label FontFamily="Cambria"
+                        <Label FontFamily="Cambria"
                        FontWeight="Bold"
                        FontSize="18"
                        Canvas.Top="170"
                        Width="500"
                        HorizontalContentAlignment="Center"
                        Foreground="#505050">
-                    Login to access the Sky Elevator System
-                </Label>
-                <Label FontFamily="Cambria"
+                            Login to access the Sky Elevator System
+                        </Label>
+                        <Label FontFamily="Cambria"
                        FontWeight="Bold"
                        FontSize="14"
                        Canvas.Top="200"
                        Width="500"
                        Foreground="#505050"
                        HorizontalContentAlignment="Center">
-                    Enter your user name and password below
-                </Label>
-                <TextBox Height="40"
+                            Enter your user name and password below
+                        </Label>
+                        <TextBox Height="40"
                          Width="300"
                          BorderBrush="#505050"
                          Canvas.Top="260"
@@ -96,13 +99,13 @@
                          FontWeight="Bold"
                          FontSize="16"                         
                          VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <PasswordBox Height="40"
+                            <TextBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+                        <PasswordBox Height="40"
                          Width="300"
                          BorderBrush="#505050"
                          Canvas.Top="320"
@@ -113,8 +116,8 @@
                          VerticalContentAlignment="Center" Style="{DynamicResource PasswordBoxStyle1}">
 
 
-                </PasswordBox>
-                <Button Height="40"
+                        </PasswordBox>
+                        <Button Height="40"
                         Width="300"
                         BorderThickness="0"
                         Canvas.Top="380"
@@ -124,42 +127,42 @@
                         FontFamily="Arial Rounded MT Bold"
                         FontWeight="Bold"
                         FontSize="16">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    LOGIN
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#4687EF" TargetName="Border" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </Canvas>
-        </Border>
-        <Border Background="Blue"
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            LOGIN
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#4687EF" TargetName="Border" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Canvas>
+                </Border>
+                <Border Background="Blue"
                 CornerRadius="0,10,10,0">
-            <Canvas Width="500">
-                <Image Height="600"
+                    <Canvas Width="500">
+                        <Image Height="600"
                        Canvas.Left="0"
                        Canvas.Top="0"
                        Width="500"
                        Source="/res/Login-Window-Side.png"/>
-                <Button Width="20"
+                        <Button Width="20"
                        Height="24"
                        Canvas.Top="16"
                        Canvas.Right="16"
@@ -170,50 +173,54 @@
                        FontSize="16"
                        FontWeight="Bold"
                        Click="CloseButtonClicked">
-                    X
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="LightBlue" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Transparent" TargetName="Border" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <StackPanel Orientation="Vertical"
+                            X
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="Transparent" TargetName="Border" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <StackPanel Orientation="Vertical"
                             Width="320"
                             Canvas.Top="160"
                             Canvas.Left="42">
-                    <Label FontFamily="Cambri"
+                            <Label FontFamily="Cambri"
                            FontWeight="Regular"
                            FontSize="16"
                            Foreground="White">
-                        <Label.Content>
-                            <AccessText Name="QuoteLabel" TextWrapping="Wrap" Text="Smiling is definitely one of the best beauty remedies. If you have a good sense of humour and a good approach to life, that's beautiful."></AccessText>
-                        </Label.Content>
-                    </Label>
-                    <Label Name="AuthorLabel"
+                                <Label.Content>
+                                    <AccessText Name="QuoteLabel" TextWrapping="Wrap" Text="Smiling is definitely one of the best beauty remedies. If you have a good sense of humour and a good approach to life, that's beautiful."></AccessText>
+                                </Label.Content>
+                            </Label>
+                            <Label Name="AuthorLabel"
                            FontFamily="Cambria"
                            FontWeight="Bold"
                            FontSize="14"
                            Foreground="White"
                            Margin="0,16,0,0">
-                        -Rashida Jones-
-                    </Label>
-                </StackPanel>
-            </Canvas>
-        </Border>
-    </StackPanel>
+                                -Rashida Jones-
+                            </Label>
+                        </StackPanel>
+                    </Canvas>
+                </Border>
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+   
 
 </Window>

@@ -43,5 +43,10 @@ namespace SkyElevator
         {
             App.Current.Shutdown();
         }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }
