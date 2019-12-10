@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyElevator", "SkyElevator\SkyElevator.csproj", "{AF826CCA-EDB2-4EA7-8B48-50D6B1AC5F47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SebeClient", "SebeClient\SebeClient.csproj", "{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{0E8267D8-6410-49E7-8483-3FF05B486A15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,22 @@ Global
 		{AF826CCA-EDB2-4EA7-8B48-50D6B1AC5F47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF826CCA-EDB2-4EA7-8B48-50D6B1AC5F47}.Release|x64.ActiveCfg = Release|x64
 		{AF826CCA-EDB2-4EA7-8B48-50D6B1AC5F47}.Release|x64.Build.0 = Release|x64
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Debug|x64.Build.0 = Debug|Any CPU
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Release|x64.ActiveCfg = Release|Any CPU
+		{D492F8B4-8D61-41D6-9EAC-645F3EB1144D}.Release|x64.Build.0 = Release|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Debug|x64.Build.0 = Debug|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E8267D8-6410-49E7-8483-3FF05B486A15}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

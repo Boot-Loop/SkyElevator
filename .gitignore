@@ -7,6 +7,12 @@
 .vs/
 SkyElevator/bin/
 SkyElevator/obj/
+SebeClient/bin/
+SebeClient/obj/
+
+# test files
+Tester/
+
 
 # User-specific files
 *.rsuser
