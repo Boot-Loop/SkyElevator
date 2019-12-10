@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Soap;
 
 namespace SebeClient
 {
-	public class Request
-	{
-		public static async Task CookeiTest()
+    public class Client
+    {
+		public static async Task connect()
 		{
 			CookieContainer cookies = new CookieContainer();
 			HttpClientHandler handler = new HttpClientHandler();
@@ -33,5 +36,25 @@ namespace SebeClient
 			client.Dispose();
 		}
 
+		static void serialize(CookieContainer cookies)
+		{
+			var formatter = new SoapFormatter();
+			string file = Path.Combine(Directory.GetCurrentDirectory(), "cookies.dat");
+
+			using (Stream s = File.Create(file))
+				formatter.Serialize(s, cookies);
+		}
+
+		static CookieContainer deSerialize()
+		{
+			var formatter = new SoapFormatter();
+			string file = Path.Combine(Directory.GetCurrentDirectory(), "cookies.dat");
+
+			CookieContainer retrievedCookies = null;
+			using (Stream s = File.OpenRead(file))
+				retrievedCookies = (CookieContainer)formatter.Deserialize(s);
+
+			return retrievedCookies;
+		}
 	}
 }
