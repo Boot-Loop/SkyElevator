@@ -33,55 +33,55 @@
                     <StackPanel Margin="8 54 8 8">
                         <StackPanel>
                             <Label Content="Type :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Type" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Capacity :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Capacity" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Speed :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Speed" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Travel Height :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Travel Height" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Serving floors &amp; Stops :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Serving floors &amp; Stops" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Floor Displaying :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Floor Displaying" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Quantity :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Quantity" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Motor Controller :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Motor Controller" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Drive Control :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Drive Control" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Possition of M/C Room :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Possition of M/C Room" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Door Operator :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Door Operator" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Door Open Type :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Door Open Type" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Power Supply :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Power Supply" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>
@@ -95,15 +95,15 @@
                     <StackPanel Margin="8 54 8 8">
                         <StackPanel>
                             <Label Content="Available :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Available" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Overhead Height :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Overhead Height" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Pit Depth :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Pit Depth" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
 
@@ -127,47 +127,47 @@
                     <StackPanel Margin="8 54 8 8">
                         <StackPanel>
                             <Label Content="Car diamension (mm) :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Car diamension (mm)" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Car side walls :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Car side walls" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Rear walls :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Rear walls" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Car door :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Car door" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Hand rail :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Hand rail" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Flooring :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Flooring" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Ceiling light :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Ceiling light" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Ventilation :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Ventilation" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Car still :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <Label Content="Car sill :" Style="{DynamicResource InquirySheetLabel}"/>
+                            <TextBox Tag="Enter Car sill" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Safety :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Safety" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Pit buffers :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Pit buffers" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
                     
@@ -182,11 +182,11 @@
                     <StackPanel Margin="8 54 8 8">
                         <StackPanel>
                             <Label Content="Indiactor Type :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Indiactor Type" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Push Button :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Push Button" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
 
@@ -201,15 +201,15 @@
                     <StackPanel Margin="8 54 8 8">
                         <StackPanel>
                             <Label Content="Landing Door Size :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Landing Door Size" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Landing Door Finishing :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Landing Door Finishing" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                         <StackPanel>
                             <Label Content="Landing Door Jambs :" Style="{DynamicResource InquirySheetLabel}"/>
-                            <TextBox Style="{DynamicResource InquirySheetTextBox}" />
+                            <TextBox Tag="Enter Landing Door Jambs" Style="{DynamicResource InquirySheetTextBox}" />
                         </StackPanel>
                     </StackPanel>
 

@@ -90,7 +90,8 @@
                        HorizontalContentAlignment="Center">
                             Enter your user name and password below
                         </Label>
-                        <TextBox Height="40"
+
+                        <TextBox x:Name="UserName" Height="40"                       
                          Width="300"
                          BorderBrush="#505050"
                          Canvas.Top="260"
@@ -105,7 +106,8 @@
                                 </Style>
                             </TextBox.Resources>
                         </TextBox>
-                        <PasswordBox Height="40"
+                        <PasswordBox x:Name="password"
+                         Height="40"                        
                          Width="300"
                          BorderBrush="#505050"
                          Canvas.Top="320"
@@ -114,9 +116,8 @@
                          FontWeight="Bold"
                          FontSize="16"
                          VerticalContentAlignment="Center" Style="{DynamicResource PasswordBoxStyle1}">
-
-
                         </PasswordBox>
+                       
                         <Button Height="40"
                         Width="300"
                         BorderThickness="0"
