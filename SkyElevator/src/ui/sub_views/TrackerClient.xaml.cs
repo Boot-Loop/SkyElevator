@@ -27,6 +27,28 @@ namespace SkyElevator.src.ui.sub_views
             
         }
 
+        private void Client(object sender, RoutedEventArgs e)
+        {
+            Color col1 = (Color)ColorConverter.ConvertFromString("#416ac4");
+            Color col2 = (Color)ColorConverter.ConvertFromString("#acd1fa");
+            ClientButtonB.Background = new SolidColorBrush(col1);
+            SupplierButtonB.Background = new SolidColorBrush(col2);
+            ClientButtonTB.Foreground = Brushes.White;
+            SupplierButtonTB.Foreground = new SolidColorBrush(col1);
+            PaymentTrackerTab.SelectedIndex = 0;
+        }
+
+        private void Supplier(object sender, RoutedEventArgs e)
+        {
+            Color col1 = (Color)ColorConverter.ConvertFromString("#416ac4");
+            Color col2 = (Color)ColorConverter.ConvertFromString("#acd1fa");
+            SupplierButtonB.Background = new SolidColorBrush(col1);
+            ClientButtonB.Background = new SolidColorBrush(col2);
+            SupplierButtonTB.Foreground = Brushes.White;
+            ClientButtonTB.Foreground = new SolidColorBrush(col1);
+            PaymentTrackerTab.SelectedIndex = 1;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -44,7 +66,7 @@ namespace SkyElevator.src.ui.sub_views
 
             PaymentTracker.Items.Add(PT);
         }
-          
+
     }
 
     public class PaymentTracker
