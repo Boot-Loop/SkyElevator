@@ -20,9 +20,38 @@ namespace SkyElevator.src.ui.sub_views
     /// </summary>
     public partial class TrackerClient : UserControl
     {
+        List<dynamic> Paymenttracker = new List<dynamic>(); 
         public TrackerClient()
         {
             InitializeComponent();
+            
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            DataAddingGrid.Height = 40;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            DataAddingGrid.Height = 0;
+            PaymentTracker PT = new PaymentTracker();
+            PT.Date = date.Text;
+            PT.Amount = amount.Text;
+            PT.Payment_Method = paymentmethod.Text;
+            PT.Total = total.Text;
+
+            PaymentTracker.Items.Add(PT);
+        }
+          
+    }
+
+    public class PaymentTracker
+    {
+        public string Date { get; set; }
+        public string Amount { get; set; }
+        public string Payment_Method { get; set; }
+        public string Total { get; set; }
     }
 }

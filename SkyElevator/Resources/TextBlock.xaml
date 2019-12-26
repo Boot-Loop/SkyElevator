@@ -32,7 +32,7 @@
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="TextTrimming" Value="None"/>
         <Setter Property="Foreground" Value="#FF3367BA"/>
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="10 0 0 0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
@@ -45,7 +45,7 @@
         <Setter Property="VerticalContentAlignment" Value="Top"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Margin" Value="5 0 0 0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
