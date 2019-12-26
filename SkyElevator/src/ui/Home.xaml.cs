@@ -23,7 +23,7 @@ namespace SkyElevator.src.ui
         public Home()
         {
             InitializeComponent();
-            home.Content = new InquirySheet();
+            home.Content = new TrackerClient();
         }
     }
 }

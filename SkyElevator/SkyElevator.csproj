@@ -83,7 +83,10 @@
     <Compile Include="src\ui\sub_views\InquirySheet.xaml.cs">
       <DependentUpon>InquirySheet.xaml</DependentUpon>
     </Compile>
-    <Page Include="Resources\Button.xaml">
+    <Compile Include="src\ui\sub_views\TrackerClient.xaml.cs">
+      <DependentUpon>TrackerClient.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Resources\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,6 +111,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\ui\sub_views\InquirySheet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\sub_views\TrackerClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
