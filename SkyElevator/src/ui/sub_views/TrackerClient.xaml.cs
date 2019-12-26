@@ -10,20 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SkyElevator.src.ui.sub_views;
 
-namespace SkyElevator.src.ui
+namespace SkyElevator.src.ui.sub_views
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for TrackerClient.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class TrackerClient : UserControl
     {
-        public Home()
+        public TrackerClient()
         {
             InitializeComponent();
-            home.Content = new TrackerClient();
         }
     }
 }
