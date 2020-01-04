@@ -7,6 +7,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Soap;
+using System.Net.Http.Headers;
+
+using SebeClient;
+
+/*
+ every methods which connects to the bachend throws this exception
+		"System.Net.Http.HttpRequestException"
+ */
 
 /* TODOs:
  * save resp with mime type, image -> binary write
@@ -18,6 +26,8 @@ using System.Runtime.Serialization.Formatters.Soap;
  * impl:put delete http_methods
  * 
  * test pdf, image, docx, other types of files
+ * 
+ * delete cookie after logout
  * 
  */
 
@@ -61,16 +71,21 @@ namespace SebeClient
 			this.http_client = new HttpClient(handler);
 		}
 
-		public async Task get(string path) // path = /accounts/login/
-		{
+		public async Task get(string path) {
 			this.response = await this.http_client.GetAsync( new Uri(this.uri, path ) );
+
 			await saveResponse();
 		}
 
-		public async Task post(string path, List<KeyValuePair<string,string>> post_data = null)
+		public HttpClient getHttpClient(){
+			return this.http_client;
+		}
+		
+		public async Task post(string path, List<KeyValuePair<string,string>> post_data = null, bool drf = false) // drf : django rest framework
 		{
-			if (post_data is null)
-			{
+			if (drf) await getDrfCsrfToken(path); 
+
+			if (post_data is null) {
 				post_data = new List<KeyValuePair<string, string>>();
 			}
 			FormUrlEncodedContent content = new FormUrlEncodedContent(post_data);
@@ -78,10 +93,32 @@ namespace SebeClient
 			await saveResponse();
 		}
 
+		public async Task put(string path, List<KeyValuePair<string, string>> post_data = null, bool drf = false)
+		{
+			if (drf) await getDrfCsrfToken(path);
+
+			if (post_data is null) {
+				post_data = new List<KeyValuePair<string, string>>();
+			}
+			FormUrlEncodedContent content = new FormUrlEncodedContent(post_data);
+			this.response = await this.http_client.PutAsync(new Uri(this.uri, path), content);
+			await saveResponse();
+		}
+
+		public async Task delete(string path, bool drf = false)
+		{
+			if (drf) await getDrfCsrfToken(path);
+
+			this.response = await this.http_client.DeleteAsync(new Uri(this.uri, path));
+			await saveResponse();
+		}
+
+		
 		public async Task login(string path, string username, string password)
 		{
 			await this.get(path);
 			string csrfmiddlewaretoken = this.getCookieValue("csrftoken"); // csrfmiddlewaretoken, sessionid
+			if (csrfmiddlewaretoken is null) throw new Exception("csrftoken not found in cookies");
 			List<KeyValuePair<string, string>> post_data = new List<KeyValuePair<string, string>>();
 			post_data.Add(new KeyValuePair<string, string>("csrfmiddlewaretoken", csrfmiddlewaretoken));
 			post_data.Add(new KeyValuePair<string, string>("username", username));
@@ -110,6 +147,12 @@ namespace SebeClient
 			return null;
 		}
 
+		// if no response available returns -1
+		public int getStatusCode() { 
+			if (this.response is null) return -1;
+			return (int)this.response.StatusCode;
+		}
+
 		public string getResponseMimeType() // application/json, text/html, ...
 		{
 			return response.Content.Headers.ContentType.ToString();
@@ -120,16 +163,8 @@ namespace SebeClient
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		public void dispose()
-		{
+		public void dispose(){
 			this.http_client.Dispose();
-		}
-
-		public void saveCookies()
-		{
-			var formatter = new SoapFormatter();
-			using (Stream s = File.Create(this.cookie_path))
-				formatter.Serialize(s, cookies);
 		}
 
 		public CookieContainer loadCookies() // if error no app_data_folder
@@ -142,13 +177,44 @@ namespace SebeClient
 			return retrievedCookies;
 		}
 		///////////////////////////// PRIVARE METHODS ///////////////////////////////////
+		
+		private async Task<KeyValuePair<string, string>> getDrfCsrfToken(string path)
+		{
+			try { 
+				this.response = await http_client.GetAsync(new Uri(this.uri, path + "?format=api"));
+			} catch (Exception err) { throw err; }
 
-		private async Task saveResponse() // if error no app_data_folder
+			if (getStatusCode() != 200){
+				throw new Exception("getDrfCsrfToken get api request was not success");
+			}
+			string token_re = @"csrfHeaderName\s*:\s*"".*""\s*,\s*csrfToken\s*:\s*"".*""";
+			string match = Utils.getFirstMatch(await getResponseString(), token_re);
+			if (match is null) { throw new Exception("no matching re found for : "+ token_re); }
+			string[] keys_and_values = match.Split( new[] { ',', ':'});
+			if (keys_and_values.Length != 4) {
+				throw new Exception("invalie size of csrf header json string");
+			}
+			string csrf_header = keys_and_values[1].Trim();
+			csrf_header = csrf_header.Substring(1, csrf_header.Length-2 );
+			string csrf_token = keys_and_values[3].Trim();
+			csrf_token = csrf_token.Substring(1, csrf_token.Length- 2);
+			http_client.DefaultRequestHeaders.Add(csrf_header, csrf_token);
+			return new KeyValuePair<string, string>(csrf_header, csrf_token);
+		}
+
+
+		private async Task saveResponse() // if error no app_data_folder, debug save 
 		{
 			// TODO: save with mime type and binary for pdf, image, ...
 			string response_string = await this.getResponseString();
 			File.WriteAllText(this.resp_log_path, response_string);
 			saveCookies();
+		}
+
+		private void saveCookies(){
+			var formatter = new SoapFormatter();
+			using (Stream s = File.Create(this.cookie_path))
+				formatter.Serialize(s, cookies);
 		}
 	}
 }
