@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Net.Http.Headers;
 
-using SebeClient;
-
 /*
  every methods which connects to the bachend throws this exception
 		"System.Net.Http.HttpRequestException"
  */
 
 /* TODOs:
+ * 
+ * 
+ * document the code with possible throws 
+ * 
  * save resp with mime type, image -> binary write
  * cookie expiry time
  * response timeout
  * 
  * impl:method -> cler cookies, caches, ...
  * log and save resp, other with time ( resp names -> resp_time.mime_type )
- * impl:put delete http_methods
- * 
- * test pdf, image, docx, other types of files
  * 
  * delete cookie after logout
+ * 
  * 
  */
 
@@ -49,8 +49,7 @@ namespace SebeClient
 		private string cookie_path    = Path.Combine(PROGRAMME_DATA_PATH, "cookies.dat");
 
 
-		public static void Init()
-		{
+		public static void Init() { // if exists it does nothing
 			Directory.CreateDirectory(PROGRAMME_DATA_PATH);
 		}
 
@@ -59,73 +58,87 @@ namespace SebeClient
 			Init(); // TODO: move this
 
 			try {
-				this.cookies = loadCookies();
+				cookies = loadCookies();
 			}
 			catch (FileNotFoundException) {
-				this.cookies = new CookieContainer();
+				cookies = new CookieContainer();
 			}
 
 			this.uri = new Uri(uri);			
 			HttpClientHandler handler = new HttpClientHandler();
 			handler.CookieContainer = cookies;
 			this.http_client = new HttpClient(handler);
+
 		}
+		// public HttpClient getHttpClient() => http_client;
 
-		public async Task get(string path) {
-			this.response = await this.http_client.GetAsync( new Uri(this.uri, path ) );
+		public void setTimeout(double seconds) => http_client.Timeout = TimeSpan.FromSeconds(seconds);
+		public void dispose() => http_client.Dispose();
 
+		public async Task getRequest(string path) {
+			response = await http_client.GetAsync( new Uri(uri, path ) );
 			await saveResponse();
 		}
-
-		public HttpClient getHttpClient(){
-			return this.http_client;
-		}
-		
-		public async Task post(string path, List<KeyValuePair<string,string>> post_data = null, bool drf = false) // drf : django rest framework
-		{
-			if (drf) await getDrfCsrfToken(path); 
-
-			if (post_data is null) {
-				post_data = new List<KeyValuePair<string, string>>();
-			}
-			FormUrlEncodedContent content = new FormUrlEncodedContent(post_data);
-			this.response = await this.http_client.PostAsync(new Uri(this.uri, path), content);
-			await saveResponse();
-		}
-
-		public async Task put(string path, List<KeyValuePair<string, string>> post_data = null, bool drf = false)
+		/* private overloaded requests */
+		private async Task postRequest(string path, HttpContent content = null, bool drf = false)
 		{
 			if (drf) await getDrfCsrfToken(path);
-
-			if (post_data is null) {
-				post_data = new List<KeyValuePair<string, string>>();
-			}
-			FormUrlEncodedContent content = new FormUrlEncodedContent(post_data);
-			this.response = await this.http_client.PutAsync(new Uri(this.uri, path), content);
+			response = await http_client.PostAsync(new Uri(uri, path), content);
 			await saveResponse();
 		}
-
-		public async Task delete(string path, bool drf = false)
+		private async Task putRequest(string path, HttpContent content = null, bool drf = false)
 		{
 			if (drf) await getDrfCsrfToken(path);
+			response = await http_client.PutAsync(new Uri(uri, path), content);
+			await saveResponse();
+		}
+		private async Task patchRequest(string path, HttpContent content=null, bool drf = false)
+		{
+			if (drf) await getDrfCsrfToken(path);
+			var method = new HttpMethod("PATCH");
+			var request = new HttpRequestMessage(method, new Uri(uri, path));
+			request.Content = content;
+			response = await http_client.SendAsync(request);
+			await saveResponse();
+		}
+		/* private requests */
 
+		public async Task deleteRequest(string path, bool drf = false)
+		{
+			if (drf) await getDrfCsrfToken(path);
 			this.response = await this.http_client.DeleteAsync(new Uri(this.uri, path));
 			await saveResponse();
 		}
 
-		
-		public async Task login(string path, string username, string password)
+		public async Task postRequest(string path, Dictionary<string,string> post_data = null, Dictionary<string, string> attach_files = null, bool drf = false) // drf : django rest framework
 		{
-			await this.get(path);
-			string csrfmiddlewaretoken = this.getCookieValue("csrftoken"); // csrfmiddlewaretoken, sessionid
-			if (csrfmiddlewaretoken is null) throw new Exception("csrftoken not found in cookies");
-			List<KeyValuePair<string, string>> post_data = new List<KeyValuePair<string, string>>();
-			post_data.Add(new KeyValuePair<string, string>("csrfmiddlewaretoken", csrfmiddlewaretoken));
-			post_data.Add(new KeyValuePair<string, string>("username", username));
-			post_data.Add(new KeyValuePair<string, string>("password", password));
-			await this.post(path, post_data);
+			await postRequest(path, makeHttpContent(post_data, attach_files), drf);
 		}
 
+		public async Task putRequest(string path, Dictionary<string, string> put_data = null, Dictionary<string, string> attach_files = null, bool drf = false)
+		{
+			await putRequest(path, makeHttpContent(put_data, attach_files), drf);
+		}
+
+		public async Task patchRequest(string path, Dictionary<string, string> put_data = null, Dictionary<string, string> attach_files = null, bool drf = false)
+		{
+			await patchRequest(path, makeHttpContent(put_data, attach_files), drf);
+		}
+
+
+		public async Task login(string path, string username, string password)
+		{
+			await this.getRequest(path);
+			string csrfmiddlewaretoken = this.getCookieValue("csrftoken"); // csrfmiddlewaretoken, sessionid
+			if (csrfmiddlewaretoken is null) throw new Exception("csrftoken not found in cookies");
+			Dictionary<string, string> post_data = new Dictionary<string, string>();
+			post_data.Add("csrfmiddlewaretoken", csrfmiddlewaretoken);
+			post_data.Add("username", username);
+			post_data.Add("password", password);
+			await this.postRequest(path, post_data);
+		}
+
+		/********* getters and setters **********/
 
 		public IEnumerable<Cookie> getCookies()
 		{
@@ -139,39 +152,58 @@ namespace SebeClient
 			*/
 			return responseCookies;
 		}
-		public string getCookieValue(string key)
-		{
-			foreach (Cookie cookie in this.getCookies()){
+		public string getCookieValue(string key){
+			foreach (Cookie cookie in getCookies())
 				if (cookie.Name == key) return cookie.Value;
-			}
 			return null;
 		}
 
-		// if no response available returns -1
-		public int getStatusCode() { 
-			if (this.response is null) return -1;
-			return (int)this.response.StatusCode;
+		// if response is null error!
+		public int getStatusCode() => (int)response.StatusCode;
+		public string getResponseMimeType() => response.Content.Headers.ContentType.ToString();
+		public bool hasResponseContentDisposition() => !(response.Content.Headers.ContentDisposition is null);
+		public string getResponseAttachmentName() => response.Content.Headers.ContentDisposition.FileName;
+		// TODO: contentDisposition may be null -> if no file attached handle
+
+		public async Task<string> getResponseString() => await response.Content.ReadAsStringAsync();
+		public async Task<Stream> getResponseStream() => await response.Content.ReadAsStreamAsync();
+		public async Task<byte[]> getResponseBytes() => await response.Content.ReadAsByteArrayAsync();
+
+		/// <summary>
+		/// save the response to the path(<c>file_path</c>). path is the full path to the file with extension (jpg, jpeg, gif, ...).
+		/// <para/>
+		/// for the extension use <see cref="getResponseMimeType"/>
+		/// </summary>
+		/// <param name="file_path"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		public async Task saveResponseBytes(string file_path, FileMode mode = FileMode.OpenOrCreate){
+			using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync())
+				using (Stream streamToWriteTo = File.Open(file_path, mode))
+					await streamToReadFrom.CopyToAsync(streamToWriteTo);
 		}
 
-		public string getResponseMimeType() // application/json, text/html, ...
-		{
-			return response.Content.Headers.ContentType.ToString();
+		/// <summary>
+		/// save the file attached to the response to the path(<c>dir_path</c>). file name and extension will get from response header.
+		/// <para/>
+		/// use method <see cref="hasResponseContentDisposition"/> to check if any files were attached to the response. 
+		/// <para/> 
+		/// if the response is a binary file use <see cref="saveResponseBytes(string, FileMode)"/>
+		/// </summary>
+		/// <param name="dir_path">path to the directory (file name and extension will added from the response)</param>
+		/// <param name="mode">the file mode to open</param>
+		/// <returns></returns>
+		public async Task saveResponseAttachment( string dir_path, FileMode mode = FileMode.OpenOrCreate ){
+			string fileToWriteTo = System.IO.Path.Combine(dir_path, getResponseAttachmentName());
+			using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync())
+				using (Stream streamToWriteTo = File.Open(fileToWriteTo, mode))
+					await streamToReadFrom.CopyToAsync(streamToWriteTo);			
 		}
 
-		public async Task<string> getResponseString()
-		{
-			return await response.Content.ReadAsStringAsync();
-		}
-
-		public void dispose(){
-			this.http_client.Dispose();
-		}
-
-		public CookieContainer loadCookies() // if error no app_data_folder
-		{
+		public CookieContainer loadCookies() { // if error no app_data_folder
 			var formatter = new SoapFormatter();
 			CookieContainer retrievedCookies = null;
-			using (Stream s = File.OpenRead(this.cookie_path))
+			using (Stream s = File.OpenRead(cookie_path))
 				retrievedCookies = (CookieContainer)formatter.Deserialize(s);
 
 			return retrievedCookies;
@@ -184,9 +216,6 @@ namespace SebeClient
 				this.response = await http_client.GetAsync(new Uri(this.uri, path + "?format=api"));
 			} catch (Exception err) { throw err; }
 
-			if (getStatusCode() != 200){
-				throw new Exception("getDrfCsrfToken get api request was not success");
-			}
 			string token_re = @"csrfHeaderName\s*:\s*"".*""\s*,\s*csrfToken\s*:\s*"".*""";
 			string match = Utils.getFirstMatch(await getResponseString(), token_re);
 			if (match is null) { throw new Exception("no matching re found for : "+ token_re); }
@@ -202,18 +231,37 @@ namespace SebeClient
 			return new KeyValuePair<string, string>(csrf_header, csrf_token);
 		}
 
+		private HttpContent makeHttpContent(Dictionary<string, string> kv_data, Dictionary<string, string> attach_files)
+		{
+			var form_data = new MultipartFormDataContent();
+
+			if (kv_data != null)
+				foreach (var kv in kv_data) {
+					StringContent str_content = new StringContent(kv.Value);
+					form_data.Add(str_content, kv.Key);
+				}
+
+
+			if (!(attach_files is null))
+				foreach (var kv in attach_files) {
+					ByteArrayContent fileContent = new ByteArrayContent(File.ReadAllBytes(kv.Value));
+					form_data.Add(fileContent, kv.Key, Path.GetFileName(kv.Value));
+				}
+			return form_data;
+		}
+
 
 		private async Task saveResponse() // if error no app_data_folder, debug save 
 		{
 			// TODO: save with mime type and binary for pdf, image, ...
-			string response_string = await this.getResponseString();
-			File.WriteAllText(this.resp_log_path, response_string);
+			string response_string = await getResponseString();
+			File.WriteAllText(resp_log_path, response_string);
 			saveCookies();
 		}
 
 		private void saveCookies(){
 			var formatter = new SoapFormatter();
-			using (Stream s = File.Create(this.cookie_path))
+			using (Stream s = File.Create(cookie_path))
 				formatter.Serialize(s, cookies);
 		}
 	}
