@@ -50,7 +50,7 @@ namespace Core.utils
 		
 
 		/* create project dir structure */
-		// public static void createProject(String project_name, String project_path );
+		//public static void createProject(String project_name, String project_path );
 
 		/* Other implimentations... */
 	}

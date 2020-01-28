@@ -34,7 +34,7 @@ namespace Core.src
 
 
 			/* read the project file and apply the data */
-			// project_file = new DataFile<ProjectData>( ); // Directory.GetCurrentDirectory()
+			// project_file = new DataFile<ProjectData>(); // Directory.GetCurrentDirectory()
 			// project_file.load(); // load project data to project_file.data
 		}
 
