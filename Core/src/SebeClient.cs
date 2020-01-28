@@ -28,6 +28,9 @@ using System.Net.Http.Headers;
  * 
  * delete cookie after logout
  * 
+ * BUGS:
+ * 
+ * calling any method( drf: true ) when logged out/ no more session id raise error!
  * 
  */
 
@@ -214,7 +217,9 @@ namespace SebeClient
 		{
 			try { 
 				this.response = await http_client.GetAsync(new Uri(this.uri, path + "?format=api"));
+				await saveResponse();
 			} catch (Exception err) { throw err; }
+
 
 			string token_re = @"csrfHeaderName\s*:\s*"".*""\s*,\s*csrfToken\s*:\s*"".*""";
 			string match = Utils.getFirstMatch(await getResponseString(), token_re);
