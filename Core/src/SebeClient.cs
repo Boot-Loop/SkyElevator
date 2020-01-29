@@ -8,9 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 
 /*
- every methods which connects to the bachend throws this exception
+ every methods which connects to the backend throws this exception
 		"System.Net.Http.HttpRequestException"
  */
 
@@ -30,7 +31,8 @@ using System.Net.Http.Headers;
  * 
  * BUGS:
  * 
- * calling any method( drf: true ) when logged out/ no more session id raise error!
+ * calling any method( drf: true ) when logged out/ no more session id would throws an error!
+ * if there's no PROGRAMME_DATA_PATH directory -> it makes an error
  * 
  */
 
@@ -51,14 +53,8 @@ namespace SebeClient
 		private string error_log_path = Path.Combine(PROGRAMME_DATA_PATH, "errors.log");
 		private string cookie_path    = Path.Combine(PROGRAMME_DATA_PATH, "cookies.dat");
 
-
-		public static void Init() { // if exists it does nothing
-			Directory.CreateDirectory(PROGRAMME_DATA_PATH);
-		}
-
 		public Client( string uri = "http://localhost:8000/")
 		{
-			Init(); // TODO: move this
 
 			try {
 				cookies = loadCookies();
@@ -73,7 +69,6 @@ namespace SebeClient
 			this.http_client = new HttpClient(handler);
 
 		}
-		// public HttpClient getHttpClient() => http_client;
 
 		public void setTimeout(double seconds) => http_client.Timeout = TimeSpan.FromSeconds(seconds);
 		public void dispose() => http_client.Dispose();
@@ -196,7 +191,7 @@ namespace SebeClient
 		/// <param name="dir_path">path to the directory (file name and extension will added from the response)</param>
 		/// <param name="mode">the file mode to open</param>
 		/// <returns></returns>
-		public async Task saveResponseAttachment( string dir_path, FileMode mode = FileMode.OpenOrCreate ){
+		public async Task saveResponseAttachment( string dir_path, FileMode mode = FileMode.OpenOrCreate ) {
 			string fileToWriteTo = System.IO.Path.Combine(dir_path, getResponseAttachmentName());
 			using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync())
 				using (Stream streamToWriteTo = File.Open(fileToWriteTo, mode))
@@ -213,6 +208,14 @@ namespace SebeClient
 		}
 		///////////////////////////// PRIVARE METHODS ///////////////////////////////////
 		
+		public static string getFirstMatch(string text, string expr) { // used in getDrfCsrfToken
+			MatchCollection mc = Regex.Matches(text, expr);
+			foreach (Match m in mc) {
+				return m.ToString();
+			}
+			return null;
+		}
+
 		private async Task<KeyValuePair<string, string>> getDrfCsrfToken(string path)
 		{
 			try { 
@@ -222,7 +225,7 @@ namespace SebeClient
 
 
 			string token_re = @"csrfHeaderName\s*:\s*"".*""\s*,\s*csrfToken\s*:\s*"".*""";
-			string match = Utils.getFirstMatch(await getResponseString(), token_re);
+			string match = getFirstMatch(await getResponseString(), token_re);
 			if (match is null) { throw new Exception("no matching re found for : "+ token_re); }
 			string[] keys_and_values = match.Split( new[] { ',', ':'});
 			if (keys_and_values.Length != 4) {

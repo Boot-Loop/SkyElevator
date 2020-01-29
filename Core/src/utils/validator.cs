@@ -19,7 +19,7 @@ namespace Core.utils
 
 	public class ValidatorYourOwn : IValidator
 	{
-		public bool validateEmail(String email){
+		public bool validateEmail(String email) {
 			/* your own implimentation */
 			// return Regex.Matches(email, "$[A-Za-z0-9]+@[A-Za-z0-9]+\.com^");
 			throw new NotImplementedException();

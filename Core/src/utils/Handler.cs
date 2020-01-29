@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Core.src;
 
 namespace Core.utils
 {
@@ -35,8 +37,11 @@ namespace Core.utils
 			if (singleton == null) singleton = new DirHandler();
 			return singleton;
 		}
-
-		public static void initialize() { /* TODO: impliment */ }
+		public static void initialize() {
+			if (!Directory.Exists(Ref.PROGRAMME_DATA_PATH)) Directory.CreateDirectory(Ref.PROGRAMME_DATA_PATH);
+			if (!Directory.Exists(Ref.LOGS_PATH)) Directory.CreateDirectory(Ref.LOGS_PATH);
+			/* TODO: impliment other dir handler initialize */
+		}
 
 		/* for menupulate folders:
 		 * initialize project structures

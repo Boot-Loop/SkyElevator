@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace Core.utils {
-	/************ USAGE ****************
+	/* ********** USAGE ****************
 	 * 
 	 * constructor:
 	 *		DataFile<DataClass>(string file_path);
