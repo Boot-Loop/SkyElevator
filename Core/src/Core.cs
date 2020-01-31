@@ -9,7 +9,7 @@ namespace Core.src
 {
 	public class Ref
 	{
-		/* TODO: if these dirs not exists -> create them on initialize */
+		/* if these dirs not exists -> create them on initialize */
 		public static readonly string APP_DATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		public static readonly string PROGRAMME_DATA_PATH = Path.Combine(APP_DATA_PATH, "SkyElevator/");
 		public static readonly string LOGS_PATH = Path.Combine(PROGRAMME_DATA_PATH, "logs/");
