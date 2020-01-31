@@ -39,7 +39,7 @@ namespace Core.utils
 		}
     }
 	
-	public class DirHandler
+	public sealed class DirHandler
 	{
 
 		/* singleton */
