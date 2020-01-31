@@ -6,7 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:SkyElevator.src.ui.sub_views"
              mc:Ignorable="d" Background="White"
-             d:DesignHeight="640" d:DesignWidth="900">
+             d:DesignHeight="650" d:DesignWidth="1000">
 
 
     <Grid>
@@ -32,10 +32,10 @@
                     </Grid>
                     <DataGrid x:Name="PaymentTracker" Margin="5 0 5 0" DockPanel.Dock="Bottom">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date"           Width="200" Binding="{Binding Date}"/>
-                            <DataGridTextColumn Header="Amount"         Width="200" Binding="{Binding Amount}"/>
-                            <DataGridTextColumn Header="Payment Method" Width="200" Binding="{Binding Payment_Method}"/>
-                            <DataGridTextColumn Header="Total"          Width="200" Binding="{Binding Total}"/>
+                            <DataGridTextColumn Header="Date"           Width="*" Binding="{Binding Date}"/>
+                            <DataGridTextColumn Header="Amount"         Width="*" Binding="{Binding Amount}"/>
+                            <DataGridTextColumn Header="Payment Method" Width="*" Binding="{Binding Payment_Method}"/>
+                            <DataGridTextColumn Header="Total"          Width="*" Binding="{Binding Total}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>

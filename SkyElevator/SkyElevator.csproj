@@ -86,7 +86,6 @@
     <Compile Include="src\ui\sub_views\TrackerClient.xaml.cs">
       <DependentUpon>TrackerClient.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\utils\ProjectFile.cs" />
     <Page Include="Resources\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
