@@ -21,6 +21,11 @@ namespace Core.utils
 
 		public static void initialize() { /* TODO: impliment */ }
 
+		// System.IO.File.ReadAllText(file_path);
+		
+
+
+
 		/* implement I/O interface for file access.
 		 * sebe client request cache, downloaded respones cache
 		 * also log files -> application, sebe client response logging
