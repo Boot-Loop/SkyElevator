@@ -25,18 +25,22 @@ namespace Core.utils
 		 */
 
 		private static Dictionary<String, Logger> loggers = new Dictionary<String, Logger>();
+		private static Logger default_logger = new Logger();
 		private static String time_format = "HH:mm:ss";
 
-		public static Logger makeLogger(String file_name = null) {
-			Logger logger = new Logger(file_name);
-			if (file_name != null) loggers.Add(file_name, logger);
+		public static Logger makeLogger(String logger_name = null) {
+			Logger logger = new Logger(logger_name);
+			if (logger_name != null) loggers.Add(logger_name, logger);
 			return logger;
 		}
-		public static Logger getLogger(String file_name) {
-			if (loggers.ContainsKey(file_name)) {
-				return loggers[file_name];
+
+		public static Logger getLogger() { return getLogger(null); }
+		public static Logger getLogger(String logger_name=null) {
+			if (logger_name == null) return default_logger;
+			if (loggers.ContainsKey(logger_name)) {
+				return loggers[logger_name];
 			}
-			throw new Exception("the logger file : "+ file_name + " does not exists");
+			throw new Exception("the logger file : "+ logger_name + " does not exists");
 		}
 
 		public enum LogLevel
@@ -68,9 +72,9 @@ namespace Core.utils
 
 		public void setLevel(LogLevel level) => this.level = level;
 
-		public void log(string log_msg, LogLevel level = LogLevel.LEVEL_INFO) {
+		public void log(object log_msg, LogLevel level = LogLevel.LEVEL_INFO) {
 			if (this.level <= level) {
-				string log_str = String.Format("[{0}] {1}", DateTime.Now.ToString(time_format), log_msg);
+				string log_str = String.Format("[{0}] {1}", DateTime.Now.ToString(time_format), log_msg.ToString());
 				if (file_path != null)
 					File.AppendAllText(file_path, log_str+"\n");
 				else

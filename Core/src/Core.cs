@@ -21,4 +21,11 @@ namespace Core.src
 		public CustomError(string name) : base("CustomError: " + name) { }
 	}
 	*/
+
+	class NotLoggedInError : Exception
+	{
+		public NotLoggedInError() : base("NotLoggedInError: ") { }
+		public NotLoggedInError(string name) : base("NotLoggedInError: " + name) { }
+	}
+
 }

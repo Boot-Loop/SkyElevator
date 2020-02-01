@@ -10,6 +10,8 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
+using Core.utils;
+using Core.src;
 /*
  every methods which connects to the backend throws this exception
 		"System.Net.Http.HttpRequestException"
@@ -48,6 +50,7 @@ namespace SebeClient
 		private CookieContainer cookies;
 		private HttpClient http_client;
 		private HttpResponseMessage response;
+		private Logger logger;
 
 		private string resp_log_path  = Path.Combine(PROGRAMME_DATA_PATH, "resp.html");
 		private string error_log_path = Path.Combine(PROGRAMME_DATA_PATH, "errors.log");
@@ -67,6 +70,7 @@ namespace SebeClient
 			HttpClientHandler handler = new HttpClientHandler();
 			handler.CookieContainer = cookies;
 			this.http_client = new HttpClient(handler);
+			logger = new Logger();
 
 		}
 
@@ -223,6 +227,11 @@ namespace SebeClient
 				await saveResponse();
 			} catch (Exception err) { throw err; }
 
+			if (getStatusCode() == 307) {
+				logger.log("Error: DrfToken request failed - not logged in (cookie may expired)", Logger.LogLevel.LEVEL_ERROR );
+				throw new NotLoggedInError();
+			}
+			logger.log( "DrfToken request - response code:" + getStatusCode().ToString(), Logger.LogLevel.LEVEL_INFO );
 
 			string token_re = @"csrfHeaderName\s*:\s*"".*""\s*,\s*csrfToken\s*:\s*"".*""";
 			string match = getFirstMatch(await getResponseString(), token_re);
