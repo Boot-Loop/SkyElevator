@@ -13,8 +13,7 @@ namespace Core.src.documents
 		DimensionField	travel_height	= new DimensionField("Travel Height");
 		
 		/* constructor */
-		public InquirySheetData() {
-		}
+		public InquirySheetData() { }
 
 		public void copyFrom(IDocumentData data) { // this method might be unnecessary!!
 			if (data.getType() != DocumentType.INQUERY_SHEET) throw new ArgumentException();
@@ -39,33 +38,24 @@ namespace Core.src.documents
 
 
 	/******* IMPLIMENTATION OF INQUIRY SHEET ********/
-	public class InquirySheet : IDocument
+	public class InquirySheet : Document
 	{
 		/* fields */
 		private InquirySheetData data = new InquirySheetData();
 
 		/* methods */
-		public DocumentType getType() {
-			return DocumentType.INQUERY_SHEET;
+		public InquirySheet(string path) : base(path) {
+			// TODO: open the file at the path and update data;
 		}
 
-		public IDocumentData getData() {
-			return data;
-		}
+		override public DocumentType getType()  => DocumentType.INQUERY_SHEET;
+		override public IDocumentData getData() => data;
 
-		public void close() {
+		override public void close() {
 			throw new NotImplementedException();
 		}
 
-		public bool isReadOnly() {
-			return false; // inquiry sheet can be edited with inquiry sheet data;
-		}
-
-		public void open() {
-			throw new NotImplementedException();
-		}
-
-		public void save() {
+		override public void save() {
 			throw new NotImplementedException();
 		}
 	}
