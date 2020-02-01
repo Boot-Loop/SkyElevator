@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Application.cs" />
+    <Compile Include="src\documents\DocHandler.cs" />
+    <Compile Include="src\documents\IDocument.cs" />
+    <Compile Include="src\documents\InquirySheet.cs" />
     <Compile Include="src\SebeClient.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\ProjectData.cs" />

@@ -13,30 +13,18 @@ namespace Core.utils
     {
 		/* singleton */
 		private FileHandler() { }
-		private static readonly FileHandler singleton = new FileHandler();
-		public static FileHandler Instance {
-			get
-			{
-				return singleton;
-			}
+		private static readonly FileHandler _singleton = new FileHandler();
+		public static FileHandler singleton {
+			get { return _singleton; }
 		}
 
 		public static void initialize() { /* TODO: impliment */ }
-
-		// System.IO.File.ReadAllText(file_path);
 		
 
 		/* implement I/O interface for file access.
 		 * sebe client request cache, downloaded respones cache
-		 * also log files -> application, sebe client response logging
 		 */
 
-		/* Copy a File */
-		public void CopyFile(string sourceFileName, string destinationFileName, bool overwrite) {
-
-			File.Copy(sourceFileName, destinationFileName, overwrite);
-			/* System.IO.IOException when rewrite parameter is set to be false is not handled here */
-		}
     }
 	
 	public sealed class DirHandler
@@ -44,11 +32,9 @@ namespace Core.utils
 
 		/* singleton */
 		private DirHandler() { }
-		private static readonly DirHandler singleton = new DirHandler();
-		public static DirHandler Instance {
-			get {
-				return singleton;
-			}
+		private static readonly DirHandler _singleton = new DirHandler();
+		public static DirHandler singleton {
+			get { return _singleton; }
 		}
 
 		/* Dir Handler Initialization */

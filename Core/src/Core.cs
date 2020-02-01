@@ -28,4 +28,10 @@ namespace Core.src
 		public NotLoggedInError(string name) : base("NotLoggedInError: " + name) { }
 	}
 
+	class ReadonlyError : Exception
+	{
+		public ReadonlyError() : base ("ReadonlyError: ") { }
+		public ReadonlyError(string name) : base ("ReadonlyError: " + name) { }
+	}
+
 }
