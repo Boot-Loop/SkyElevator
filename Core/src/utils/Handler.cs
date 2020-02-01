@@ -14,7 +14,7 @@ namespace Core.utils
 		/* singleton */
 		private FileHandler() { }
 		private static readonly FileHandler singleton = new FileHandler();
-		public static FileHandler GetFileHandler {
+		public static FileHandler Instance {
 			get
 			{
 				return singleton;
@@ -45,7 +45,7 @@ namespace Core.utils
 		/* singleton */
 		private DirHandler() { }
 		private static readonly DirHandler singleton = new DirHandler();
-		public static DirHandler GetDirHandler {
+		public static DirHandler Instance {
 			get {
 				return singleton;
 			}
@@ -76,22 +76,22 @@ namespace Core.utils
 			string projectDirectory = Path.Combine(filePath, projectName);
 			Directory.CreateDirectory(projectDirectory);
 	
-			Dictionary<string, int> directories = new Dictionary<string, int>() {
-				{ "Inquiry Sheet", 0 },
-				{ "Quotation", 1 },
-				{ "Sales Agreement", 1 },
-				{ "Project Tracking", 0 },
-				{ "Handover", 0 },
-				{ "Maintenance", 0 }
+			Dictionary<string, bool> directories = new Dictionary<string, bool>() {
+				{ "Inquiry Sheet", false },
+				{ "Quotation", true },
+				{ "Sales Agreement", true },
+				{ "Project Tracking", false },
+				{ "Handover", false },
+				{ "Maintenance", false }
 			};
 			List<string> subDirectories = new List<string>() { 
 				"Client",
 				"Supplier"
 			};
 
-			foreach (KeyValuePair<string, int> directory in directories) {
+			foreach (KeyValuePair<string, bool> directory in directories) {
 				Directory.CreateDirectory(Path.Combine(projectDirectory, directory.Key));
-				if (directory.Value == 1) {
+				if (directory.Value) {
 					foreach (string subDirectory in subDirectories) {
 						Directory.CreateDirectory(Path.Combine(projectDirectory, directory.Key, subDirectory));
 					}
