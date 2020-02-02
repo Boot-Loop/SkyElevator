@@ -8,9 +8,9 @@ namespace Core.src.documents
 {
 	public class InquirySheetData : IDocumentData
 	{
-		FloatField		speed			= new FloatField("Speed");
-		IntergerField	capacity		= new IntergerField("Capacity");
-		DimensionField	travel_height	= new DimensionField("Travel Height");
+		public FloatField		speed			= new FloatField("Speed");
+		public IntergerField	capacity		= new IntergerField("Capacity");
+		public DimensionField	travel_height	= new DimensionField("Travel Height");
 		
 		/* constructor */
 		public InquirySheetData() { }
