@@ -7,13 +7,28 @@ using System.IO;
 
 namespace Core.src
 {
-	public class Ref
+    
+	public class Paths
 	{
 		/* if these dirs not exists -> create them on initialize */
-		public static readonly string APP_DATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		public static readonly string PROGRAMME_DATA_PATH = Path.Combine(APP_DATA_PATH, "SkyElevator/");
-		public static readonly string LOGS_PATH = Path.Combine(PROGRAMME_DATA_PATH, "logs/");
-	}
+		public static readonly string APP_DATA           = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+		public static readonly string PROGRAMME_DATA     = Path.Combine(APP_DATA, "SkyElevator/");
+		public static readonly string LOGS               = Path.Combine(PROGRAMME_DATA, "logs/");
+
+        public static readonly string EXECUTABLE         = new DirectoryInfo(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)).FullName;
+        public static readonly string DOCUMENT_TEMPLATE  = Path.Combine(EXECUTABLE, "templates");
+
+        public class Template
+        {
+            public static readonly string INQUERY_SHEET = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx");
+        }
+
+    }
+
+    public class Reference
+    {
+
+    }
 
 	/* create your custom exceptions here
 	class CustomError : Exception
@@ -33,5 +48,17 @@ namespace Core.src
 		public ReadonlyError() : base ("ReadonlyError: ") { }
 		public ReadonlyError(string name) : base ("ReadonlyError: " + name) { }
 	}
+
+    class InvalidFileError : Exception
+    {
+        public InvalidFileError() : base("InvalidFileError") { }
+        public InvalidFileError(string name) : base ("InvalidFileError: " + name) { }
+    }
+
+    class InvalidFilePathError : Exception
+    {
+        public InvalidFilePathError() : base("InvalidFilePathError") { }
+        public InvalidFilePathError(string name) : base("InvalidFilePathError: " + name) { }
+    }
 
 }

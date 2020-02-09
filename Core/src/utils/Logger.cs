@@ -61,7 +61,7 @@ namespace Core.utils
 		public Logger(String file_name = null) {
 			var date_time = DateTime.Now.ToString(time_format);
 			if (file_name != null) {
-				file_path = Path.Combine(Ref.LOGS_PATH, file_name + ".log");
+				file_path = Path.Combine(Paths.LOGS, file_name + ".log");
 				using (var writer = new StreamWriter(file_path)) {
 					writer.WriteLine(String.Format("[{0}] Logger Initialized", date_time));
 				}

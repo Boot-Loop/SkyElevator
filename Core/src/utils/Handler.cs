@@ -39,8 +39,8 @@ namespace Core.utils
 
 		/* Dir Handler Initialization */
 		public static void initialize() {
-			if (!Directory.Exists(Ref.PROGRAMME_DATA_PATH)) Directory.CreateDirectory(Ref.PROGRAMME_DATA_PATH);
-			if (!Directory.Exists(Ref.LOGS_PATH)) Directory.CreateDirectory(Ref.LOGS_PATH);
+			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
+			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
 			/* TODO: impliment other dir handler initialize */
 		}
 
