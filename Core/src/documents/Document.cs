@@ -15,6 +15,8 @@ namespace Core.src.documents
 		QUOTATION,
 		SALES_AGREEMENT,
 		HANDOVER,
+        COMPLETION_REPORT,
+        WARRENTY_CERTIFICATION
 	}
 	public interface IDocumentData
 	{
@@ -32,19 +34,19 @@ namespace Core.src.documents
 		public abstract IDocumentData getData();
 		public abstract void saveAsDraft();	// save the document as per document data
 		public abstract void close();   // unlock the document file and cleanup
-        public abstract void loadDocument();
+        public abstract void loadDocument(bool is_readonly = false);
+        public abstract void generateDocument(string path);
         public abstract void checkDocumentType();
 
         public Document() { }
         public Document(string path) {
-            var dir_name = new DirectoryInfo(System.IO.Path.GetDirectoryName(path)).FullName;
-            if (!Validator.validatePath( dir_name ) ) throw new InvalidFilePathError(); this.path = path;
+            if (!Validator.validatePath( path, is_new : true ) ) throw new InvalidPathError();
+            this.path = path;
         }
 
 		public string getPath() => path;
         public void setPath(string path) {
-            var dir_name = new DirectoryInfo(System.IO.Path.GetDirectoryName(path)).FullName;
-            if (!Validator.validatePath(dir_name)) throw new InvalidFilePathError();
+            if (!Validator.validatePath(path, is_new: true)) throw new InvalidPathError();
             this.path = path;
         }
 		public bool isReadonly() => is_readonly;
