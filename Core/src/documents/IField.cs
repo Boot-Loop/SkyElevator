@@ -24,12 +24,12 @@ namespace Core.src.documents
 	/* implimentation of the fields */
 	public class TextField : IField
 	{
-		bool is_readonly        = false;
 		string name		        = "";
-		string _value	        = null;
+		bool is_readonly        = false;
         string replace_tag      = "";
         string default_value    = null;
 
+		string _value	        = null;
 		public string value { 
 			get { return _value; }
 			set {
@@ -45,27 +45,22 @@ namespace Core.src.documents
             this.name = name; this.replace_tag = replace_tag;
             this.value = text; this.is_readonly = is_readonly;  this.default_value = default_value;
         }
-        public string getName() => name;
-		public bool isReadonly() => is_readonly;
-		public override string ToString() => value;
-        public string getReplaceTag() => replace_tag;
-        public object getDefault() => default_value;
-
-        public void setValue(object value) {
-            this.value = (string)value;
-        }
-
-        public object getValue() {
-            return value;
-        }
+        public string getName()             => name;
+		public bool isReadonly()            => is_readonly;
+        public string getReplaceTag()       => replace_tag;
+        public object getDefault()          => default_value;
+		public override string ToString()   => this.value.ToString();
+        public object getValue()            => this.value;
+        public void setValue(object value)  => this.value = (string)value;
     }
 
 	public class IntergerField : IField 
 	{
-		string name = ""; bool is_readonly = false;
-		bool is_positive = false;
-        string replace_tag = "";
-        int default_value = 0;
+		string name         = "";
+        bool is_readonly    = false;
+		bool is_positive    = false;
+        string replace_tag  = "";
+        int default_value   = 0;
 
         long _value = 0;
 		public long value {
@@ -97,14 +92,47 @@ namespace Core.src.documents
         public object getDefault() => default_value;
     }
 
+    public class BoolField : IField
+    {
+        string name         = "";
+        bool is_readonly    = false;
+        string replace_tag  = "";
+        bool default_value  = false;
+
+        bool _value = false;
+        public bool value {
+            get { return _value; }
+            set {
+                if (is_readonly) throw new ReadonlyError();
+                this._value = value;
+            }
+        }
+
+        public BoolField( string name, string replace_tag, bool read_only = false, bool default_value = false) {
+            this.name = name; this.replace_tag = replace_tag; this.is_readonly = read_only; this.default_value = default_value;
+        }
+        public BoolField( string name, string replace_tag, bool value, bool read_only, bool default_value = false) {
+            this.name = name; this.replace_tag = replace_tag; this.value = value; this.is_readonly = read_only; this.default_value = default_value;
+        }
+
+        public string getName()             => this.name;
+        public bool isReadonly()            => this.is_readonly;
+        public string getReplaceTag()       => this.replace_tag;
+        public object getValue()            => this.value;
+        public object getDefault()          => this.default_value;
+        public void setValue(object value)  => this.value = (bool)value;
+        override public string ToString()   => this.value.ToString();
+    }
+
 	public class FloatField : IField 
 	{
-		string name = ""; bool is_readonly = false;
-		bool is_positive = false;
-		double _value = 0.0d;
-        string replace_tag = "";
-        double default_value = 0;
+		string name             = "";
+        bool is_readonly        = false;
+		bool is_positive        = false;
+        string replace_tag      = "";
+        double default_value    = 0;
 
+		double _value = 0.0d;
         public double value {
 			get { return _value; }
 			set {
@@ -144,7 +172,7 @@ namespace Core.src.documents
 			get { return _value; }
 			set {
 				if (is_readonly) throw new ReadonlyError();
-				/* TODO: validate and set value use the validator class */
+				// TODO: validate and set value use the validator class
 			}
 		}
 
@@ -188,16 +216,16 @@ namespace Core.src.documents
 		public DimensionField(string name, string replace_tag, double value, bool is_readonly = false, double default_value = 0 ) {
 			this.name = name; this.value = value; this.is_readonly = is_readonly; this.replace_tag = replace_tag; this.default_value = default_value;
 		}
-		public string getName() => name;
-		public bool isReadonly() => is_readonly;
-		public double asMilliMeter()	=> _value;
-		public double asCentiMeter()	=> _value / 10;
-		public double asMeter()			=> _value / 1000;
-		override public string ToString() => _value.ToString() + " mm";
-        public string getReplaceTag() => replace_tag;
-        public object getDefault() => default_value;
-        public void setValue(object value) => this.value = (double)value;
-        public object getValue() => value;
+		public string getName()             => name;
+		public bool isReadonly()            => is_readonly;
+		public double asMilliMeter()	    => _value;
+		public double asCentiMeter()	    => _value / 10;
+		public double asMeter()			    => _value / 1000;
+		override public string ToString()   => _value.ToString() + " mm";
+        public string getReplaceTag()       => replace_tag;
+        public object getDefault()          => default_value;
+        public void setValue(object value)  => this.value = (double)value;
+        public object getValue()            => value;
     }
 
 	/* TODO: impliment other fields */
