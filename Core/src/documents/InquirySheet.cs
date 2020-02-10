@@ -108,7 +108,7 @@ namespace Core.src.documents
 		override public DocumentType getType()  => DocumentType.INQUERY_SHEET;
 		override public IDocumentData getData() => data;
 
-        override public void loadDocument(bool is_readonly) {
+        override public void loadDocument(bool is_readonly = false) {
 
             if (path == null) throw new InvalidPathError();
 
@@ -165,9 +165,9 @@ namespace Core.src.documents
             if (!Validator.validatePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);
             foreach (IField field in data.fields) {
-                template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
+                if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), "");
+                else template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
             }
-
             template.SaveAs(path);
         }
     }

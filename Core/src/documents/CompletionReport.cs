@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.src;
+using Core.utils;
 using Xceed.Words.NET;
 
 namespace Core.src.documents
@@ -12,8 +13,9 @@ namespace Core.src.documents
     {
         public List<IField> fields = new List<IField>();
 
-        public DateTimeField    start_date_format1         = new DateTimeField("Start Date Format1", "<start_date_format1>", format : DateTimeField.Format.DDSUP_MTXT_YYYY); // format1 ex: 5th February 2020
-        public DateTimeField    start_date_format2         = new DateTimeField("Start Date Format2", "<start_date_format2>", format: DateTimeField.Format.MM_DD_YYYY ); // format2 ex: 05/02/2020
+        public TextField        our_ref_no                 = new TextField("Our Ref No", "<our_ref>");
+        public DateTimeField    start_date_format1         = new DateTimeField("Start Date Format1", new List<string>() { "<start_day>" , "<start_subscript>", "<start_month_year>" } );
+        public DateTimeField    start_date_format2         = new DateTimeField("Start Date Format2", "<start_date_format2>", format: DateTimeField.Format.MM_DD_YYYY );
         public DateTimeField    end_date                   = new DateTimeField("End Date", "<end_date_format2>");
         public TextField        name                       = new TextField("Name", "<name>");
         public TextField        address_no_and_road        = new TextField("Address No and Road", "<address_no_and_road>");
@@ -25,6 +27,7 @@ namespace Core.src.documents
         /*constructor*/
         public CompletionReportData()
         {
+            fields.Add(our_ref_no);
             fields.Add(start_date_format1);
             fields.Add(start_date_format2);
             fields.Add(end_date);
@@ -39,7 +42,7 @@ namespace Core.src.documents
         public DocumentType getType() => DocumentType.COMPLETION_REPORT;
 
         public void setToDefault() {
-       
+            throw new NotImplementedException();
         }
     }//CompletionReportData
 
@@ -57,7 +60,7 @@ namespace Core.src.documents
         public override IDocumentData getData() => data;
         public override DocumentType getType()  => DocumentType.COMPLETION_REPORT;
 
-        public override void loadDocument() {
+        public override void loadDocument(bool is_readonly = false) {
             throw new NotImplementedException();
         }
 
@@ -69,7 +72,7 @@ namespace Core.src.documents
             throw new NotImplementedException();
         }
 
-        public override void checkDocumentType() {
+        public override void checkDocumentType() { // TODO: make static at document class abs
             var condition = false;
             if (condition)
             {
@@ -77,16 +80,37 @@ namespace Core.src.documents
             }
         }
 
-        public override void generateDocument()
-        {
+        public override void generateDocument(string path) {
+            if (!Validator.validatePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.COMPLETION_REPORT);
             foreach (IField field in data.fields)
             {
-                if (field.getValue() == null) template.ReplaceText(field.getReplaceTag(), field.getReplaceTag());
-                else template.ReplaceText(field.getReplaceTag(), field.ToString());
+                if (field.getType() == FieldType.DATE_TIME) { // date time field
+                    var datetime_field = (DateTimeField)field;
+                    if (!datetime_field.isNull()) {
+                        if (datetime_field.getFormat() == DateTimeField.Format.DDSUP_MTXT_YYYY) { 
+                            foreach ( var pair in datetime_field.getReplaceTags()) {
+                                template.ReplaceText(pair.Key, pair.Value);
+                            }
+                        }
+                        else template.ReplaceText(field.getReplaceTag(), field.ToString());
+                    } 
+                    else { // date time field is null
+                        if (datetime_field.getFormat() == DateTimeField.Format.DDSUP_MTXT_YYYY) {
+                            foreach (var pair in datetime_field.getReplaceTags()) {
+                                template.ReplaceText(pair.Key, pair.Key);
+                            }
+                        }
+                        else template.ReplaceText(field.getReplaceTag(), field.ToString());
+                    }
+                }
+                else { // other fields but date time field
+                    if (field.getValue() == null ) template.ReplaceText(field.getReplaceTag(), field.getReplaceTag());
+                    else {
+                        template.ReplaceText(field.getReplaceTag(), field.ToString());
+                    }
+                }
             }
-            if (path == null) throw new InvalidPathError();
-
             template.SaveAs(path); // TODO: this throws System.IO.IOException if the file already opened!!
         }
     }
