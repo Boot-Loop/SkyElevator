@@ -176,6 +176,7 @@ namespace Core.src.documents
         public enum Format
         {
             DDSUP_MTXT_YYYY,
+            MTXT_D_YYYY,
             MM_DD_YYYY,
         }
 
@@ -234,6 +235,8 @@ namespace Core.src.documents
             {
                 case Format.MM_DD_YYYY:
                     return this._value.ToString("MM/dd/yyyy");
+                case Format.MTXT_D_YYYY:
+                    return String.Format("{0} {1}, {2}", getMonthName(), this._value.Day.ToString(), this._value.Year);
                 case Format.DDSUP_MTXT_YYYY: // unusable code from now;
                     return String.Format( "{0}{1} {2} {3}", this._value.Day.ToString(), getDayPrefix(), getMonthName(), this._value.Year );
                 default:

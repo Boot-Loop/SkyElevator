@@ -113,8 +113,7 @@ namespace Core.src.documents
             if (path == null) throw new InvalidPathError();
 
             var document = DocX.Load(path);
-            ///Check whether the loaded document is an inquiry sheet or not
-            checkDocumentType();
+            Document.checkDocument(path, getType()); // Check whether the loaded document is an inquiry sheet or not
 
             List<String> document_data = new List<string>();
             for (int i = 0; i < document.Paragraphs.Count; i++){
@@ -143,12 +142,6 @@ namespace Core.src.documents
 			throw new NotImplementedException();
 		}
 
-        public override void checkDocumentType() {
-            var condition = false;
-            if (condition) {
-                throw new InvalidFileTypeError("Opened document was not an Inquiry sheet.");
-            }
-        }
 
         override public void saveAsDraft() {
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);

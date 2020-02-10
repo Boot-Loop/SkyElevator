@@ -72,14 +72,6 @@ namespace Core.src.documents
             throw new NotImplementedException();
         }
 
-        public override void checkDocumentType() { // TODO: make static at document class abs
-            var condition = false;
-            if (condition)
-            {
-                throw new InvalidFileTypeError("Opened document was not a completion report.");
-            }
-        }
-
         public override void generateDocument(string path) {
             if (!Validator.validatePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.COMPLETION_REPORT);
@@ -101,14 +93,12 @@ namespace Core.src.documents
                                 template.ReplaceText(pair.Key, pair.Key);
                             }
                         }
-                        else template.ReplaceText(field.getReplaceTag(), field.ToString());
+                        else template.ReplaceText(field.getReplaceTag(), "");
                     }
                 }
                 else { // other fields but date time field
-                    if (field.getValue() == null ) template.ReplaceText(field.getReplaceTag(), field.getReplaceTag());
-                    else {
-                        template.ReplaceText(field.getReplaceTag(), field.ToString());
-                    }
+                    if (field.getValue() == null) template.ReplaceText(field.getReplaceTag(), "");
+                    else template.ReplaceText(field.getReplaceTag(), field.ToString());                    
                 }
             }
             template.SaveAs(path); // TODO: this throws System.IO.IOException if the file already opened!!
