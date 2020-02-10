@@ -7,6 +7,7 @@ using Xceed.Words.NET;
 using System.IO;
 
 using Core.src;
+using Core.utils;
 
 namespace Core.src.documents
 {
@@ -83,17 +84,6 @@ namespace Core.src.documents
             fields.Add(landing_door_finishing);
             fields.Add(landing_door_jambs);
         }
-        
-        /*
-		public void copyFrom(IDocumentData data) { // this method might be unnecessary!!
-			if (data.getType() != DocumentType.INQUERY_SHEET) throw new ArgumentException();
-			InquirySheetData idata = (InquirySheetData)data;
-			this.speed.value	= idata.speed.value;
-			this.capacity.value = idata.capacity.value;
-			this.travel_height.value = idata.capacity.value;
-			// TODO: copy every thing from idata to this 
-		}
-        */
 
 		public void setToDefault() {
 
@@ -118,9 +108,9 @@ namespace Core.src.documents
 		override public DocumentType getType()  => DocumentType.INQUERY_SHEET;
 		override public IDocumentData getData() => data;
 
-        override public void loadDocument() {
+        override public void loadDocument(bool is_readonly = false) {
 
-            if (path == null) throw new InvalidFilePathError();
+            if (path == null) throw new InvalidPathError();
 
             var document = DocX.Load(path);
             ///Check whether the loaded document is an inquiry sheet or not
@@ -141,9 +131,9 @@ namespace Core.src.documents
             document_data.RemoveAt(54);
             document_data.RemoveAt(58);
 
-            for (int i = 2; i < document_data.Count; i++){
+            for (int i = 2; i < document_data.Count; i++) {
                 if (i % 2 == 0){
-                    data.fields[i / 2 - 1 ].setValue(document_data[i]); /* TODO: all values are assumed as strings <- might be an error in future! */
+                    data.fields[i / 2 - 1 ].setValue(document_data[i], is_readonly); /* TODO: all values are assumed as strings <- might be an error in future! */
                 }
             }
 
@@ -153,24 +143,32 @@ namespace Core.src.documents
 			throw new NotImplementedException();
 		}
 
-        public override void checkDocumentType()
-        {
+        public override void checkDocumentType() {
             var condition = false;
             if (condition) {
-                throw new InvalidFileError("Opened document was not an Inquiry sheet.");
+                throw new InvalidFileTypeError("Opened document was not an Inquiry sheet.");
             }
         }
 
-        override public void saveAsDraft()
-        {
+        override public void saveAsDraft() {
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);
             foreach ( IField field in data.fields) {
                 if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), field.getReplaceTag());
                 else template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
             }
-            if (path == null) throw new InvalidFilePathError();
+            if (path == null) throw new InvalidPathError();
             
             template.SaveAs(path); // TODO: this throws System.IO.IOException if the file already opened!!
+        }
+
+        public override void generateDocument(string path) {
+            if (!Validator.validatePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
+            var template = DocX.Load(Paths.Template.INQUERY_SHEET);
+            foreach (IField field in data.fields) {
+                if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), "");
+                else template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
+            }
+            template.SaveAs(path);
         }
     }
 }

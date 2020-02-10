@@ -20,7 +20,8 @@ namespace Core.src
 
         public class Template
         {
-            public static readonly string INQUERY_SHEET = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx");
+            public static readonly string INQUERY_SHEET       = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx");
+            public static readonly string COMPLETION_REPORT   = Path.Combine(DOCUMENT_TEMPLATE, "completion_report.docx");
         }
 
     }
@@ -49,16 +50,16 @@ namespace Core.src
 		public ReadonlyError(string name) : base ("ReadonlyError: " + name) { }
 	}
 
-    class InvalidFileError : Exception
+    class InvalidFileTypeError : Exception
     {
-        public InvalidFileError() : base("InvalidFileError") { }
-        public InvalidFileError(string name) : base ("InvalidFileError: " + name) { }
+        public InvalidFileTypeError() : base("InvalidFileError") { }
+        public InvalidFileTypeError(string name) : base ("InvalidFileError: " + name) { }
     }
 
-    class InvalidFilePathError : Exception
+    class InvalidPathError : Exception
     {
-        public InvalidFilePathError() : base("InvalidFilePathError") { }
-        public InvalidFilePathError(string name) : base("InvalidFilePathError: " + name) { }
+        public InvalidPathError() : base("InvalidFilePathError") { }
+        public InvalidPathError(string name) : base("InvalidFilePathError: " + name) { }
     }
 
 }
