@@ -10,22 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SkyElevator.src.ui.inquiry_sheets;
-using SkyElevator.src.ui.sub_views;
-using SkyElevator.src.ui.progress_tracker.client;
 
-namespace SkyElevator.src.ui
+namespace SkyElevator.src.ui.project_manager.sub_views
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for OpenProject.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class OpenProject : UserControl
     {
-        public Home()
+        public OpenProject()
         {
             InitializeComponent();
-            home.Content = new ProgressTrackerClient();
         }
     }
 }

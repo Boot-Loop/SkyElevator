@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SkyElevator.src.ui.sub_views
+namespace SkyElevator.src.ui.inquiry_sheets
 {
     /// <summary>
     /// Interaction logic for InquirySheet.xaml

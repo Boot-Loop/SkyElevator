@@ -1,0 +1,32 @@
+<root path = "C:/user/sky/proj1">
+    <folder name="inquiry-sheets">
+        <folder name="client">
+            <file name="clientfile1.txt" type="inq" />
+            <file name="clientfile2.txt" type="quo" />
+		<folder name="inner">
+			<file name="inner.txt" type="inq" />
+		</folder>
+        </folder>
+        <folder name="suppliers">
+            <file name="supplierfile1.txt" type="inq" />
+            <file name="supplierfile2.txt" type="quo" />
+        </folder>
+    </folder>
+    
+    <folder name="quotations">
+        <folder name="client">
+            <file name="clientfile1.txt" type="inq" />
+            <file name="clientfile2.txt" type="inq" />
+        </folder>
+        <folder name="suppliers">
+            <file name="supplierfile1.txt" type="inq" />
+            <file name="supplierfile2.txt" type="inq" />
+        </folder>
+    </folder>
+
+    <folder name="something">
+        <file name="something.txt" type="inq" />
+        <file name="something-else.txt" type="quo" />
+    </folder>
+
+</root>
