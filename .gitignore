@@ -12,7 +12,7 @@ SebeClient/obj/
 
 # test files
 Tester/
-
+TesterUI/
 
 # User-specific files
 *.rsuser
