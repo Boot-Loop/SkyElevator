@@ -28,14 +28,20 @@ namespace Core.src
 		/* initialization of all modules goes here */
 		public void initialize()
 		{
-			FileHandler.initialize();
-			DirHandler.initialize();
+			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
+			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
 			/* TODO: initialize other modules */
 
 
 			/* read the project file and apply the data */
 			// project_file = new DataFile<ProjectData>(); // Directory.GetCurrentDirectory()
 			// project_file.load(); // load project data to project_file.data
+		}
+
+		public void loadProjectFile() {
+			foreach ( string file in Directory.GetFiles( Directory.GetCurrentDirectory() )) {
+				Console.WriteLine(file);
+			}
 		}
 
 	}

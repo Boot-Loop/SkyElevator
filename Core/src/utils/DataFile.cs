@@ -73,9 +73,8 @@ namespace Core.utils {
 		}
 
 		public void save() {
-			if (data != null) save(data);
-			else throw new Exception("data was null - use setData() or load()");
-
+			if (data == null) throw new Exception("data was null - use setData() or load()");
+			save(data);
 		}
 		public void save(DataClass data) {
 			if (this.file_path == null) throw new Exception("file_path was null");
