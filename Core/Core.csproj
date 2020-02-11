@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="src\Application.cs" />
     <Compile Include="src\documents\CompletionReport.cs" />
+    <Compile Include="src\documents\ElevatorInspectionSheet.cs" />
     <Compile Include="src\documents\IField.cs" />
     <Compile Include="src\documents\Document.cs" />
     <Compile Include="src\documents\InquirySheet.cs" />

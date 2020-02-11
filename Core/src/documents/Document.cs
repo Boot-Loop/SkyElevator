@@ -16,7 +16,8 @@ namespace Core.src.documents
 		SALES_AGREEMENT,
 		HANDOVER,
         COMPLETION_REPORT,
-        WARRENTY_CERTIFICATION
+        WARRENTY_CERTIFICATION,
+        ELEVATOR_INSPECTION_SHEET
 	}
 	public interface IDocumentData
 	{
@@ -39,20 +40,20 @@ namespace Core.src.documents
 
         public Document() { }
         public Document(string path) {
-            if (!Validator.validatePath(path, is_new: true)) throw new InvalidPathError();
+            if (!Validator.validateFilePath(path, is_new: true)) throw new InvalidPathError();
             this.path = path;
         }
 
         public static void checkDocument(string path, DocumentType type)
         {
-            if (!Validator.validatePath(path, is_new: false)) throw new InvalidPathError();
+            if (!Validator.validateFilePath(path, is_new: false)) throw new InvalidPathError();
             // TODO: implement here
 
         }
 
         public string getPath() => path;
         public void setPath(string path) {
-            if (!Validator.validatePath(path, is_new: true)) throw new InvalidPathError();
+            if (!Validator.validateFilePath(path, is_new: true)) throw new InvalidPathError();
             this.path = path;
         }
         public bool isReadonly() => is_readonly;

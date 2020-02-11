@@ -18,7 +18,7 @@ namespace Core.utils
             return false;
         }
 
-        public static bool validatePath(string path, bool is_new = false) {
+        public static bool validateFilePath(string path, bool is_new = false) {
             if (is_new) {
                 path = new DirectoryInfo(System.IO.Path.GetDirectoryName(path)).FullName;
                 return Directory.Exists(path);

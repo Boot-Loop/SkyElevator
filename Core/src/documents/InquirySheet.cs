@@ -157,7 +157,7 @@ namespace Core.src.documents
         }
 
         public override void generateDocument(string path) {
-            if (!Validator.validatePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
+            if (!Validator.validateFilePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);
             foreach (IField field in data.fields) {
                 if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), "");
