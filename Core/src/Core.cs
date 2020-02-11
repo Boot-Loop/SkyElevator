@@ -39,28 +39,28 @@ namespace Core.src
 	}
 	*/
 
-	class NotLoggedInError : Exception
+	public class NotLoggedInError : Exception
 	{
-		public NotLoggedInError() : base("NotLoggedInError: ") { }
+		public NotLoggedInError() : base("NotLoggedInError") { }
 		public NotLoggedInError(string name) : base("NotLoggedInError: " + name) { }
 	}
 
-	class ReadonlyError : Exception
+	public class ReadonlyError : Exception
 	{
-		public ReadonlyError() : base ("ReadonlyError: ") { }
+		public ReadonlyError() : base ("ReadonlyError") { }
 		public ReadonlyError(string name) : base ("ReadonlyError: " + name) { }
 	}
 
-    class InvalidFileTypeError : Exception
+	public class InvalidFileTypeError : Exception
     {
         public InvalidFileTypeError() : base("InvalidFileError") { }
         public InvalidFileTypeError(string name) : base ("InvalidFileError: " + name) { }
     }
 
-    class InvalidPathError : Exception
+	public class InvalidPathError : Exception
     {
-        public InvalidPathError() : base("InvalidFilePathError") { }
-        public InvalidPathError(string name) : base("InvalidFilePathError: " + name) { }
+        public InvalidPathError() : base("InvalidPathError") { }
+        public InvalidPathError(string name) : base("InvalidPathError: " + name) { }
     }
 
 }
