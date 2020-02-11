@@ -8,7 +8,32 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/TextBox.xaml"/>
                 <ResourceDictionary Source="Resources/TextBlock.xaml"/>
+
+                <!--project manager styles-->                             
+                <ResourceDictionary Source="src/styles/buttons/tab_buttons/TabBarButton.xaml"/>
+                <ResourceDictionary Source="src/styles/buttons/common_buttons/CommonButton.xaml"/>
+                <ResourceDictionary Source="src/styles/buttons/warning_buttons/WarningButton.xaml"/>
+                <ResourceDictionary Source="src/styles/labels/title_labels/TitleLabel.xaml"/>
+                <ResourceDictionary Source="src/styles/labels/heading_labels/HeadingLabel.xaml"/>
+                <ResourceDictionary Source="src/styles/labels/content_labels/ContentLabel.xaml"/>
+                <ResourceDictionary Source="src/styles/text_boxes/content_text_boxes/ContentTextBox.xaml"/>
+                <ResourceDictionary Source="src/styles/labels/sub_title_labels/SubTitleLabel.xaml"/>
+                <ResourceDictionary Source="src/styles/combo_boxes/common_combo_boxes/CommonComboBox.xaml"/>
+                <ResourceDictionary Source="src/styles/combo_boxes/combo_box_items/common_combo_box_items/CommonComboBoxItem.xaml"/>
+                <ResourceDictionary Source="src/styles/date_pickers/common_date_pickers/CommonDatePicker.xaml"/>
+                <ResourceDictionary Source="src/styles/menus/common_menus/CommonMenu.xaml"/>
+                <ResourceDictionary Source="src/styles/menus/menu_items/common_menu_items/CommonMenuItem.xaml"/>
+
+                <!--global styles-->
+                <ResourceDictionary Source="src/styles/color/Colors.xaml"/>
+                
+                
             </ResourceDictionary.MergedDictionaries>
+            
+            <FontFamily x:Key="OPEN_SANS_SEMI_BOLD">./res/fonts/OpenSans-SemiBold.ttf#Open Sans</FontFamily>
+            <FontFamily x:Key="OPEN_SANS_BOLD">./res/fonts/OpenSans-Bold.ttf#Open Sans</FontFamily>
+            <FontFamily x:Key="OPEN_SANS_REGULAR">./res/fonts/OpenSans-Regular.ttf#Open Sans</FontFamily>
+            <FontFamily x:Key="OPEN_SANS_EXTRA_BOLD">./res/fonts/OpenSans-ExtraBold.ttf#Open Sans</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -11,21 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SkyElevator.src.ui.inquiry_sheets;
-using SkyElevator.src.ui.sub_views;
-using SkyElevator.src.ui.progress_tracker.client;
 
-namespace SkyElevator.src.ui
+namespace TesterUI.Views.Windows
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for FileAddWindow.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class FileAddWindow : Window
     {
-        public Home()
+        public FileAddWindow()
         {
             InitializeComponent();
-            home.Content = new ProgressTrackerClient();
         }
     }
 }

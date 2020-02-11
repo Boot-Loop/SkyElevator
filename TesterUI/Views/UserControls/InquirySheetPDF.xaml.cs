@@ -10,22 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SkyElevator.src.ui.inquiry_sheets;
-using SkyElevator.src.ui.sub_views;
-using SkyElevator.src.ui.progress_tracker.client;
 
-namespace SkyElevator.src.ui
+namespace TesterUI.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for InquirySheetPDF.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class InquirySheetPDF : UserControl
     {
-        public Home()
+        public InquirySheetPDF()
         {
             InitializeComponent();
-            home.Content = new ProgressTrackerClient();
         }
     }
 }

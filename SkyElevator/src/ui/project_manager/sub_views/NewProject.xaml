@@ -1,0 +1,66 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkyElevator.src.ui.project_manager.sub_views"
+             x:Class="SkyElevator.src.ui.project_manager.sub_views.NewProject"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="420" d:DesignWidth="680">
+  
+
+
+    <Grid Background="{StaticResource COLOR_PRIMARY_LIGHTER}">
+        <Border CornerRadius="5" Background="White" Margin="16 72 16 16"/>
+        <Label Content="Configure your new project" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Style="{DynamicResource LabelTitle}"/>
+        <Label Content="Get started by entering some details" Margin="12 38 0 0" Style="{DynamicResource LabelSubTitle}"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="32 88 32 0" Grid.Column="0" Grid.ColumnSpan="2">
+
+            <Label Content="Project name" Style="{DynamicResource LabelContent}"/>
+            <TextBox Style="{DynamicResource TextBoxContent}"/>
+
+            <Grid Height="12"/>
+
+            <Label Content="Client" Style="{DynamicResource LabelContent}"/>
+            <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}">
+                <ComboBoxItem Content="Add new client" Style="{DynamicResource ComboBoxItemCommon}"/>
+                <ComboBoxItem Content="Arafath" Style="{DynamicResource ComboBoxItemCommon}"/>
+                <ComboBoxItem Content="Azeem" Style="{DynamicResource ComboBoxItemCommon}"/>
+            </ComboBox>
+
+            <Separator Height="48" Margin="0 16 0 0" Background="{DynamicResource  COLOR_GREY_LIGHTER}"/>
+
+                <Label Content="Save location" Style="{DynamicResource LabelContent}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Style="{DynamicResource TextBoxContent}" Width="420"/>
+                    <Button Height="20" Width="20" Margin="10 0 0 0" Style="{DynamicResource ButtonCommon}">
+                        <Button.Content>
+                            <Image Source="/res/icons/more.png" Width="10" Height="10"/>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+
+
+            </StackPanel>
+
+            <StackPanel Margin="32 88 32 0" Grid.Column="1">
+                
+            <Label Content="Project location" Style="{DynamicResource LabelContent}"/>
+            <TextBox Style="{DynamicResource TextBoxContent}"/>
+
+            <Grid Height="12"/>
+            <Label Content="Date" Style="{DynamicResource LabelContent}"/>
+            <DatePicker Width="240" Style="{DynamicResource DatePickerCommon}"/>
+            </StackPanel>
+
+            
+        </Grid>
+            <Button Click="nextButtonClick" Content="Next" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+    </Grid>
+</UserControl>

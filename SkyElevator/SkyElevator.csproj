@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,6 +59,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -80,17 +83,89 @@
     <Compile Include="src\ui\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\ui\sub_views\InquirySheet.xaml.cs">
+    <Compile Include="src\ui\inquiry_sheets\InquirySheet.xaml.cs">
       <DependentUpon>InquirySheet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\progress_tracker\client\ProgressTrackerClient.xaml.cs">
+      <DependentUpon>ProgressTrackerClient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\project_manager\ProjectManager.xaml.cs">
+      <DependentUpon>ProjectManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\project_manager\sub_views\NewClient.xaml.cs">
+      <DependentUpon>NewClient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\project_manager\sub_views\NewProject.xaml.cs">
+      <DependentUpon>NewProject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\project_manager\sub_views\OpenProject.xaml.cs">
+      <DependentUpon>OpenProject.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\ui\sub_views\TrackerClient.xaml.cs">
       <DependentUpon>TrackerClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\view_models\FileTree.cs" />
     <Page Include="Resources\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\buttons\common_buttons\CommonButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\buttons\warning_buttons\WarningButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\color\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\combo_boxes\combo_box_items\common_combo_box_items\CommonComboBoxItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\combo_boxes\common_combo_boxes\CommonComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\date_pickers\common_date_pickers\CommonDatePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\labels\content_labels\ContentLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\labels\heading_labels\HeadingLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\labels\sub_title_labels\SubTitleLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\labels\title_labels\TitleLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\menus\common_menus\CommonMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\menus\menu_items\common_menu_items\CommonMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\text_boxes\content_text_boxes\ContentTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\inquiry_sheets\InquirySheet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -110,7 +185,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\ui\sub_views\InquirySheet.xaml">
+    <Page Include="src\styles\buttons\tab_buttons\TabBarButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\progress_tracker\client\ProgressTrackerClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\project_manager\ProjectManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\project_manager\sub_views\NewClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\project_manager\sub_views\NewProject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\project_manager\sub_views\OpenProject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -141,6 +236,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="res\fonts\OpenSans-ExtraBold.ttf" />
+    <Resource Include="res\fonts\OpenSans-Regular.ttf" />
+    <Resource Include="res\fonts\OpenSans-Bold.ttf" />
+    <Resource Include="res\fonts\OpenSans-SemiBold.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -151,6 +250,17 @@
   <ItemGroup>
     <Resource Include="res\Login-Window-Header.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="res\images\Sky_Elevator_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\icons\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\icons\more.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\ui\progress_tracker\supplier\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

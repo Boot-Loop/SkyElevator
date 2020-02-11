@@ -4,9 +4,71 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkyElevator.src.ui"
-        mc:Ignorable="d"
-        Title="Home" Height="700" Width="900">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-        <ContentControl x:Name="home"/>
-    </ScrollViewer>
+        mc:Ignorable="d" Background="{StaticResource COLOR_PRIMARY_LIGHTER}"
+        Title="Home" Height="768" Width="1366">
+
+
+    <DockPanel>
+        <Menu Height="22" DockPanel.Dock="Top" Margin="2 2 0 0" Style="{DynamicResource MenuCommon}">
+            <MenuItem Header="_File" >
+                <MenuItem Header="_New" Template="{DynamicResource MenuItemCommon}"/>
+                <MenuItem Header="_Open" Template="{DynamicResource MenuItemCommon}"/>
+                <Separator/>
+                <MenuItem Header="_Close" Template="{DynamicResource MenuItemCommon}"/>
+                <Separator/>
+                <MenuItem Header="_Save" Template="{DynamicResource MenuItemCommon}"/>
+                <MenuItem Header="_Save All" Template="{DynamicResource MenuItemCommon}"/>
+                <Separator/>
+                <MenuItem Header="_Exit" Template="{DynamicResource MenuItemCommon}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_View Help" Template="{DynamicResource MenuItemCommon}"/>
+                <Separator/>
+                <MenuItem Header="_Send Feedback" Template="{DynamicResource MenuItemCommon}"/>
+                <Separator/>
+                <MenuItem Header="_Check For Updates" Template="{DynamicResource MenuItemCommon}"/>
+                <MenuItem Header="_xxx" Template="{DynamicResource MenuItemCommon}"/>
+                <Separator/>
+                <MenuItem Header="_About" Template="{DynamicResource MenuItemCommon}"/>
+            </MenuItem>
+        </Menu>
+
+        <!--Reference Grid-->
+        <Grid x:Name="Container" DockPanel.Dock="Bottom">
+            <Grid x:Name="LayoutReference">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="ReferenceBorderMin" Grid.Column="0"/>
+                <Border x:Name="ReferenceBorderMax" Grid.Column="1" />
+                <Border Grid.Column="2" />
+            </Grid>
+            
+            <!--Actual Grid-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MaxWidth="{Binding ElementName=ReferenceBorderMax,Path=ActualWidth}" MinWidth="{Binding ElementName=ReferenceBorderMin, Path=ActualWidth}"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid>
+                    <Border Background="White"/>
+                    <Button Content="Add a new tab" Height="40"/>
+                </Grid>
+                <GridSplitter Grid.Column="0" Width="3"/>
+                <Grid Grid.Column="1">
+                    <Border Background="White"/>
+                    <ContentControl x:Name="home"/>
+                    <!--<TabControl>
+                        
+                        <TabItem Header="Azeem"/>
+                        <TabItem Header="Arafath"/>
+                        
+                    </TabControl>-->
+                </Grid>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </Window>
