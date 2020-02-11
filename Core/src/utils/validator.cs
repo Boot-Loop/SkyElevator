@@ -19,8 +19,10 @@ namespace Core.utils
         }
 
         public static bool validatePath(string path, bool is_new = false) {
-            if (is_new) path = new DirectoryInfo(System.IO.Path.GetDirectoryName(path)).FullName;
-            return Directory.Exists(path);
+            if (is_new) {
+                path = new DirectoryInfo(System.IO.Path.GetDirectoryName(path)).FullName;
+                return Directory.Exists(path);
+            } else return File.Exists(path);
         }
 		//bool validateName();
 		//bool validatePhoneNumber();

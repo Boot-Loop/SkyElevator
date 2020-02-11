@@ -15,6 +15,7 @@ namespace Core.src.documents
 	{
         public List<IField> fields = new List<IField>();
 
+        public TextField  client_name              =  new TextField("Client Name"            , "<client name>");
         public TextField  type                     =  new TextField("Type"                   , "<type>");
         public TextField  capacity                 =  new TextField("Capacity"               , "<capacity>" );
         public TextField  speed                    =  new TextField("Speed"                  , "<speed>" );
@@ -51,6 +52,7 @@ namespace Core.src.documents
         /* constructor */
         public InquirySheetData()
         {
+            fields.Add(client_name);
             fields.Add(type);
             fields.Add(capacity);
             fields.Add(speed);
@@ -113,8 +115,7 @@ namespace Core.src.documents
             if (path == null) throw new InvalidPathError();
 
             var document = DocX.Load(path);
-            ///Check whether the loaded document is an inquiry sheet or not
-            checkDocumentType();
+            Document.checkDocument(path, getType()); // Check whether the loaded document is an inquiry sheet or not   
 
             List<String> document_data = new List<string>();
             for (int i = 0; i < document.Paragraphs.Count; i++){
@@ -133,7 +134,7 @@ namespace Core.src.documents
 
             for (int i = 2; i < document_data.Count; i++) {
                 if (i % 2 == 0){
-                    data.fields[i / 2 - 1 ].setValue(document_data[i], is_readonly); /* TODO: all values are assumed as strings <- might be an error in future! */
+                    data.fields[i / 2].setValue(document_data[i], is_readonly); /* TODO: all values are assumed as strings <- might be an error in future! */
                 }
             }
 
@@ -143,12 +144,6 @@ namespace Core.src.documents
 			throw new NotImplementedException();
 		}
 
-        public override void checkDocumentType() {
-            var condition = false;
-            if (condition) {
-                throw new InvalidFileTypeError("Opened document was not an Inquiry sheet.");
-            }
-        }
 
         override public void saveAsDraft() {
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);

@@ -53,6 +53,7 @@
     <Compile Include="src\documents\IField.cs" />
     <Compile Include="src\documents\Document.cs" />
     <Compile Include="src\documents\InquirySheet.cs" />
+    <Compile Include="src\documents\WarrantyCertification.cs" />
     <Compile Include="src\SebeClient.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\ProjectData.cs" />

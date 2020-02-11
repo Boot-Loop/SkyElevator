@@ -20,8 +20,9 @@ namespace Core.src
 
         public class Template
         {
-            public static readonly string INQUERY_SHEET       = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx");
-            public static readonly string COMPLETION_REPORT   = Path.Combine(DOCUMENT_TEMPLATE, "completion_report.docx");
+            public static readonly string INQUERY_SHEET             = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx");
+            public static readonly string COMPLETION_REPORT         = Path.Combine(DOCUMENT_TEMPLATE, "completion_report.docx");
+            public static readonly string WARRANTY_CERTIFICATION    = Path.Combine(DOCUMENT_TEMPLATE, "warranty_certification.docx");
         }
 
     }
