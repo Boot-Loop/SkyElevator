@@ -30,7 +30,7 @@ namespace Core.src
 
     public class Reference
     {
-
+		public static readonly string PROJECT_FILE_EXTENSION = ".skyproj"; // project file name would be something like : my_proj.skyproj
     }
 
 	/* create your custom exceptions here
@@ -63,5 +63,18 @@ namespace Core.src
         public InvalidPathError() : base("InvalidPathError") { }
         public InvalidPathError(string name) : base("InvalidPathError: " + name) { }
     }
+	
+	public class NotFoundError : Exception
+    {
+        public NotFoundError() : base("NotFoundError") { }
+        public NotFoundError(string name) : base("NotFoundError: " + name) { }
+    }
+	
+    public class AlreadyExistsError : Exception
+    {
+        public AlreadyExistsError() : base("AlreadyExistsError") { }
+        public AlreadyExistsError(string name) : base("AlreadyExistsError: " + name) { }
+    }
+
 
 }

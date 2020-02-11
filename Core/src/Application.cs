@@ -22,20 +22,34 @@ namespace Core.src
 		}
 
 		/* attribute */
-		private DataFile<ProjectData> project_file;
+		private DataFile<ProjectData> project_file = new DataFile<ProjectData>();
 
-
-		/* initialization of all modules goes here */
+		/// <summary>
+		/// initialize the application each time it starts
+		/// </summary>
 		public void initialize()
 		{
-			FileHandler.initialize();
-			DirHandler.initialize();
-			/* TODO: initialize other modules */
+			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
+			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
+		}
 
+		/// <summary>
+		/// search for project file and build project_data <para/>
+		/// if project file not found throws <c>NotFoundError</c>
+		/// </summary>
+		public void loadProjectFile() {
+			foreach ( string file in Directory.GetFiles( Directory.GetCurrentDirectory() )) {
+				if (file.EndsWith(Reference.PROJECT_FILE_EXTENSION)) {
+					project_file.setPath(file);
+					project_file.load();
+					return;
+				}
+			}
+			throw new NotFoundError("project file not found");
+		}
 
-			/* read the project file and apply the data */
-			// project_file = new DataFile<ProjectData>(); // Directory.GetCurrentDirectory()
-			// project_file.load(); // load project data to project_file.data
+		public ProjectData getProjectData() {
+			return this.project_file.getData();
 		}
 
 	}

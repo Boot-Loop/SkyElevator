@@ -34,7 +34,10 @@ namespace Core.utils
 			return logger;
 		}
 
-		public static Logger getLogger() { return getLogger(null); }
+		public static void log(string message, LogLevel level = LogLevel.LEVEL_INFO) {
+			default_logger.log(message, level);
+		}
+
 		public static Logger getLogger(String logger_name=null) {
 			if (logger_name == null) return default_logger;
 			if (loggers.ContainsKey(logger_name)) {
@@ -65,9 +68,8 @@ namespace Core.utils
 				using (var writer = new StreamWriter(file_path)) {
 					writer.WriteLine(String.Format("[{0}] Logger Initialized", date_time));
 				}
-			} else {
-				Console.WriteLine(String.Format("[{0}] Logger Initialized", date_time));
-			}
+			} 
+			// else  Console.WriteLine(String.Format("[{0}] Logger Initialized", date_time));
 		}
 
 		public void setLevel(LogLevel level) => this.level = level;
@@ -78,8 +80,7 @@ namespace Core.utils
 				if (file_path != null)
 					File.AppendAllText(file_path, log_str+"\n");
 				else
-					consoleColoredLog(log_str, level);
-				
+					consoleColoredLog(log_str, level);	
 			}
 		}
 
