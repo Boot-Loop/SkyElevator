@@ -23,6 +23,7 @@ namespace Core.src
             public static readonly string INQUERY_SHEET             = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx");
             public static readonly string COMPLETION_REPORT         = Path.Combine(DOCUMENT_TEMPLATE, "completion_report.docx");
             public static readonly string WARRANTY_CERTIFICATION    = Path.Combine(DOCUMENT_TEMPLATE, "warranty_certification.docx");
+            public static readonly string ELEVATOR_INSPECTION_SHEET = Path.Combine(DOCUMENT_TEMPLATE, "elevator_inspection_sheet.docx");
         }
 
     }

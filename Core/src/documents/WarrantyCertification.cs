@@ -13,7 +13,7 @@ namespace Core.src.documents
         {
             public List<IField> fields = new List<IField>();
 
-            public TextField        ref_no                 = new TextField("Ref No", "<ref_no>");
+            public TextField        ref_no                  = new TextField("Ref No", "<ref_no>");
             public DateTimeField    start_date_format3      = new DateTimeField("Start Date Format3", "<start_date_format3>", format: DateTimeField.Format.MTXT_D_YYYY);
             public DateTimeField    start_date_format2      = new DateTimeField("Start Date Format2", "<start_date_format2>", format: DateTimeField.Format.MM_DD_YYYY);
             public TextField        project_name            = new TextField("Project Name", "<project_name>");
@@ -56,17 +56,10 @@ namespace Core.src.documents
         public override IDocumentData getData() => data;
         public override DocumentType getType() => DocumentType.WARRENTY_CERTIFICATION;
 
-        public override void close()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void generateDocument(string path)
-        {
-            if (!Validator.validatePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
+        public override void generateDocument(string path) {
+            if (!Validator.validateFilePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.WARRANTY_CERTIFICATION);
-            foreach (IField field in data.fields)
-            {
+            foreach (IField field in data.fields) {
                 if (field.getType() == FieldType.DATE_TIME)
                 { // date time field
                     var datetime_field = (DateTimeField)field;
@@ -81,16 +74,19 @@ namespace Core.src.documents
                     
                 }
             }
-            template.SaveAs(path); // TODO: this throws System.IO.IOException if the file already opened!!
+            template.SaveAs(path); 
         }
 
-        public override void loadDocument(bool is_readonly = false)
-        {
+        public override void close() {
             throw new NotImplementedException();
         }
 
-        public override void saveAsDraft()
-        {
+
+        public override void loadDocument(bool is_readonly = false) {
+            throw new NotImplementedException();
+        }
+
+        public override void saveAsDraft() {
             throw new NotImplementedException();
         }
 
