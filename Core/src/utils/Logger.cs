@@ -34,8 +34,8 @@ namespace Core.utils
 			return logger;
 		}
 
-		public static void log(string message, LogLevel level = LogLevel.LEVEL_INFO) {
-			default_logger.log(message, level);
+		public static void logs(object message, LogLevel level = LogLevel.LEVEL_INFO) {
+			default_logger.log(message.ToString(), level);
 		}
 
 		public static Logger getLogger(String logger_name=null) {
