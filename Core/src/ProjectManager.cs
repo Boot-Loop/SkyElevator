@@ -56,8 +56,8 @@ namespace Core.src
 
 		public static readonly List<DirectoryItem> PROJECT_TEMPLATE = new List<DirectoryItem>()
 		{
-			new DirectoryItem( INQUIRY_SHEET	),
-			new DirectoryItem( QUOTATION		) .addDir(CLIENT).addDir(SUPPLIER) ,
+			new DirectoryItem( INQUIRY_SHEET	) .addDir(CLIENT).addDir(SUPPLIER),
+			new DirectoryItem( QUOTATION		) .addDir(CLIENT).addDir(SUPPLIER),
 			new DirectoryItem( SALES_AGREEMENT	) .addDir(CLIENT).addDir(SUPPLIER),
 			new DirectoryItem( PROJECT_TRACKING	),
 			new DirectoryItem( HANDOVER			),

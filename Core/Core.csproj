@@ -49,12 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Application.cs" />
-    <Compile Include="src\documents\CompletionReport.cs" />
-    <Compile Include="src\documents\ElevatorInspectionSheet.cs" />
+    <Compile Include="src\documents\doc\CompletionReport.cs" />
+    <Compile Include="src\documents\doc\ElevatorInspectionSheet.cs" />
     <Compile Include="src\documents\IField.cs" />
     <Compile Include="src\documents\Document.cs" />
-    <Compile Include="src\documents\InquirySheet.cs" />
-    <Compile Include="src\documents\WarrantyCertification.cs" />
+    <Compile Include="src\documents\doc\InquirySheet.cs" />
+    <Compile Include="src\documents\doc\WarrantyCertification.cs" />
+    <Compile Include="src\documents\xml\XmlTestFile.cs" />
     <Compile Include="src\ProjectManager.cs" />
     <Compile Include="src\SebeClient.cs" />
     <Compile Include="src\Core.cs" />
@@ -67,5 +68,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
