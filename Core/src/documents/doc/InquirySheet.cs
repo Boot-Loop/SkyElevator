@@ -88,7 +88,7 @@ namespace Core.src.documents
         }
 
 		public void setToDefault() {
-
+            throw new NotImplementedException();
         }
 
 		public DocumentType getType() => DocumentType.INQUERY_SHEET;
