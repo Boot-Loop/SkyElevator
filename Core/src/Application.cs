@@ -22,7 +22,7 @@ namespace Core.src
 		}
 
 		/* attribute */
-		private DataFile<ProjectData> project_file = new DataFile<ProjectData>();
+		private XmlFile<ProjectData> project_file = new XmlFile<ProjectData>();
 
 		/// <summary>
 		/// initialize the application each time it starts

@@ -41,7 +41,7 @@ namespace Core.utils {
 	 * 		ProjectData data = new ProjectData( args );
 	 * 		data.setYourValues();
 	 * 		
-	 * 		DataFile<ProjectData> file = new DataFile(path_to_file); // path_to_file = @"C:\SE\proj_name\prjfile.se";
+	 * 		XmlFile<ProjectData> file = new DataFile(path_to_file); // path_to_file = @"C:\SE\proj_name\prjfile.se";
 	 * 		file.save(data); // this will save the data to the file
 	 * 		
 	 * 		ProjectData loaded_obj = file.load(); // this will load from the path
@@ -50,15 +50,15 @@ namespace Core.utils {
 	 * 
 	 * 
 	 ***********************************/
-	public class DataFile<DataClass>
+	public class XmlFile<DataClass>
 	{
 		private string file_path;
 		private DataClass data;
 
-		public DataFile(string file_path) {
+		public XmlFile(string file_path) {
 			this.file_path = file_path;
 		}
-		public DataFile() { }
+		public XmlFile() { }
 
 		public void setPath(string file_path) {
 			this.file_path = file_path;

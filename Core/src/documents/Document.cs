@@ -22,7 +22,6 @@ namespace Core.src.documents
 	public interface IDocumentData
 	{
 		void setToDefault();
-		//void copyFrom(IDocumentData data);
 		DocumentType getType();
 	}
 
