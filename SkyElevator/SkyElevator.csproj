@@ -80,14 +80,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\ui\alert_view\AlertView.xaml.cs">
+      <DependentUpon>AlertView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\custom_views\scrollable_tab_control\ScrollableTabControl.cs" />
     <Compile Include="src\ui\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\input_views\InputView.xaml.cs">
+      <DependentUpon>InputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\ui\inquiry_sheets\InquirySheet.xaml.cs">
       <DependentUpon>InquirySheet.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\ui\progress_tracker\client\ProgressTrackerClient.xaml.cs">
       <DependentUpon>ProgressTrackerClient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\progress_tracker\supplier\ProgressTrackerSupplier.xaml.cs">
+      <DependentUpon>ProgressTrackerSupplier.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\ui\project_manager\ProjectManager.xaml.cs">
       <DependentUpon>ProjectManager.xaml</DependentUpon>
@@ -105,6 +115,9 @@
       <DependentUpon>TrackerClient.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\view_models\FileTree.cs" />
+    <Compile Include="src\view_models\MainViewModel.cs" />
+    <Compile Include="src\view_models\RelayCommand.cs" />
+    <Compile Include="src\view_models\TabItemViewModel.cs" />
     <Page Include="Resources\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\styles\combo_boxes\common_combo_boxes\CommonComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\data_grids\common_data_grids\CommonDataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,6 +182,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="src\styles\tree_views\common_tree_views\CommonTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\alert_view\AlertView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\custom_views\scrollable_tab_control\Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\input_views\InputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\ui\inquiry_sheets\InquirySheet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -190,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\ui\progress_tracker\client\ProgressTrackerClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\progress_tracker\supplier\ProgressTrackerSupplier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -260,7 +297,7 @@
     <Resource Include="res\icons\more.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\ui\progress_tracker\supplier\" />
+    <Resource Include="res\images\warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,75 +6,16 @@
              xmlns:local="clr-namespace:SkyElevator.src.ui.progress_tracker.client"
              mc:Ignorable="d" Background="{StaticResource COLOR_PRIMARY_LIGHTER}"
              d:DesignHeight="600" d:DesignWidth="800">
-    <UserControl.Resources>
-        <Style x:Key="DataGridCommon" TargetType="{x:Type DataGrid}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="#FF688CAF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
-            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type DataGrid}">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
-                            <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
-                                <ScrollViewer.Template>
-                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
-                                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
-                                            <Grid Grid.Column="1" Grid.Row="2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
-                                            </Grid>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </ScrollViewer.Template>
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsGrouping" Value="true"/>
-                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
-                    </MultiTrigger.Conditions>
-                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-                </MultiTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
 
     <StackPanel>
-        <Grid Margin="16" Height="240" >
+        <Grid Margin="16" Height="380" >
             <Border CornerRadius="5" Background="{StaticResource COLOR_WHITE}"/>
             <StackPanel>
 
                 <Label Content="Payment Tracker" Style="{DynamicResource LabelHeading}"/>
 
 
-                <Grid MaxHeight="184">
+                <Grid MaxHeight="324">
 
                     <DataGrid x:Name="payment_tracker" Margin="5 0 5 0" DockPanel.Dock="Bottom" Style="{DynamicResource DataGridCommon}" >
                         <DataGrid.Columns>
@@ -115,11 +56,11 @@
                     <Label Grid.Column="0" Grid.Row="0" Content="Arrived Date:" Style="{DynamicResource LabelContent}"/>
                     <DatePicker Grid.Column="1" Grid.Row="0" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
                     <Label Grid.Column="2" Grid.Row="0" Content="Charge For Late Pick Up:" Style="{DynamicResource LabelContent}"/>
-                    <TextBox Grid.Column="3" Grid.Row="0" Width="300" Margin="5 0 10 0" Style="{DynamicResource TextBoxContent}"/>
+                    <TextBox Grid.Column="3" Grid.Row="0" Width="240" Margin="5 0 10 0" Style="{DynamicResource TextBoxContent}"/>
                     <Label Grid.Column="0" Grid.Row="1" Content="Picked Up Date:" Style="{DynamicResource LabelContent}"/>
                     <DatePicker Grid.Column="1" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
                     <Label Grid.Column="2" Grid.Row="1" Content="Unloaded Date:" Style="{DynamicResource LabelContent}"/>
-                    <DatePicker Grid.Column="3" Grid.Row="1" Width="auto" Height="30" Margin="5 5 5 0" BorderThickness="0"/>
+                    <DatePicker Grid.Column="3" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
                 </Grid>
             </StackPanel>
         </Grid>
@@ -154,7 +95,7 @@
                     <Label Grid.Column="4" Grid.Row="1" Content="Start Date:" Style="{DynamicResource LabelContent}"/>
                     <DatePicker Grid.Column="5" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
                     <Label Grid.Column="0" Grid.Row="2" Content="End Date:" Style="{DynamicResource LabelContent}"/>
-                    <DatePicker Grid.Column="1" Grid.Row="2" Width="auto" Height="30" Margin="5 5 5 0" BorderThickness="0"/>
+                    <DatePicker Grid.Column="1" Grid.Row="2" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
                     <Label Grid.Column="2" Grid.Row="2" Content="End Date:" Style="{DynamicResource LabelContent}"/>
                     <DatePicker Grid.Column="3" Grid.Row="2" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
                     <Label Grid.Column="4" Grid.Row="2" Content="End Date:" Style="{DynamicResource LabelContent}"/>

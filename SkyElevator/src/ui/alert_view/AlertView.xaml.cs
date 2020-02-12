@@ -11,28 +11,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SkyElevator.src.ui.inquiry_sheets;
-using SkyElevator.src.ui.sub_views;
-using SkyElevator.src.ui.progress_tracker.client;
-using SkyElevator.src.view_models;
 
-namespace SkyElevator.src.ui
+namespace SkyElevator.src.ui.alert_view
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for AlertView.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class AlertView : Window
     {
-        private MainViewModel mvm = new MainViewModel();
-        public Home()
+        public AlertView()
         {
             InitializeComponent();
-            this.DataContext = mvm;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            mvm.AddItem();
+            this.Close();
+        }
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

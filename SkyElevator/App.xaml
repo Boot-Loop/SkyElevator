@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SkyElevator"
-             StartupUri="src/ui/project_manager/ProjectManager.xaml">
+             StartupUri="src/ui/input_views/InputView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,6 +23,9 @@
                 <ResourceDictionary Source="src/styles/date_pickers/common_date_pickers/CommonDatePicker.xaml"/>
                 <ResourceDictionary Source="src/styles/menus/common_menus/CommonMenu.xaml"/>
                 <ResourceDictionary Source="src/styles/menus/menu_items/common_menu_items/CommonMenuItem.xaml"/>
+                <ResourceDictionary Source="src/styles/data_grids/common_data_grids/CommonDataGrid.xaml"/>
+                <ResourceDictionary Source="src/styles/tree_views/common_tree_views/CommonTreeView.xaml"/>
+                <ResourceDictionary Source="src/ui/custom_views/scrollable_tab_control/Themes/Generic.xaml"/>
 
                 <!--global styles-->
                 <ResourceDictionary Source="src/styles/color/Colors.xaml"/>

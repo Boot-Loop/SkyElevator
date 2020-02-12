@@ -27,7 +27,7 @@ namespace SkyElevator.src.view_models
 
     public class FileTree
     {
-        List<FileTreeItem> getItems() {
+        public List<FileTreeItem> getItems() {
 
             List<FileTreeItem> ret = new List<FileTreeItem>();
             ret.Add(new FileItem("my file.txt", @"E:/my folder/my file.txt"));

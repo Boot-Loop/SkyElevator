@@ -33,8 +33,6 @@ namespace TesterUI
         public MainWindow()
         {
             InitializeComponent();
-            
-            
 
             var itemProvider = new ItemProvider();
 

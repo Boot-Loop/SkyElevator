@@ -3,9 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SkyElevator.src.ui"
+        xmlns:local="clr-namespace:SkyElevator.src.ui"        
+        xmlns:Model="clr-namespace:SkyElevator.src.view_models"
+        xmlns:tab="clr-namespace:SkyElevator.src.ui.custom_views.scrollable_tab_control"
         mc:Ignorable="d" Background="{StaticResource COLOR_PRIMARY_LIGHTER}"
         Title="Home" Height="768" Width="1366">
+
+
+    <Window.Resources>
+
+        <HierarchicalDataTemplate DataType="{x:Type Model:DirectoryItem}"
+                                  ItemsSource="{Binding items}">
+            <TextBlock Text="{Binding Path=name}" ToolTip="{Binding Path=path}" Tag="{Binding Path=path}">
+                <TextBlock.ContextMenu>
+                    <ContextMenu Visibility="Collapsed"/>
+                </TextBlock.ContextMenu>
+            </TextBlock>
+        </HierarchicalDataTemplate>
+
+        <DataTemplate DataType="{x:Type Model:FileItem}">
+            <StackPanel Orientation="Horizontal" Tag="{Binding Path=path}">
+                <StackPanel.ContextMenu>
+                    <ContextMenu>
+                    </ContextMenu>
+                </StackPanel.ContextMenu>
+                <!--<Image Source="/Images/file.png" Height="8"/>-->
+                <TextBlock Tag="{Binding Path=path}" Text="{Binding Path=name}" ToolTip="{Binding Path=path}" Margin="5 0 0 0"/>
+            </StackPanel>
+        </DataTemplate>
+        
+
+    </Window.Resources>
 
 
     <DockPanel>
@@ -45,7 +73,7 @@
                 <Border x:Name="ReferenceBorderMax" Grid.Column="1" />
                 <Border Grid.Column="2" />
             </Grid>
-            
+
             <!--Actual Grid-->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -55,18 +83,87 @@
 
                 <Grid>
                     <Border Background="White"/>
-                    <Button Content="Add a new tab" Height="40"/>
+                    <!--<Button Content="Add a new tab" Height="40"/>-->
+
+                    <TreeView BorderThickness="0" Style="{DynamicResource TreeViewCommon1}">
+                        <TreeViewItem Header="Home">
+                            <TreeViewItem Header="Inquiry Sheets"/>
+                            <TreeViewItem Header="Client"/>
+                            <TreeViewItem Header="Supplier"/>
+                        </TreeViewItem>
+
+                        <TreeViewItem Header="Progress Tracker">
+                            <TreeViewItem Header="Client"/>
+                            <TreeViewItem Header="Supplier"/>
+                            <TreeViewItem Header="More Details"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Help">
+                            <TreeViewItem Header="Contact Us"/>
+                            <TreeViewItem Header="About Application"/>
+                            <TreeViewItem Header="About NKC"/>
+                        </TreeViewItem>
+                    </TreeView>
+                    <Button Height="40" Click="Button_Click"></Button>
                 </Grid>
                 <GridSplitter Grid.Column="0" Width="3"/>
                 <Grid Grid.Column="1">
-                    <Border Background="White"/>
-                    <ContentControl x:Name="home"/>
-                    <!--<TabControl>
-                        
-                        <TabItem Header="Azeem"/>
-                        <TabItem Header="Arafath"/>
-                        
-                    </TabControl>-->
+                    <tab:ScrollableTabControl ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Margin="5"
+                                   BorderBrush="Gray" BorderThickness="0" IsAddItemEnabled="False" 
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <tab:ScrollableTabControl.ItemContainerStyle>
+                            <Style TargetType="TabItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type TabItem}">
+                                            <Border x:Name="tab" Background="Blue" BorderThickness="1,1,1,0" BorderBrush="DarkBlue" Padding="5">
+                                                <Grid>
+                                                    <ContentPresenter   x:Name="contentPresenter" ContentSource="Header"
+                                TextBlock.Foreground="Black"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"/>
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="False">
+                                                    <Setter TargetName="tab" Property="Background" Value="LightBlue"/>
+                                                    <Setter TargetName="tab" Property="BorderBrush" Value="Blue"/>
+                                                </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsSelected" Value="False" />
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <MultiTrigger.Setters>
+                                                        <Setter TargetName="tab" Property="BorderBrush" Value="DarkBlue"/>
+                                                        <Setter TargetName="tab" Property="Background" Value="AliceBlue"/>
+                                                    </MultiTrigger.Setters>
+                                                </MultiTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </tab:ScrollableTabControl.ItemContainerStyle>
+                        <tab:ScrollableTabControl.ItemTemplate>
+
+                            <DataTemplate>
+                                <Grid Height="30" >
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="{Binding Header}" Foreground="Black" VerticalAlignment="Center"/>
+                                    <Button Content="X" FontSize="9" Grid.Column="1" Command="{Binding CloseCommand}" Height="15" Width="15" Margin="5,0,0,0" Padding="0" />
+                                </Grid>
+                            </DataTemplate>
+                        </tab:ScrollableTabControl.ItemTemplate>
+                        <tab:ScrollableTabControl.ContentTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding Content}"></ContentControl>
+                            </DataTemplate>
+                        </tab:ScrollableTabControl.ContentTemplate>
+                    </tab:ScrollableTabControl>
                 </Grid>
             </Grid>
         </Grid>

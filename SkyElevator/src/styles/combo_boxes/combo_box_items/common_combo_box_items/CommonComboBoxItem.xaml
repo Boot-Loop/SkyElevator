@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SkyElevator.src.styles.combo_boxes.combo_box_items.common_combo_box_items">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
     <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHover.Background" Color="#1F26A0DA"/>
