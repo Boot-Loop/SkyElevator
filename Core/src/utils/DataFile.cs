@@ -8,6 +8,8 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
+using Core.src;
+
 namespace Core.utils {
 	/* ********** USAGE ****************
 	 * 
@@ -66,16 +68,16 @@ namespace Core.utils {
 		}
 
 		public void setData(DataClass data) {
-			if (data != null) this.data = data;
+			this.data = data;
 		}
 		public DataClass getData() {
+			if (data == null) throw new NullReferenceException("project file data was null");
 			return data;
 		}
 
 		public void save() {
-			if (data != null) save(data);
-			else throw new Exception("data was null - use setData() or load()");
-
+			if (data == null) throw new Exception("data was null - use setData() or load()");
+			save(data);
 		}
 		public void save(DataClass data) {
 			if (this.file_path == null) throw new Exception("file_path was null");
@@ -89,7 +91,7 @@ namespace Core.utils {
 		}
 
 		public DataClass load() {
-			if (this.file_path == null) throw new Exception("file_path was null");
+			if (this.file_path == null) throw new NullReferenceException("file_path was null");
 
 			XmlSerializer deserializer = new XmlSerializer(typeof(DataClass));
 			using (TextReader reader = new StreamReader(this.file_path))

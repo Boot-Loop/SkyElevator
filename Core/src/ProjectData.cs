@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
 
 namespace Core.Data
 {
-	class ProjectData
+	public class ProjectData
 	{
-		String project_name;
+		public String project_name;
 		/* TODO: impliemnt other project related data */
 	}
 }
