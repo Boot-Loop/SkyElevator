@@ -33,13 +33,7 @@ namespace Core.src
 		public static readonly string PROJECT_FILE_EXTENSION = ".skyproj"; // project file name would be something like : my_proj.skyproj
     }
 
-	/* create your custom exceptions here
-	class CustomError : Exception
-	{
-		public CustomError(string name) : base("CustomError: " + name) { }
-	}
-	*/
-
+    /* custom exceptions */
 	public class NotLoggedInError : Exception
 	{
 		public NotLoggedInError() : base("NotLoggedInError") { }
@@ -75,6 +69,14 @@ namespace Core.src
         public AlreadyExistsError() : base("AlreadyExistsError") { }
         public AlreadyExistsError(string name) : base("AlreadyExistsError: " + name) { }
     }
+
+    public class ValidationError : Exception
+    {
+        public ValidationError() : base("ValidationError") { }
+        public ValidationError(string name) : base("ValidationError: " + name) { }
+    }
+
+    
 
 
 }

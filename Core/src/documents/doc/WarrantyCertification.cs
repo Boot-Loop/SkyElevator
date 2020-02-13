@@ -11,7 +11,7 @@ namespace Core.src.documents
 {
     public class WarrantyCertificationData : IDocumentData
         {
-            public List<IField> fields = new List<IField>();
+            public List<Field> fields = new List<Field>();
 
             public TextField        ref_no                  = new TextField("Ref No", "<ref_no>");
             public DateTimeField    start_date_format3      = new DateTimeField("Start Date Format3", "<start_date_format3>", format: DateTimeField.Format.MTXT_D_YYYY);
@@ -59,7 +59,7 @@ namespace Core.src.documents
         public override void generateDocument(string path) {
             if (!Validator.validateFilePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.WARRANTY_CERTIFICATION);
-            foreach (IField field in data.fields) {
+            foreach (Field field in data.fields) {
                 if (field.getType() == FieldType.DATE_TIME)
                 { // date time field
                     var datetime_field = (DateTimeField)field;

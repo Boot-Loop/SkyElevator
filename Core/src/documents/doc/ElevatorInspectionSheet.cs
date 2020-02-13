@@ -10,7 +10,7 @@ namespace Core.src.documents
 {
     public class ElevatorInspectionSheetData : IDocumentData
     {
-        public List<IField> fields = new List<IField>();
+        public List<Field> fields = new List<Field>();
 
         public TextField        ref_no                      = new TextField("Ref No", "<ref_no>");
         public TextField        contact_person              = new TextField("Contact Person", "<contact_person>");
@@ -63,7 +63,7 @@ namespace Core.src.documents
         {
             if (!Validator.validateFilePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.ELEVATOR_INSPECTION_SHEET);
-            foreach (IField field in data.fields) {
+            foreach (Field field in data.fields) {
                 if (field.getType() == FieldType.DATE_TIME)
                 { // date time field
                     var datetime_field = (DateTimeField)field;

@@ -13,7 +13,7 @@ namespace Core.src.documents
 {
 	public class InquirySheetData : IDocumentData
 	{
-        public List<IField> fields = new List<IField>();
+        public List<Field> fields = new List<Field>();
 
         public TextField  client_name              =  new TextField("Client Name"            , "<client name>");
         public TextField  type                     =  new TextField("Type"                   , "<type>");
@@ -147,7 +147,7 @@ namespace Core.src.documents
 
         override public void saveAsDraft() {
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);
-            foreach ( IField field in data.fields) {
+            foreach ( Field field in data.fields) {
                 if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), field.getReplaceTag());
                 else template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
             }
@@ -159,7 +159,7 @@ namespace Core.src.documents
         public override void generateDocument(string path) {
             if (!Validator.validateFilePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);
-            foreach (IField field in data.fields) {
+            foreach (Field field in data.fields) {
                 if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), "");
                 else template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
             }
