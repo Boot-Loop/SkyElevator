@@ -7,7 +7,6 @@
              mc:Ignorable="d" Background="White"
              d:DesignHeight="420" d:DesignWidth="660">
 
-
     <Grid Background="{StaticResource COLOR_PRIMARY_LIGHTER}">
         <Border CornerRadius="5" Background="White" Margin="16 72 16 16"/>
         <Label Content="Welcome your new client" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Style="{DynamicResource LabelTitleOne}"/>
@@ -21,42 +20,60 @@
             <StackPanel Margin="32 88 0 0" Grid.Column="0">
 
                 <Label Content="Client name" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientName}"/>
 
-                <Grid Height="12"/>
+                <Grid Height="16">
+                    <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
 
                 <Label Content="Company" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientCompany}"/>
 
 
-                <Grid Height="12"/>
+                <Grid Height="16">
+                    <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
 
                 <Label Content="Position" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" />
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientPosition}"/>
 
-                <Grid Height="12"/>
+                <Grid Height="16">
+                    <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
                 <Label Content="NIC" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" />
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientNIC}" />
+                <Grid Height="16">
+                    <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
             </StackPanel>
             <StackPanel Margin="32 88 0 0" Grid.Column="1">
 
                 <Label Content="Address" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" />
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientAddress}"/>
 
-                <Grid Height="12"/>
+                <Grid Height="16">
+                    <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
 
                 <Label Content="Email" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" />
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientEmail}"/>
 
 
-                <Grid Height="12"/>
+                <Grid Height="16">
+                    <Label Content="{Binding Path=ClientEmailError}" Foreground="OrangeRed" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
 
                 <Label Content="Telophone number" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" />
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientTelephoneNumber}"/>
 
-                <Grid Height="12"/>
+                <Grid Height="16">
+                    <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
                 <Label Content="Website" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" />
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientWebsite}"/>
+                <Grid Height="16">
+                    <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
+                </Grid>
             </StackPanel>
         </Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
