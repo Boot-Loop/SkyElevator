@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="SkyElevator.src.views.project_manager_views.sub_views.NewClient"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkyElevator.src.views.project_manager_views.sub_views"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="420" d:DesignWidth="660">
+
+
+    <Grid Background="{StaticResource COLOR_PRIMARY_LIGHTER}">
+        <Border CornerRadius="5" Background="White" Margin="16 72 16 16"/>
+        <Label Content="Welcome your new client" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Style="{DynamicResource LabelTitleOne}"/>
+        <Label Content="Get started by entering some details" Margin="12 38 0 0" Style="{DynamicResource LabelSubTitle}"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="32 88 0 0" Grid.Column="0">
+
+                <Label Content="Client name" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}"/>
+
+                <Grid Height="12"/>
+
+                <Label Content="Company" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}"/>
+
+
+                <Grid Height="12"/>
+
+                <Label Content="Position" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" />
+
+                <Grid Height="12"/>
+                <Label Content="NIC" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" />
+            </StackPanel>
+            <StackPanel Margin="32 88 0 0" Grid.Column="1">
+
+                <Label Content="Address" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" />
+
+                <Grid Height="12"/>
+
+                <Label Content="Email" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" />
+
+
+                <Grid Height="12"/>
+
+                <Label Content="Telophone number" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" />
+
+                <Grid Height="12"/>
+                <Label Content="Website" Style="{DynamicResource LabelTitleFour}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" />
+            </StackPanel>
+        </Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button Click="backButtonClick" Content="Back" Margin="0 0 18 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+            <Button Content="Create" Margin="0 0 36 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
