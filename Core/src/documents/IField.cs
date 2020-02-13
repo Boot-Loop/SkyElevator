@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Xml.Serialization;
 
 using Core.src;
+using Core.utils;
 
 namespace Core.src.documents
 {
@@ -326,7 +326,9 @@ namespace Core.src.documents
         :base (name, replace_tag, text, is_readonly = false, default_value = null, is_required = false) { }
 
         override public FieldType getType() => FieldType.EMAIL;
-        public override void _validate(string value) { /* TODO: validate the value */ }
+        public override void _validate(string value) {
+            if (!Validator.validateEmail(value)) throw new ValidationError("invalide email");
+        }
     }
 
     public class PhoneNumberField : TextField

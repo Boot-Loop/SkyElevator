@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyElevator.src.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,7 @@ namespace SkyElevator.src.views.project_manager_views.sub_views
         public NewClient(ProjectManager project_manager)
         {
             InitializeComponent();
+            DataContext = new ClientModel();
             this.project_manager = project_manager;
         }
 

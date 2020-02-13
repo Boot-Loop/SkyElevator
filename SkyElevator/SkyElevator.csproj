@@ -59,6 +59,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\models\ClientModel.cs" />
+    <Compile Include="src\models\ProjectModel.cs" />
     <Compile Include="src\views\alert_views\AlertView.xaml.cs">
       <DependentUpon>AlertView.xaml</DependentUpon>
     </Compile>
@@ -134,7 +136,6 @@
     <Resource Include="res\images\warning.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\models\" />
     <Folder Include="src\view_models\commands\" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +251,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{8a9fa4ea-6721-4a19-9118-114414492b72}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

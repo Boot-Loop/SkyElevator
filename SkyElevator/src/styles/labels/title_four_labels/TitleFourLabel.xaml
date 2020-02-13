@@ -5,7 +5,7 @@
     <Style x:Key="LabelTitleFour" TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
         <Setter Property="FontFamily" Value="{DynamicResource SYSTEM_FONT_SEMI_BOLD}"/>
