@@ -51,7 +51,7 @@
     <Compile Include="src\Application.cs" />
     <Compile Include="src\documents\doc\CompletionReport.cs" />
     <Compile Include="src\documents\doc\ElevatorInspectionSheet.cs" />
-    <Compile Include="src\documents\IField.cs" />
+    <Compile Include="src\documents\Field.cs" />
     <Compile Include="src\documents\Document.cs" />
     <Compile Include="src\documents\doc\InquirySheet.cs" />
     <Compile Include="src\documents\doc\WarrantyCertification.cs" />
