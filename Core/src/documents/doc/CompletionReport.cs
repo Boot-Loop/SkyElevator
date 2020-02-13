@@ -11,7 +11,7 @@ namespace Core.src.documents
 {
     public class CompletionReportData : IDocumentData
     {
-        public List<IField> fields = new List<IField>();
+        public List<Field> fields = new List<Field>();
 
         public TextField        our_ref_no                 = new TextField("Our Ref No", "<our_ref>");
         public DateTimeField    start_date_format1         = new DateTimeField("Start Date Format1", new List<string>() { "<start_day>" , "<start_subscript>", "<start_month_year>" } );
@@ -75,7 +75,7 @@ namespace Core.src.documents
         public override void generateDocument(string path) {
             if (!Validator.validateFilePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.COMPLETION_REPORT);
-            foreach (IField field in data.fields)
+            foreach (Field field in data.fields)
             {
                 if (field.getType() == FieldType.DATE_TIME) { // date time field
                     var datetime_field = (DateTimeField)field;

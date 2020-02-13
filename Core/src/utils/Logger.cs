@@ -25,7 +25,7 @@ namespace Core.utils
 		 */
 
 		private static Dictionary<String, Logger> loggers = new Dictionary<String, Logger>();
-		private static Logger default_logger = new Logger();
+		private static Logger static_logger = new Logger();
 		private static String time_format = "HH:mm:ss";
 
 		public static Logger makeLogger(String logger_name = null) {
@@ -35,11 +35,11 @@ namespace Core.utils
 		}
 
 		public static void logs(object message, LogLevel level = LogLevel.LEVEL_INFO) {
-			default_logger.log(message.ToString(), level);
+			static_logger.log(message.ToString(), level);
 		}
 
 		public static Logger getLogger(String logger_name=null) {
-			if (logger_name == null) return default_logger;
+			if (logger_name == null) return static_logger;
 			if (loggers.ContainsKey(logger_name)) {
 				return loggers[logger_name];
 			}

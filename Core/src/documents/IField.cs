@@ -13,69 +13,71 @@ namespace Core.src.documents
 {
     public enum FieldType
     {
-        TEXT, INTEGER, BOOL, FLOAT, DATE_TIME, DIMENTION,
+        TEXT, INTEGER, BOOL, FLOAT, DATE_TIME, DIMENTION, EMAIL, PHONE_NUMBER, NIC, WEB_SITE
     }
 
-	/* an interface for fields of all documents */
-	public interface IField {
-		string getName();
-		bool isReadonly();
-        string getReplaceTag();
-        object getDefault();
+    public abstract class Field
+    {
+        protected string name;
+        protected string replace_tag;
+        protected bool is_readonly  = false;
+        protected bool is_required  = false;
+        protected bool is_null      = true;
 
-        void setValue(object value, bool is_readonly = false);
-        object getValue();
-        FieldType getType();
-	}
+        public string getName() => name;
+        public bool isReadonly() => is_readonly;
+
+        abstract public object      getDefault();
+        abstract public void        setValue(object value, bool is_readonly = false);
+        abstract public object      getValue();
+        abstract public FieldType   getType();
+
+        public string getReplaceTag() => replace_tag;
+        public void setRequired(bool is_required) => this.is_required = is_required;
+        public bool isRequired() => is_required;
+        public bool isNull() => is_null;
+    }
 
 
-
-	/* implimentation of the fields */
-	public class TextField : IField
+	public class TextField : Field
 	{
-		string name		        = "";
-		bool is_readonly        = false;
-        string replace_tag      = "";
+		
         string default_value    = null;
-
 		string _value	        = null;
         [XmlAttribute]
 		public string value { 
 			get { return _value; }
 			set {
 				if (is_readonly) throw new ReadonlyError();
+                _validate(value);
 				this._value = value;
+                is_null = false;
 			}
 		}
         private TextField() { }
-        public TextField(bool is_readonly = false, string default_value = null) { this.is_readonly = is_readonly; this.default_value = default_value; }
-        public TextField( string value, bool is_readonly = false, string default_value = null) { this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; }
-
-		public TextField(string name, string replace_tag, bool is_readonly = false, string default_value = null) {
+        public TextField(bool is_readonly = false, string default_value = null, bool is_required = false) { this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required; }
+        public TextField( string value, bool is_readonly = false, string default_value = null, bool is_required = false) { this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required; }
+        /* constructor for document */
+		public TextField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false) {
             this.name = name; this.replace_tag = replace_tag;
-            this.is_readonly = is_readonly; this.default_value = default_value;
+            this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required;
         }
-        public TextField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null) {
+        public TextField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false) {
             this.name = name; this.replace_tag = replace_tag;
-            this.value = text; this.is_readonly = is_readonly;  this.default_value = default_value;
+            this.value = text; this.is_readonly = is_readonly;  this.default_value = default_value; this.is_required = is_required;
         }
-        public string getName()             => name;
-		public bool isReadonly()            => is_readonly;
-        public string getReplaceTag()       => replace_tag;
-        public object getDefault()          => default_value;
-		public override string ToString()   => this.value.ToString();
-        public object getValue()            => this.value;
-        public void setValue(object value, bool is_readonly = false) { this.value = (string)value; this.is_readonly = is_readonly; }
-        public FieldType getType() => FieldType.TEXT;
+        override public FieldType getType() => FieldType.TEXT;
+        override public object getDefault() => default_value;
+        override public string ToString()   => this.value.ToString();
+        override public object getValue()   => this.value;
+        override public void setValue(object value, bool is_readonly = false) { this.value = (string)value; this.is_readonly = is_readonly; }
+        virtual public void _validate(string value) { }
     }
 
-    public class BoolField : IField
+    public class BoolField : Field
     {
-        string name = "";
-        bool is_readonly = false;
-        string replace_tag = "";
-        bool default_value = false;
-
+        
+        bool default_value  = false;
         bool _value = false;
         [XmlAttribute]
         public bool value {
@@ -83,37 +85,36 @@ namespace Core.src.documents
             set {
                 if (is_readonly) throw new ReadonlyError();
                 this._value = value;
+                is_null = false;
             }
         }
 
         private BoolField() { }
-        // public BoolField(bool is_readonly = false, bool default_value = false) { this.is_readonly = is_readonly; this.default_value = default_value; }
-        public BoolField(bool value, bool is_readonly = false, bool default_value = false) { this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; }
+        public BoolField(bool value, bool is_readonly = false, bool default_value = false) { 
+            this.value = value; this.is_readonly = is_readonly; this.default_value = default_value;
+        }
 
+        /* constructor for document */
         public BoolField(string name, string replace_tag, bool read_only = false, bool default_value = false) {
-            this.name = name; this.replace_tag = replace_tag; this.is_readonly = read_only; this.default_value = default_value;
+            this.name = name; this.replace_tag = replace_tag; this.is_readonly = read_only; 
+            this.default_value = default_value;
         }
         public BoolField(string name, string replace_tag, bool value, bool read_only, bool default_value = false) {
-            this.name = name; this.replace_tag = replace_tag; this.value = value; this.is_readonly = read_only; this.default_value = default_value;
+            this.name = name; this.replace_tag = replace_tag; this.value = value; this.is_readonly = read_only;
+            this.default_value = default_value;
         }
 
-        public string getName() => this.name;
-        public bool isReadonly() => this.is_readonly;
-        public string getReplaceTag() => this.replace_tag;
-        public object getValue() => this.value;
-        public object getDefault() => this.default_value;
-        public void setValue(object value, bool is_readonly = false) { this.value = (bool)value; this.is_readonly = is_readonly; }
+        override public FieldType getType() => FieldType.BOOL;
+        override public object getValue()   => this.value;
+        override public object getDefault() => this.default_value;
+        override public void setValue(object value, bool is_readonly = false) { this.value = (bool)value; this.is_readonly = is_readonly; }
         override public string ToString() => this.value.ToString();
-        public FieldType getType() => FieldType.BOOL;
     }
 
 
-    public class IntergerField : IField 
+    public class IntergerField : Field 
 	{
-		string name         = "";
-        bool is_readonly    = false;
 		bool is_positive    = false;
-        string replace_tag  = "";
         long default_value   = 0;
 
         long _value = 0;
@@ -124,44 +125,40 @@ namespace Core.src.documents
 				if (is_readonly) throw new ReadonlyError();
 				if (is_positive && value < 0) throw new ArgumentException();
 				this._value = value;
+                is_null = false;
 			}
 		}
 
         private IntergerField() { }
-        public IntergerField(bool is_positive = false, bool is_readonly = false, long default_value = 0) {
-            this.is_positive = is_positive; this.is_readonly = is_readonly; this.default_value = default_value;
+        public IntergerField(bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false) {
+            this.is_positive = is_positive; this.is_readonly = is_readonly; 
+            this.default_value = default_value; this.is_required = is_required;
         }
-        public IntergerField(long value, bool is_positive = false, bool is_readonly = false, long default_value = 0) {
-            this.value = value; this.is_positive = is_positive; this.is_readonly = is_readonly; this.default_value = default_value;
+        public IntergerField(long value, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false) {
+            this.value = value; this.is_positive = is_positive; this.is_readonly = is_readonly; 
+            this.default_value = default_value; this.is_required = is_required;
         }
 
-        public IntergerField(string name, string replace_tag, bool is_positive = false, bool is_readonly = false, long default_value = 0) {
-			this.name = name; this.is_positive = is_positive; this.is_readonly = is_readonly;
-            this.replace_tag = replace_tag;
-            this.default_value = default_value;
-		}
-		public IntergerField(string name, string replace_tag, long value, bool is_positive = false, bool is_readonly = false, long default_value = 0) {
-			this.name = name; this.is_positive = is_positive;
-			this.value = value; this.is_readonly = is_readonly;
-            this.replace_tag = replace_tag;
-            this.default_value = default_value;
-		}
-		public string getName() => name;
-		public bool isReadonly() => is_readonly;
-		public override string ToString() => _value.ToString();
-        public void setValue(object value, bool is_readonly = false) { this.value = (long)value; this.is_readonly = is_readonly; }
-        public object getValue() { return this.value;  }
-        public string getReplaceTag() => replace_tag;
-        public object getDefault() => default_value;
-        public FieldType getType() => FieldType.INTEGER;
+        /* constructor for document */
+        public IntergerField(string name, string replace_tag, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false) {
+			this.name = name; this.is_positive = is_positive; this.is_readonly = is_readonly; this.replace_tag = replace_tag;
+            this.default_value = default_value; this.is_required = is_required;
+        }
+		public IntergerField(string name, string replace_tag, long value, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false) {
+			this.name = name; this.is_positive = is_positive; this.value = value; this.is_readonly = is_readonly;
+            this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required;
+        }
+        override public FieldType getType() => FieldType.INTEGER;
+		override public string ToString() => _value.ToString();
+        override public void setValue(object value, bool is_readonly = false) { this.value = (long)value; this.is_readonly = is_readonly; }
+        override public object getValue() { return this.value;  }
+        override public object getDefault() => default_value;
+        public bool isPositive() => is_positive;
     }
 
-	public class FloatField : IField 
+    public class FloatField : Field 
 	{
-		string name             = "";
-        bool is_readonly        = false;
 		bool is_positive        = false;
-        string replace_tag      = "";
         double default_value    = 0;
 
 		double _value = 0.0d;
@@ -172,33 +169,38 @@ namespace Core.src.documents
 				if (is_readonly) throw new ReadonlyError();
 				if (is_positive && value < 0) throw new ArgumentException();
 				this._value = value;
+                is_null = false;
 			}
 		}
 
         private FloatField() { }
-        public FloatField(bool is_positive = false, bool is_readonly = false, double default_value = 0) { this.is_positive = is_positive; this.is_readonly = is_readonly; this.default_value = default_value;  }
-        public FloatField( double value, bool is_positive = false, bool is_readonly = false, double default_value = 0) { this.value = value; this.is_positive = is_positive; this.is_readonly = is_readonly; this.default_value = default_value;  }
+        public FloatField(bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false) { 
+            this.is_positive = is_positive; this.is_readonly = is_readonly; 
+            this.default_value = default_value; this.is_required = is_required;
+        }
+        public FloatField( double value, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false) { 
+            this.value = value; this.is_positive = is_positive; this.is_readonly = is_readonly; 
+            this.default_value = default_value; this.is_required = is_required;
+        }
 
-		public FloatField(string name, string replace_tag, bool is_positive = false, bool is_readonly = false, double default_value = 0) {
+        /* constructor for document */
+		public FloatField(string name, string replace_tag, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false) {
 			this.name = name; this.is_positive = is_positive; this.is_readonly = is_readonly;
-            this.replace_tag = replace_tag; this.default_value = default_value;
-		}
-		public FloatField(string name, string replace_tag, double value, bool is_positive = false, bool is_readonly = false, double default_value = 0) {
-			this.name = name; this.is_positive = is_positive;
-			this.value = value; this.is_readonly = is_readonly;
-            this.replace_tag = replace_tag; this.default_value = default_value;
-		}
-		public string getName() => name;
-		public bool isReadonly() => is_readonly;
-		public override string ToString() => _value.ToString();
-        public string getReplaceTag() => replace_tag;
-        public object getDefault() => default_value;
-        public void setValue(object value, bool is_readonly = false) { this.value = (double)value; this.is_readonly = is_readonly; }
-        public object getValue() => value;
-        public FieldType getType() => FieldType.FLOAT;
+            this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required;
+        }
+		public FloatField(string name, string replace_tag, double value, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false) {
+			this.name = name; this.is_positive = is_positive; this.value = value; this.is_readonly = is_readonly;
+            this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required;
+        }
+        override public FieldType getType() => FieldType.FLOAT;
+		override public string ToString() => _value.ToString();
+        override public object getDefault() => default_value;
+        override public void setValue(object value, bool is_readonly = false) { this.value = (double)value; this.is_readonly = is_readonly; }
+        override public object getValue() => value;
+        public bool isPositive() => is_positive;
     }
 
-	public class DateTimeField : IField
+	public class DateTimeField : Field
 	{
         public enum Format
         {
@@ -207,12 +209,9 @@ namespace Core.src.documents
             MM_DD_YYYY,
         }
 
-		string name = ""; bool is_readonly = false;
-        string replace_tag = "";
-        Format format = Format.MM_DD_YYYY;
-        DateTime default_value = new DateTime();
         List<string> replace_tags;
-        bool is_null = true;
+        Format format           = Format.MM_DD_YYYY;
+        DateTime default_value  = new DateTime();
 
         DateTime _value = new DateTime();
         [XmlAttribute]
@@ -226,23 +225,31 @@ namespace Core.src.documents
 		}
 
         private DateTimeField() { }
-        public DateTimeField(bool is_readonly = false, DateTime default_value = new DateTime()) { this.is_readonly = is_readonly; this.default_value = default_value; }
-        public DateTimeField( DateTime value, bool is_readonly = false, DateTime default_value = new DateTime()) { this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; }
+        public DateTimeField(bool is_readonly = false, DateTime default_value = new DateTime(), bool is_required = false) { 
+            this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required;
+        }
+        public DateTimeField( DateTime value, bool is_readonly = false, DateTime default_value = new DateTime(), bool is_required = false) { 
+            this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required;
+        }
 
-		public DateTimeField(string name, string replace_tag, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY) {
-			this.name = name; this.is_readonly = is_readonly; this.replace_tag = replace_tag; this.default_value = default_value; this.format = format;
-		}
-		public DateTimeField(string name, string replace_tag, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY) {
+        /* constructor for document */
+		public DateTimeField(string name, string replace_tag, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY, bool is_required = false) {
+			this.name = name; this.is_readonly = is_readonly; this.replace_tag = replace_tag; 
+            this.default_value = default_value; this.format = format; this.is_required = is_required;
+        }
+		public DateTimeField(string name, string replace_tag, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY, bool is_required = false) {
 			this.name = name; this._value = datetime; this.is_readonly = is_readonly; this.format = format;
-            this.replace_tag = replace_tag; this.default_value = default_value; is_null = false;
-		}
-        public DateTimeField(string name, List<string> replace_tags, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY) {
-			this.name = name; this.is_readonly = is_readonly; this.default_value = default_value; this.format = format;
+            this.replace_tag = replace_tag; this.default_value = default_value; is_null = false; this.is_required = is_required;
+        }
+        public DateTimeField(string name, List<string> replace_tags, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY, bool is_required = false) {
+			this.name = name; this.is_readonly = is_readonly; this.default_value = default_value; 
+            this.format = format; this.is_required = is_required;
             if (format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException();
             setReplaceTags(replace_tags);
 		}
-		public DateTimeField(string name, List<string> replace_tags, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY) {
-			this.name = name; this._value = datetime; this.is_readonly = is_readonly; this.format = format; this.default_value = default_value;
+		public DateTimeField(string name, List<string> replace_tags, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY, bool is_required = false) {
+			this.name = name; this._value = datetime; this.is_readonly = is_readonly; this.format = format; 
+            this.default_value = default_value; this.is_required = is_required;
             if (format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException(); is_null = false;
             setReplaceTags(replace_tags);
 		}
@@ -260,9 +267,8 @@ namespace Core.src.documents
             return ret;
         }
 
-		public string getName() => name;
-		public bool isReadonly() => is_readonly;
-        public override string ToString() {
+
+        override public string ToString() {
             switch( this.format)
             {
                 case Format.MM_DD_YYYY:
@@ -275,13 +281,12 @@ namespace Core.src.documents
                     return _value.ToString();
             }
         }
-        public string getReplaceTag() => replace_tag;
-        public object getDefault() => default_value;
-        public void setValue(object value, bool is_readonly = false) { this.value = (DateTime)value; this.is_readonly = is_readonly; is_null = false; }
-        public object getValue() => value;
-        public FieldType getType() => FieldType.DATE_TIME;
+        override public FieldType getType() => FieldType.DATE_TIME;
+        override public object getDefault() => default_value;
+        override public void setValue(object value, bool is_readonly = false) { this.value = (DateTime)value; this.is_readonly = is_readonly; is_null = false; }
+        override public object getValue() => value;
         public Format getFormat() => this.format;
-        public bool isNull() => is_null;
+
 
         private string getDayPrefix() {
             int day = this._value.Day;
@@ -309,11 +314,65 @@ namespace Core.src.documents
         }
     }
 
+    public class EmailField : TextField
+    {
+        private EmailField() { }
+        public EmailField(bool is_readonly = false, string default_value = null, bool is_required = false) : base(is_readonly = false, default_value = null, is_required = false) { }
+        public EmailField(string value, bool is_readonly = false, string default_value = null, bool is_required = false) : base(value, is_readonly = false, default_value = null, is_required = false) { }
+        /* constructor for document */
+        public EmailField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base(name, replace_tag, is_readonly = false, default_value = null, is_required = false) { }
+        public EmailField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base (name, replace_tag, text, is_readonly = false, default_value = null, is_required = false) { }
 
-	/* TODO: impliment other fields */
-	//public class PhoneNumberField : IField { }
-	//public class EmailField : IField { }
-	//public class AddressField : IField { }
+        override public FieldType getType() => FieldType.EMAIL;
+        public override void _validate(string value) { /* TODO: validate the value */ }
+    }
+
+    public class PhoneNumberField : TextField
+    {
+        private PhoneNumberField() { }
+        public PhoneNumberField(bool is_readonly = false, string default_value = null, bool is_required = false) : base(is_readonly = false, default_value = null, is_required = false) { }
+        public PhoneNumberField(string value, bool is_readonly = false, string default_value = null, bool is_required = false) : base(value, is_readonly = false, default_value = null, is_required = false) { }
+        /* constructor for document */
+        public PhoneNumberField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base(name, replace_tag, is_readonly = false, default_value = null, is_required = false) { }
+        public PhoneNumberField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base (name, replace_tag, text, is_readonly = false, default_value = null, is_required = false) { }
+
+        override public FieldType getType() => FieldType.PHONE_NUMBER;
+        public override void _validate(string value) { /* TODO: validate the value */ }
+    }
+
+
+    public class NICField : TextField
+    {
+        private NICField() { }
+        public NICField(bool is_readonly = false, string default_value = null, bool is_required = false) : base(is_readonly = false, default_value = null, is_required = false) { }
+        public NICField(string value, bool is_readonly = false, string default_value = null, bool is_required = false) : base(value, is_readonly = false, default_value = null, is_required = false) { }
+        /* constructor for document */
+        public NICField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base(name, replace_tag, is_readonly = false, default_value = null, is_required = false) { }
+        public NICField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base (name, replace_tag, text, is_readonly = false, default_value = null, is_required = false) { }
+
+        override public FieldType getType() => FieldType.NIC;
+        public override void _validate(string value) { /* TODO: validate the value */ }
+    }
+
+    public class WebSiteField : TextField
+    {
+        private WebSiteField() { }
+        public WebSiteField(bool is_readonly = false, string default_value = null, bool is_required = false) : base(is_readonly = false, default_value = null, is_required = false) { }
+        public WebSiteField(string value, bool is_readonly = false, string default_value = null, bool is_required = false) : base(value, is_readonly = false, default_value = null, is_required = false) { }
+        /* constructor for document */
+        public WebSiteField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base(name, replace_tag, is_readonly = false, default_value = null, is_required = false) { }
+        public WebSiteField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false)
+        :base (name, replace_tag, text, is_readonly = false, default_value = null, is_required = false) { }
+
+        override public FieldType getType() => FieldType.WEB_SITE;
+        public override void _validate(string value) { /* TODO: validate the value */ }
+    }
+
 }
-
-
