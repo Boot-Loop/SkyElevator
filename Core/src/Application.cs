@@ -13,6 +13,8 @@ namespace Core.src
 	/* a Singleton class to manage runtime application */
 	public class Application
 	{
+		public static readonly string VERSION = "1.0.0";
+
 		/* singleton */
 		private Application() { } 
 		private static Application singleton;

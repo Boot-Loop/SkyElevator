@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Core.src
 {
 	/* file tree items */
 	public class FileTreeItem
 	{
-		public string path, name;
+		[XmlAttribute] public string path;
+		[XmlAttribute] public string name;
+		private FileTreeItem() { this.name = ""; this.path = ""; }
 		public FileTreeItem(string path) {
 			this.path = path;
 			this.name = Path.GetFileName(this.path);
@@ -18,12 +21,21 @@ namespace Core.src
 	}
 	public class FileItem : FileTreeItem 
 	{ 
+		private FileItem() : base("") { }
 		public FileItem(string path) : base(path) { } 
 	}
 	public class DirectoryItem : FileTreeItem
 	{
+		[XmlArray("items")]
+		[XmlArrayItem("file", typeof(FileItem))]
+		[XmlArrayItem("directory", typeof(DirectoryItem))]
 		public List<FileTreeItem> items = new List<FileTreeItem>();
-		public DirectoryItem(string path) : base(path) { }
+
+		private DirectoryItem() : base("") { }
+		public DirectoryItem(string path="") : base(path) { }
+
+		// TODO: if add 2 files / dirs with the same name consider throwing an error
+
 		public DirectoryItem addFile(string name) { 
 			this.items.Add(new FileItem( Path.Combine( this.path, name)));  return this; 
 		}
@@ -38,31 +50,52 @@ namespace Core.src
 			this.items.Add( dir );  return this; 
 		}
 
+		public FileTreeItem getItem(string name) {
+			foreach (FileTreeItem item in items) {
+				if (item.name == name) return item;
+			}
+			return null;
+		}
+		public DirectoryItem getDir(string name) {
+			FileTreeItem item = getItem(name);
+			if (item is DirectoryItem) return (DirectoryItem)item;
+			return null;
+		}
+		public FileItem getFile(string name) {
+			FileTreeItem item = getItem(name);
+			if (item is FileItem) return (FileItem)item;
+			return null;
+		}
 		
 	}
 	/***********************/
 
 	public class ProjectManager
 	{
-		static readonly string CLIENT	= "Client";
-		static readonly string SUPPLIER	= "Supplier";
-
-		static readonly string INQUIRY_SHEET		= "Inquiry Sheet";
-		static readonly string QUOTATION			= "Quotation";
-		static readonly string SALES_AGREEMENT		= "Sales Agreement";
-		static readonly string PROJECT_TRACKING		= "Project Tracking";
-		static readonly string HANDOVER				= "Handover";
-		static readonly string MAINTENANCE			= "Maintenance";
-
-		public static readonly List<DirectoryItem> PROJECT_TEMPLATE = new List<DirectoryItem>()
+		public class Dirs
 		{
-			new DirectoryItem( INQUIRY_SHEET	) .addDir(CLIENT).addDir(SUPPLIER),
-			new DirectoryItem( QUOTATION		) .addDir(CLIENT).addDir(SUPPLIER),
-			new DirectoryItem( SALES_AGREEMENT	) .addDir(CLIENT).addDir(SUPPLIER),
-			new DirectoryItem( PROJECT_TRACKING	),
-			new DirectoryItem( HANDOVER			),
-			new DirectoryItem( MAINTENANCE      ),
-		};
+			public static readonly string CLIENT = "Client";
+			public static readonly string SUPPLIER = "Supplier";
+
+			public static readonly string INQUIRY_SHEET = "Inquiry Sheet";
+			public static readonly string QUOTATION = "Quotation";
+			public static readonly string SALES_AGREEMENT = "Sales Agreement";
+			public static readonly string PROJECT_TRACKING = "Project Tracking";
+			public static readonly string HANDOVER = "Handover";
+			public static readonly string MAINTENANCE = "Maintenance";
+		}
+
+		private static readonly List<DirectoryItem> PROJECT_TEMPLATE = getProjectTemplate();
+		public static List<DirectoryItem> getProjectTemplate() {
+			return new List<DirectoryItem>() {
+				new DirectoryItem( Dirs.INQUIRY_SHEET    ) .addDir(Dirs.CLIENT).addDir(Dirs.SUPPLIER),
+				new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT).addDir(Dirs.SUPPLIER),
+				new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT).addDir(Dirs.SUPPLIER),
+				new DirectoryItem( Dirs.PROJECT_TRACKING ),
+				new DirectoryItem( Dirs.HANDOVER         ),
+				new DirectoryItem( Dirs.MAINTENANCE      )
+			};
+		}
 
 		private static ProjectManager singleton;
 		private ProjectManager() { }

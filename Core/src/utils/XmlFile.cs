@@ -71,12 +71,12 @@ namespace Core.utils {
 			this.data = data;
 		}
 		public DataClass getData() {
-			if (data == null) throw new NullReferenceException("project file data was null");
+			// if (data == null) throw new NullReferenceException("project file data was null");
 			return data;
 		}
 
 		public void save() {
-			if (data == null) throw new Exception("data was null - use setData() or load()");
+			// if (data == null) throw new Exception("data was null - use setData() or load()");
 			save(data);
 		}
 		public void save(DataClass data) {
