@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SkyElevator.src.styles.date_pickers.common_date_pickers">
 
     <Style x:Key="DatePickerCommon" TargetType="{x:Type DatePicker}">
         <Setter Property="Foreground" Value="Black"/>
@@ -8,7 +9,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="2"/>
         <Setter Property="Height" Value="20"/>
-        <Setter Property="FontFamily" Value="{DynamicResource OPEN_SANS_REGULAR}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource SYSTEM_FONT_REGULAR}"/>
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
         <Setter Property="BorderBrush" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -151,4 +152,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+
 </ResourceDictionary>

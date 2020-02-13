@@ -14,8 +14,8 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
-using SkyElevator.src.ui.inquiry_sheets;
-using SkyElevator.src.ui.progress_tracker.supplier;
+using SkyElevator.src.views.inquiry_sheet_views;
+using SkyElevator.src.views.progress_tracker_views.supplier;
 
 namespace SkyElevator.src.view_models
 {

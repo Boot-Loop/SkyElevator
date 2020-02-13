@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="SkyElevator.src.views.progress_tracker_views.client.ProgressTrackerClient"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkyElevator.src.views.progress_tracker_views.client"
+             mc:Ignorable="d" Background="{StaticResource COLOR_PRIMARY_LIGHTER}"
+             d:DesignHeight="800" d:DesignWidth="800">
+
+    <StackPanel>
+        <Grid Margin="16" Height="380" >
+            <Border CornerRadius="5" Background="{StaticResource COLOR_WHITE}"/>
+            <StackPanel>
+
+                <Label Content="Payment Tracker" Style="{DynamicResource LabelTitleThree}"/>
+
+
+                <Grid MaxHeight="324">
+
+                    <DataGrid x:Name="payment_tracker" Margin="5 0 5 0" DockPanel.Dock="Bottom" Style="{DynamicResource DataGridCommon}" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Date"           Width="*" Binding="{Binding Date}"/>
+                            <DataGridTextColumn Header="Amount"         Width="*" Binding="{Binding Amount}"/>
+                            <DataGridTextColumn Header="Payment Method" Width="*" Binding="{Binding Payment_Method}"/>
+                            <DataGridTextColumn Header="Total"          Width="*" Binding="{Binding Total}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+
+            </StackPanel>
+
+            <Button Content="Delete" Width="60"  Margin="5" Style="{DynamicResource ButtonWarning}"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
+                <Button Content="Edit"   Width="60"  Margin="5" Style="{DynamicResource ButtonCommon}"/>
+                <Button Content="Add"    Width="60"  Margin="5" Style="{DynamicResource ButtonCommon}"/>
+            </StackPanel>
+
+        </Grid>
+        <Grid Margin="16 0 16 16" Height="100">
+            <Border CornerRadius="5" Background="{StaticResource COLOR_WHITE}"/>
+            <StackPanel>
+                <Label Content="Transport Tracker" Style="{DynamicResource LabelTitleThree}"/>
+                <Grid Height="60">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Content="Arrived Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="1" Grid.Row="0" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <Label Grid.Column="2" Grid.Row="0" Content="Charge For Late Pick Up:" Style="{DynamicResource LabelTitleFour}"/>
+                    <TextBox Grid.Column="3" Grid.Row="0" Width="240" Margin="5 0 10 0" Style="{DynamicResource TextBoxContent}"/>
+                    <Label Grid.Column="0" Grid.Row="1" Content="Picked Up Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="1" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <Label Grid.Column="2" Grid.Row="1" Content="Unloaded Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="3" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Grid Margin="16 0 16 16">
+            <Border CornerRadius="5" Background="{StaticResource COLOR_WHITE}" Height="200"/>
+            <StackPanel>
+                <Label Content="Installation Tracker" Style="{DynamicResource LabelTitleThree}"/>
+                <Grid Height="160">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Mechanical Installation" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Style="{DynamicResource LabelTitleThree}"/>
+                    <Label Content="Electrical Installation" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" Style="{DynamicResource LabelTitleThree}"/>
+                    <Label Content="Testing" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" VerticalAlignment="Center" Style="{DynamicResource LabelTitleThree}"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Content="Start Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="1" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <Label Grid.Column="2" Grid.Row="1" Content="Start Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="3" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <Label Grid.Column="4" Grid.Row="1" Content="Start Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="5" Grid.Row="1" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <Label Grid.Column="0" Grid.Row="2" Content="End Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="1" Grid.Row="2" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <Label Grid.Column="2" Grid.Row="2" Content="End Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="3" Grid.Row="2" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <Label Grid.Column="4" Grid.Row="2" Content="End Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="5" Grid.Row="2" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
+                        <Label Content="Is 3-phase available:" Style="{DynamicResource LabelTitleFour}"/>
+                        <CheckBox VerticalAlignment="Center" Margin="5"/>
+                    </StackPanel>
+                    <Label Grid.Column="2" Grid.Row="4" Content="Checked Date:" Style="{DynamicResource LabelTitleFour}"/>
+                    <DatePicker Grid.Column="3" Grid.Row="4" Margin="5 5 5 0" Style="{DynamicResource DatePickerCommon}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>
