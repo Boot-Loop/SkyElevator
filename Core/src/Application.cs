@@ -13,7 +13,7 @@ namespace Core.src
 	/* a Singleton class to manage runtime application */
 	public class Application
 	{
-		public static readonly string VERSION = "1.0.0";
+		static Logger logger = new Logger();
 
 		/* singleton */
 		private Application() { } 
@@ -32,12 +32,13 @@ namespace Core.src
 		public void initialize()
 		{
 			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
+			if (!Directory.Exists(Paths.SEBE_CLIENT)) Directory.CreateDirectory(Paths.SEBE_CLIENT);
 			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
 		}
 
 		/// <summary>
 		/// search for project file and build project_data <para/>
-		/// if project file not found throws <c>NotFoundError</c>
+		/// if project file not found throws <c>FileNotFoundException</c>
 		/// </summary>
 		public void loadProjectFile() {
 			foreach ( string file in Directory.GetFiles( Directory.GetCurrentDirectory() )) {
@@ -47,7 +48,8 @@ namespace Core.src
 					return;
 				}
 			}
-			throw new NotFoundError("project file not found");
+			logger.logError("project file not found, current directory : " + Directory.GetCurrentDirectory());
+			throw new FileNotFoundException("project file not found, current directory : " + Directory.GetCurrentDirectory() );
 		}
 
 		public ProjectData getProjectData() {

@@ -13,6 +13,7 @@ namespace Core.src
 		/* if these dirs not exists -> create them on initialize */
 		public static readonly string APP_DATA           = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		public static readonly string PROGRAMME_DATA     = Path.Combine(APP_DATA, "SkyElevator/");
+		public static readonly string SEBE_CLIENT        = Path.Combine(PROGRAMME_DATA, "sebe_client/");
 		public static readonly string LOGS               = Path.Combine(PROGRAMME_DATA, "logs/");
 
         public static readonly string EXECUTABLE         = new DirectoryInfo(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)).FullName;
@@ -30,7 +31,8 @@ namespace Core.src
 
     public class Reference
     {
-		public static readonly string PROJECT_FILE_EXTENSION = ".skyproj"; // project file name would be something like : my_proj.skyproj
+        public static readonly string VERSION                   = "1.0.0";
+        public static readonly string PROJECT_FILE_EXTENSION    = ".skyproj";
     }
 
     /* custom exceptions */
@@ -58,10 +60,10 @@ namespace Core.src
         public InvalidPathError(string name) : base("InvalidPathError: " + name) { }
     }
 	
-	public class NotFoundError : Exception
+	public class HttpNotFoundError : Exception
     {
-        public NotFoundError() : base("NotFoundError") { }
-        public NotFoundError(string name) : base("NotFoundError: " + name) { }
+        public HttpNotFoundError() : base("HttpNotFoundError") { }
+        public HttpNotFoundError(string name) : base("HttpNotFoundError: " + name) { }
     }
 	
     public class AlreadyExistsError : Exception

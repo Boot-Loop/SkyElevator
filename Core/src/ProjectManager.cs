@@ -109,14 +109,14 @@ namespace Core.src
 			string project_dir = Path.Combine(path, project_name); // TODO: project_name validation - throws illegal characters in path
 			if (Directory.Exists(project_dir)) throw new AlreadyExistsError("project directory already exists");
 			Directory.CreateDirectory(project_dir);
-			foreach (DirectoryItem dir in PROJECT_TEMPLATE) buildRecursiveFileTree(project_dir, dir);
+			foreach (DirectoryItem dir in PROJECT_TEMPLATE) buildRecursiveDirectory(project_dir, dir);
 		}
 
 		/***** PRIVATE *****/
-		void buildRecursiveFileTree(string path, DirectoryItem directory) {
+		void buildRecursiveDirectory(string path, DirectoryItem directory) {
 			Directory.CreateDirectory( Path.Combine( path, directory.path ));
 			foreach ( FileTreeItem item in directory.items) {
-				if (item is DirectoryItem) buildRecursiveFileTree(path, (DirectoryItem)item); // else item is file : cant' create
+				if (item is DirectoryItem) buildRecursiveDirectory(path, (DirectoryItem)item); // else item is file : cant' create
 			}
 		}
 	}

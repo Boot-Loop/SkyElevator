@@ -18,7 +18,7 @@ namespace Core.Data
 		}
 
 		public String project_name;
-		public String application_version = Application.VERSION;
+		public String application_version = Reference.VERSION;
 		public DirectoryItem dirs = new DirectoryItem();
 	}
 }
