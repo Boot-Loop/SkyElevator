@@ -42,23 +42,27 @@ namespace SebeClient
 {
 	public class Client
     {
+		private class Urls
+		{
+			public static string HOST		= "http://localhost:8000/";
+			public static string LOGIN		= "api-login/";
+			public static string LOGOUT		= "api-logout/";
+		}
+
 		// static
-		public static readonly string APP_DATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		public static readonly string PROGRAMME_DATA_PATH = Path.Combine(APP_DATA_PATH, "SkyElevator/SebeClient/");
+		private static Logger logger = new Logger();
 
 		private Uri uri;
 		private CookieContainer cookies;
 		private HttpClient http_client;
 		private HttpResponseMessage response;
-		private Logger logger;
 
-		private string resp_log_path  = Path.Combine(PROGRAMME_DATA_PATH, "resp.html");
-		private string error_log_path = Path.Combine(PROGRAMME_DATA_PATH, "errors.log");
-		private string cookie_path    = Path.Combine(PROGRAMME_DATA_PATH, "cookies.dat");
+		// TODO:
+		private string resp_log_path  = Path.Combine(Paths.SEBE_CLIENT, "resp.html");
+		private string cookie_path    = Path.Combine(Paths.SEBE_CLIENT, "cookies.dat");
 
-		public Client( string uri = "http://localhost:8000/")
+		public Client(string uri)
 		{
-
 			try {
 				cookies = loadCookies();
 			}
@@ -66,13 +70,13 @@ namespace SebeClient
 				cookies = new CookieContainer();
 			}
 
-			this.uri = new Uri(uri);			
+			this.uri = new Uri(uri);
 			HttpClientHandler handler = new HttpClientHandler();
 			handler.CookieContainer = cookies;
 			this.http_client = new HttpClient(handler);
 			logger = new Logger();
-
 		}
+		public Client() : this(Urls.HOST) { }
 
 		public void setTimeout(double seconds) => http_client.Timeout = TimeSpan.FromSeconds(seconds);
 		public void dispose() => http_client.Dispose();
@@ -80,6 +84,7 @@ namespace SebeClient
 		public async Task getRequest(string path) {
 			response = await http_client.GetAsync( new Uri(uri, path ) );
 			await saveResponse();
+			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
 		}
 		/* private overloaded requests */
 		private async Task postRequest(string path, HttpContent content = null, bool drf = false)
@@ -87,12 +92,14 @@ namespace SebeClient
 			if (drf) await getDrfCsrfToken(path);
 			response = await http_client.PostAsync(new Uri(uri, path), content);
 			await saveResponse();
+			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
 		}
 		private async Task putRequest(string path, HttpContent content = null, bool drf = false)
 		{
 			if (drf) await getDrfCsrfToken(path);
 			response = await http_client.PutAsync(new Uri(uri, path), content);
 			await saveResponse();
+			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
 		}
 		private async Task patchRequest(string path, HttpContent content=null, bool drf = false)
 		{
@@ -102,42 +109,46 @@ namespace SebeClient
 			request.Content = content;
 			response = await http_client.SendAsync(request);
 			await saveResponse();
+			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
 		}
-		/* private requests */
 
-		public async Task deleteRequest(string path, bool drf = false)
-		{
+		/* low level requests */
+		public async Task deleteRequest(string path, bool drf = false) {
 			if (drf) await getDrfCsrfToken(path);
 			this.response = await this.http_client.DeleteAsync(new Uri(this.uri, path));
 			await saveResponse();
+			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
 		}
 
-		public async Task postRequest(string path, Dictionary<string,string> post_data = null, Dictionary<string, string> attach_files = null, bool drf = false) // drf : django rest framework
-		{
+		public async Task postRequest(string path, Dictionary<string,string> post_data = null, Dictionary<string, string> attach_files = null, bool drf = false) {		
 			await postRequest(path, makeHttpContent(post_data, attach_files), drf);
 		}
 
-		public async Task putRequest(string path, Dictionary<string, string> put_data = null, Dictionary<string, string> attach_files = null, bool drf = false)
-		{
+		public async Task putRequest(string path, Dictionary<string, string> put_data = null, Dictionary<string, string> attach_files = null, bool drf = false) {
 			await putRequest(path, makeHttpContent(put_data, attach_files), drf);
 		}
 
-		public async Task patchRequest(string path, Dictionary<string, string> put_data = null, Dictionary<string, string> attach_files = null, bool drf = false)
-		{
+		public async Task patchRequest(string path, Dictionary<string, string> put_data = null, Dictionary<string, string> attach_files = null, bool drf = false) {
 			await patchRequest(path, makeHttpContent(put_data, attach_files), drf);
 		}
 
-
-		public async Task login(string path, string username, string password)
-		{
-			await this.getRequest(path);
+		/* high level requests */
+		public async Task login(string username, string password) {
+			await this.getRequest(Urls.LOGIN);
+			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + Urls.LOGIN);
 			string csrfmiddlewaretoken = this.getCookieValue("csrftoken"); // csrfmiddlewaretoken, sessionid
 			if (csrfmiddlewaretoken is null) throw new Exception("csrftoken not found in cookies");
 			Dictionary<string, string> post_data = new Dictionary<string, string>();
 			post_data.Add("csrfmiddlewaretoken", csrfmiddlewaretoken);
 			post_data.Add("username", username);
 			post_data.Add("password", password);
-			await this.postRequest(path, post_data);
+			await this.postRequest(Urls.LOGIN, post_data);
+			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + Urls.LOGIN);
+			logger.logSuccess("successfully logged in");
+		}
+
+		public async Task logout() {
+			await getRequest(Urls.LOGOUT);
 		}
 
 		/********* getters and setters **********/
@@ -197,9 +208,10 @@ namespace SebeClient
 		/// <returns></returns>
 		public async Task saveResponseAttachment( string dir_path, FileMode mode = FileMode.OpenOrCreate ) {
 			string fileToWriteTo = System.IO.Path.Combine(dir_path, getResponseAttachmentName());
+			if (File.Exists(fileToWriteTo)) logger.logWarning("file already exists overriding : "+ fileToWriteTo);
 			using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync())
 				using (Stream streamToWriteTo = File.Open(fileToWriteTo, mode))
-					await streamToReadFrom.CopyToAsync(streamToWriteTo);			
+					await streamToReadFrom.CopyToAsync(streamToWriteTo);
 		}
 
 		public CookieContainer loadCookies() { // if error no app_data_folder
@@ -227,11 +239,15 @@ namespace SebeClient
 				await saveResponse();
 			} catch (Exception err) { throw err; }
 
+			logger.logInfo( "DrfToken request - response code:" + getStatusCode().ToString());
+			if (getStatusCode() == 404) {
+				logger.logError("Error: DrfToken request failed - not found error, path " + path);
+				throw new HttpNotFoundError("path = " + path);
+			}
 			if (getStatusCode() == 307) {
-				logger.log("Error: DrfToken request failed - not logged in (cookie may expired)", Logger.LogLevel.LEVEL_ERROR );
+				logger.logError("Error: DrfToken request failed - not logged in (cookie may expired)");
 				throw new NotLoggedInError();
 			}
-			logger.log( "DrfToken request - response code:" + getStatusCode().ToString(), Logger.LogLevel.LEVEL_INFO );
 
 			string token_re = @"csrfHeaderName\s*:\s*"".*""\s*,\s*csrfToken\s*:\s*"".*""";
 			string match = getFirstMatch(await getResponseString(), token_re);
@@ -244,6 +260,7 @@ namespace SebeClient
 			csrf_header = csrf_header.Substring(1, csrf_header.Length-2 );
 			string csrf_token = keys_and_values[3].Trim();
 			csrf_token = csrf_token.Substring(1, csrf_token.Length- 2);
+			logger.logSuccess( "drf csrf token found : "+csrf_token);
 			http_client.DefaultRequestHeaders.Add(csrf_header, csrf_token);
 			return new KeyValuePair<string, string>(csrf_header, csrf_token);
 		}
@@ -252,18 +269,22 @@ namespace SebeClient
 		{
 			var form_data = new MultipartFormDataContent();
 
-			if (kv_data != null)
+			if (kv_data != null) {
+
 				foreach (var kv in kv_data) {
 					StringContent str_content = new StringContent(kv.Value);
 					form_data.Add(str_content, kv.Key);
 				}
+			}
 
-
-			if (!(attach_files is null))
+			if (!(attach_files is null)) {
 				foreach (var kv in attach_files) {
+					if (!File.Exists(kv.Value)) logger.logError("attach file not exists : " + kv.Value);
 					ByteArrayContent fileContent = new ByteArrayContent(File.ReadAllBytes(kv.Value));
 					form_data.Add(fileContent, kv.Key, Path.GetFileName(kv.Value));
 				}
+			}
+
 			return form_data;
 		}
 
@@ -276,7 +297,7 @@ namespace SebeClient
 			saveCookies();
 		}
 
-		private void saveCookies(){
+		private void saveCookies() {
 			var formatter = new SoapFormatter();
 			using (Stream s = File.Create(cookie_path))
 				formatter.Serialize(s, cookies);
