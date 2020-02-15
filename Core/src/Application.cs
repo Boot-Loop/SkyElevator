@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-using Core.utils;
-using Core.Data;
+using Core.Utils;
 
-namespace Core.src
+namespace Core
 {
 	/* a Singleton class to manage runtime application */
 	public class Application

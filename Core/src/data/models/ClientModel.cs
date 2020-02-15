@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.src.documents
+namespace Core.Data.Models
 {
-	public class ClientModel : IXmlData
+	public class ClientModel
 	{
 		public TextField		name				= new TextField();
 		public TextField		address				= new TextField();
@@ -17,12 +17,9 @@ namespace Core.src.documents
 		public NICField			nic					= new NICField();
 		public WebSiteField		website				= new WebSiteField();
 
-		public XmlDataType getType() => XmlDataType.MODEL_CLIENT;
-	}
+		public ClientModel() { }
+		public ClientModel(string name) { this.name.value = name; }
 
-	// TODO: client list as xml file
-	// public class ClientList
-	// {
-	// 	private List<ClientModel> client_model_list = new List<ClientModel>();
-	// }
+		override public string ToString() { return this.name.value; }
+	}
 }

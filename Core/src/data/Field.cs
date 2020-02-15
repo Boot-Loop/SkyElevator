@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-using Core.src;
-using Core.utils;
+using Core;
+using Core.Utils;
 
-namespace Core.src.documents
+namespace Core.Data
 {
     public enum FieldType
     {
@@ -21,26 +22,27 @@ namespace Core.src.documents
     {
         protected string name;
         protected string replace_tag;
-        protected bool is_readonly              = false;
-        protected bool is_required              = false;
-        protected bool is_null                  = true;
+        protected bool is_readonly = false;
+        protected bool is_required = false;
+        protected bool is_null = true;
 
-        protected object last_value             = null; // value before validation
-        protected bool last_value_valid         = true;
-        protected string validation_error_msg   = "";
+        protected object last_value = null; // value before validation
+        protected bool last_value_valid = true;
+        protected string validation_error_msg = "";
 
-        public string getName()  => name;
+        public string getName() => name;
         public bool isReadonly() => is_readonly;
 
-        abstract public object      getDefault();
-        abstract public void        setValue(object value, bool is_readonly = false);
-        abstract public object      getValue();
-        abstract public FieldType   getType();
+        abstract public object getDefault();
+        abstract public void setValue(object value, bool is_readonly = false);
+        abstract public object getValue();
+        abstract public FieldType getType();
 
         public string getReplaceTag() => replace_tag;
         public void setRequired(bool is_required) => this.is_required = is_required;
         public bool isRequired() => is_required;
         public bool isNull() => is_null;
+        public void setToNull() { this.is_null = true; }
         public void setValidationErrorMsg(string msg) => validation_error_msg = msg;
         public string getValidationErrorMsg() { 
             if (last_value_valid) return ""; 
@@ -246,8 +248,8 @@ namespace Core.src.documents
 				if (is_readonly) throw new ReadonlyError();
                 last_value = value;
                 this._value = value;
-                is_null = false;
-			}
+                is_null = (value == default(DateTime));
+            }
 		}
 
         private DateTimeField() { }
@@ -410,16 +412,20 @@ namespace Core.src.documents
 
     public class DropDownField<T> : Field
     {
-        List<T> items = new List<T>();
+        private ObservableCollection<T> items = new ObservableCollection<T>();
         T _value;
         T default_value;
         public T value {
             get { return _value; }
             set {
                 if (is_readonly) throw new ReadonlyError();
-                last_value = value;
+                if (!items.Contains(value)) {
+                    items.Add(value);
+                    Logger.logger.logWarning("drop down field add & set item which was not in items list");
+                }
+                last_value  = value;
                 this._value = value;
-                is_null = false;
+                is_null     = false;
             }
         }
 
@@ -428,7 +434,7 @@ namespace Core.src.documents
             this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly; 
             this.validation_error_msg = validation_error_msg;
         }
-        public DropDownField(List<T> items, bool is_readonly = false, T default_value = default(T), bool is_required = false, string validation_error_msg = "") {
+        public DropDownField(ObservableCollection<T> items, bool is_readonly = false, T default_value = default(T), bool is_required = false, string validation_error_msg = "") {
             this.items = items; this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly; 
             this.validation_error_msg = validation_error_msg;
         }
@@ -436,11 +442,15 @@ namespace Core.src.documents
         public override object getDefault() => default_value;
         public override FieldType getType() => FieldType.DROP_DOWN;
         public override object getValue() => value;
-        public override void setValue(object value, bool is_readonly = false) { throw new NotSupportedException(); }
+        public override void setValue(object value, bool is_readonly = false) { 
+            if (value != null) { this.value = (T)value; }
+            this.is_readonly = is_readonly; 
+        }
         public void addItem(T item) { items.Add(item); }
-        public void setItem(int index) { this.value = items[index]; } // throws exception if index is out of range
-        public void setItems(List<T> items) { this.items = items; }
-        public List<T> getItems() => items;
+        public void setItemIndex(int index) { this.value = items[index]; } // throws exception if index is out of range
+        public int getItemIndex() { return items.IndexOf(value); }
+        public void setItems(ObservableCollection<T> items) { this.items = items; }
+        public ObservableCollection<T> getItems() => items;
     }
     
 

@@ -8,9 +8,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-using Core.src;
-
-namespace Core.utils {
+namespace Core.Utils {
 	/* ********** USAGE ****************
 	 * 
 	 * constructor:
@@ -52,13 +50,14 @@ namespace Core.utils {
 	 ***********************************/
 	public class XmlFile<DataClass>
 	{
-		private string file_path;
-		private DataClass data;
+		private string file_path = null;
+		private DataClass data   = default(DataClass);
 
-		public XmlFile(string file_path) {
-			this.file_path = file_path;
-		}
 		public XmlFile() { }
+		public XmlFile(string file_path = null, DataClass data = default(DataClass)) {
+			this.file_path = file_path;
+			this.data = data;
+		}
 
 		public void setPath(string file_path) {
 			this.file_path = file_path;

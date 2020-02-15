@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 
-using Core.src;
 
-namespace Core.Data
+namespace Core
 {
 	public class ProjectData
 	{

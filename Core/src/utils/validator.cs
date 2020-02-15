@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 /* use this as an api for your own validator or 
  * any 3rd party validator library.
  */
-namespace Core.utils
+namespace Core.Utils
 {
 	public class Validator
 	{

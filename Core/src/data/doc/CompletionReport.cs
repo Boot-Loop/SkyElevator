@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.src;
-using Core.utils;
+using Core.Utils;
 using Xceed.Words.NET;
 
-namespace Core.src.documents
+namespace Core.Data.Doc
 {
     public class CompletionReportData : IDocumentData
     {

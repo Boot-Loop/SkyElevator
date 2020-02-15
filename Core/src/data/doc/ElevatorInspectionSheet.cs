@@ -1,4 +1,4 @@
-﻿using Core.utils;
+﻿using Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xceed.Words.NET;
 
-namespace Core.src.documents
+namespace Core.Data.Doc
 {
     public class ElevatorInspectionSheetData : IDocumentData
     {

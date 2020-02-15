@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.src.documents
+namespace Core.Data
 {
 	public enum XmlDataType
 	{
@@ -13,8 +13,6 @@ namespace Core.src.documents
 		INSTALLATION_MECHANICAL,
 		INSTALLATION_ELECTRICAL,
 		INSTALLATION_TESTING,
-
-		MODEL_CLIENT,
 	}
 
 	public interface IXmlData
