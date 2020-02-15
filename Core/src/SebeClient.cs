@@ -10,8 +10,7 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
-using Core.utils;
-using Core.src;
+using Core.Utils;
 /*
  every methods which connects to the backend throws this exception
 		"System.Net.Http.HttpRequestException"
@@ -38,7 +37,7 @@ using Core.src;
  * 
  */
 
-namespace SebeClient
+namespace Core.SebeClient
 {
 	public class Client
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Core.src.documents
+namespace Core.Data.Xml
 {
 	public class ClientProgress : IXmlData
 	{

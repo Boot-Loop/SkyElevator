@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using Xceed.Words.NET;
 using System.IO;
 
-using Core.src;
-using Core.utils;
+using Core.Utils;
 
-namespace Core.src.documents
+namespace Core.Data.Doc
 {
 	public class InquirySheetData : IDocumentData
 	{

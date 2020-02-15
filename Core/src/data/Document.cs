@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-using Core.utils;
+using Core.Utils;
 
-namespace Core.src.documents
+namespace Core.Data
 {
 	public enum DocumentType
 	{

@@ -49,16 +49,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Application.cs" />
-    <Compile Include="src\documents\doc\CompletionReport.cs" />
-    <Compile Include="src\documents\doc\ElevatorInspectionSheet.cs" />
-    <Compile Include="src\documents\Field.cs" />
-    <Compile Include="src\documents\Document.cs" />
-    <Compile Include="src\documents\doc\InquirySheet.cs" />
-    <Compile Include="src\documents\doc\WarrantyCertification.cs" />
-    <Compile Include="src\documents\XmlData.cs" />
-    <Compile Include="src\documents\xml\ClientList.cs" />
-    <Compile Include="src\documents\xml\InstallationTracking.cs" />
-    <Compile Include="src\documents\xml\ProgressTracking.cs" />
+    <Compile Include="src\data\doc\CompletionReport.cs" />
+    <Compile Include="src\data\doc\ElevatorInspectionSheet.cs" />
+    <Compile Include="src\data\Field.cs" />
+    <Compile Include="src\data\Document.cs" />
+    <Compile Include="src\data\doc\InquirySheet.cs" />
+    <Compile Include="src\data\doc\WarrantyCertification.cs" />
+    <Compile Include="src\data\models\ProjectModel.cs" />
+    <Compile Include="src\data\XmlData.cs" />
+    <Compile Include="src\data\models\ClientModel.cs" />
+    <Compile Include="src\data\xml\InstallationTracking.cs" />
+    <Compile Include="src\data\xml\ProgressTracking.cs" />
     <Compile Include="src\ProjectManager.cs" />
     <Compile Include="src\SebeClient.cs" />
     <Compile Include="src\Core.cs" />

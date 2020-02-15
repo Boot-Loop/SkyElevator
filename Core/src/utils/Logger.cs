@@ -5,9 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Core.src;
-
-namespace Core.utils
+namespace Core.Utils
 {
 	public class Logger
 	{
@@ -21,7 +19,7 @@ namespace Core.utils
 		 * *********************************
 		 */
 
-		private static Logger static_logger = new Logger();
+		public static Logger logger = new Logger();
 		private static String time_format = "HH:mm:ss";
 
 		public enum LogLevel

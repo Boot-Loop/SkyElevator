@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Core.src.documents;
-using Core.src;
+using Core.Data;
+using Core;
 
 namespace SkyElevator.src.models
 {
