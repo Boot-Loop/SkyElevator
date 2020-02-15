@@ -13,6 +13,8 @@ namespace Core.src.documents
 		INSTALLATION_MECHANICAL,
 		INSTALLATION_ELECTRICAL,
 		INSTALLATION_TESTING,
+
+		MODEL_CLIENT,
 	}
 
 	public interface IXmlData

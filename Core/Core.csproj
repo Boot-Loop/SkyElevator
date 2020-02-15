@@ -56,6 +56,7 @@
     <Compile Include="src\documents\doc\InquirySheet.cs" />
     <Compile Include="src\documents\doc\WarrantyCertification.cs" />
     <Compile Include="src\documents\XmlData.cs" />
+    <Compile Include="src\documents\xml\ClientList.cs" />
     <Compile Include="src\documents\xml\InstallationTracking.cs" />
     <Compile Include="src\documents\xml\ProgressTracking.cs" />
     <Compile Include="src\ProjectManager.cs" />
