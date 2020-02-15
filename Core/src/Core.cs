@@ -36,12 +36,28 @@ namespace Core.src
     }
 
     /* custom exceptions */
+
+    /* sebe client */
 	public class NotLoggedInError : Exception
 	{
 		public NotLoggedInError() : base("NotLoggedInError") { }
 		public NotLoggedInError(string name) : base("NotLoggedInError: " + name) { }
 	}
 
+	public class HttpNotFoundError : Exception
+    {
+        public HttpNotFoundError() : base("HttpNotFoundError") { }
+        public HttpNotFoundError(string name) : base("HttpNotFoundError: " + name) { }
+    }
+
+    public class HttpBadRequestError : Exception
+    {
+        public HttpBadRequestError() : base("HttpBadRequestError") { }
+        public HttpBadRequestError(string name) : base("HttpBadRequestError: " + name) { }
+    }
+
+
+    /* document errors */
 	public class ReadonlyError : Exception
 	{
 		public ReadonlyError() : base ("ReadonlyError") { }
@@ -60,12 +76,8 @@ namespace Core.src
         public InvalidPathError(string name) : base("InvalidPathError: " + name) { }
     }
 	
-	public class HttpNotFoundError : Exception
-    {
-        public HttpNotFoundError() : base("HttpNotFoundError") { }
-        public HttpNotFoundError(string name) : base("HttpNotFoundError: " + name) { }
-    }
-	
+
+    /* other errors */
     public class AlreadyExistsError : Exception
     {
         public AlreadyExistsError() : base("AlreadyExistsError") { }

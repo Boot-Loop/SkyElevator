@@ -84,7 +84,7 @@ namespace SebeClient
 		public async Task getRequest(string path) {
 			response = await http_client.GetAsync( new Uri(uri, path ) );
 			await saveResponse();
-			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
+			checkResponse(path);
 		}
 		/* private overloaded requests */
 		private async Task postRequest(string path, HttpContent content = null, bool drf = false)
@@ -92,14 +92,14 @@ namespace SebeClient
 			if (drf) await getDrfCsrfToken(path);
 			response = await http_client.PostAsync(new Uri(uri, path), content);
 			await saveResponse();
-			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
+			checkResponse(path);
 		}
 		private async Task putRequest(string path, HttpContent content = null, bool drf = false)
 		{
 			if (drf) await getDrfCsrfToken(path);
 			response = await http_client.PutAsync(new Uri(uri, path), content);
 			await saveResponse();
-			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
+			checkResponse(path);
 		}
 		private async Task patchRequest(string path, HttpContent content=null, bool drf = false)
 		{
@@ -109,7 +109,7 @@ namespace SebeClient
 			request.Content = content;
 			response = await http_client.SendAsync(request);
 			await saveResponse();
-			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
+			checkResponse(path);
 		}
 
 		/* low level requests */
@@ -117,7 +117,7 @@ namespace SebeClient
 			if (drf) await getDrfCsrfToken(path);
 			this.response = await this.http_client.DeleteAsync(new Uri(this.uri, path));
 			await saveResponse();
-			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + path);
+			checkResponse(path);
 		}
 
 		public async Task postRequest(string path, Dictionary<string,string> post_data = null, Dictionary<string, string> attach_files = null, bool drf = false) {		
@@ -135,7 +135,7 @@ namespace SebeClient
 		/* high level requests */
 		public async Task login(string username, string password) {
 			await this.getRequest(Urls.LOGIN);
-			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + Urls.LOGIN);
+			checkResponse(Urls.LOGIN);
 			string csrfmiddlewaretoken = this.getCookieValue("csrftoken"); // csrfmiddlewaretoken, sessionid
 			if (csrfmiddlewaretoken is null) throw new Exception("csrftoken not found in cookies");
 			Dictionary<string, string> post_data = new Dictionary<string, string>();
@@ -143,12 +143,13 @@ namespace SebeClient
 			post_data.Add("username", username);
 			post_data.Add("password", password);
 			await this.postRequest(Urls.LOGIN, post_data);
-			if (getStatusCode() == 404) throw new HttpNotFoundError("path = " + Urls.LOGIN);
+			checkResponse(Urls.LOGIN);
 			logger.logSuccess("successfully logged in");
 		}
 
 		public async Task logout() {
 			await getRequest(Urls.LOGOUT);
+			checkResponse(Urls.LOGOUT);
 		}
 
 		/********* getters and setters **********/
@@ -206,7 +207,8 @@ namespace SebeClient
 		/// <param name="dir_path">path to the directory (file name and extension will added from the response)</param>
 		/// <param name="mode">the file mode to open</param>
 		/// <returns></returns>
-		public async Task saveResponseAttachment( string dir_path, FileMode mode = FileMode.OpenOrCreate ) {
+		public async Task saveResponseAttachment( string dir_path, FileMode mode = FileMode.OpenOrCreate ) 
+		{
 			string fileToWriteTo = System.IO.Path.Combine(dir_path, getResponseAttachmentName());
 			if (File.Exists(fileToWriteTo)) logger.logWarning("file already exists overriding : "+ fileToWriteTo);
 			using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync())
@@ -214,17 +216,18 @@ namespace SebeClient
 					await streamToReadFrom.CopyToAsync(streamToWriteTo);
 		}
 
-		public CookieContainer loadCookies() { // if error no app_data_folder
+		// TODO:
+		public CookieContainer loadCookies() {
 			var formatter = new SoapFormatter();
 			CookieContainer retrievedCookies = null;
-			using (Stream s = File.OpenRead(cookie_path))
-				retrievedCookies = (CookieContainer)formatter.Deserialize(s);
-
+			using (Stream stream = File.OpenRead(cookie_path))
+				retrievedCookies = (CookieContainer)formatter.Deserialize(stream);
 			return retrievedCookies;
 		}
 		///////////////////////////// PRIVARE METHODS ///////////////////////////////////
 		
-		public static string getFirstMatch(string text, string expr) { // used in getDrfCsrfToken
+		// used in getDrfCsrfToken
+		public static string getFirstMatch(string text, string expr) {
 			MatchCollection mc = Regex.Matches(text, expr);
 			foreach (Match m in mc) {
 				return m.ToString();
@@ -234,20 +237,9 @@ namespace SebeClient
 
 		private async Task<KeyValuePair<string, string>> getDrfCsrfToken(string path)
 		{
-			try { 
-				this.response = await http_client.GetAsync(new Uri(this.uri, path + "?format=api"));
-				await saveResponse();
-			} catch (Exception err) { throw err; }
-
-			logger.logInfo( "DrfToken request - response code:" + getStatusCode().ToString());
-			if (getStatusCode() == 404) {
-				logger.logError("Error: DrfToken request failed - not found error, path " + path);
-				throw new HttpNotFoundError("path = " + path);
-			}
-			if (getStatusCode() == 307) {
-				logger.logError("Error: DrfToken request failed - not logged in (cookie may expired)");
-				throw new NotLoggedInError();
-			}
+			this.response = await http_client.GetAsync(new Uri(this.uri, path + "?format=api"));
+			await saveResponse();
+			checkResponse(path + "?format=api");
 
 			string token_re = @"csrfHeaderName\s*:\s*"".*""\s*,\s*csrfToken\s*:\s*"".*""";
 			string match = getFirstMatch(await getResponseString(), token_re);
@@ -286,6 +278,27 @@ namespace SebeClient
 			}
 
 			return form_data;
+		}
+
+		private void checkResponse(string path) {
+			switch (getStatusCode())
+			{
+				case 404:
+					{
+						logger.logError("Error: 404 not found : " + path);
+						throw new HttpNotFoundError("path : " + path);
+					}
+				case 307:
+					{
+						logger.logError("Error: not logged in (cookie may expired)");
+						throw new NotLoggedInError();
+					}
+				case 400:
+					{
+						logger.logError("Error: bad request : " + path);
+						throw new HttpBadRequestError("path :" + path);
+					}
+			}
 		}
 
 
