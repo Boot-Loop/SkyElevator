@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Data.Models
 {
+	[Serializable]
 	public class ProjectModel
 	{
 		public TextField		name				= new TextField();

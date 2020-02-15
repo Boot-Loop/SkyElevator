@@ -8,6 +8,7 @@ using Xceed.Words.NET;
 
 namespace Core.Data.Doc
 {
+    [Serializable]
     public class WarrantyCertificationData : IDocumentData
         {
             public List<Field> fields = new List<Field>();
