@@ -10,7 +10,8 @@ using Core.Utils;
 
 namespace Core.Data.Doc
 {
-	public class InquirySheetData : IDocumentData
+    [Serializable]
+    public class InquirySheetData : IDocumentData
 	{
         public List<Field> fields = new List<Field>();
 

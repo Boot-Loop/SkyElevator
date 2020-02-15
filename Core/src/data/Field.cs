@@ -18,6 +18,7 @@ namespace Core.Data
         DROP_DOWN,
     }
 
+    [Serializable]
     public abstract class Field
     {
         protected string name;
@@ -52,7 +53,8 @@ namespace Core.Data
     }
 
 
-	public class TextField : Field
+    [Serializable]
+    public class TextField : Field
 	{
 		
         string default_value    = null;
@@ -94,6 +96,7 @@ namespace Core.Data
         virtual public void _validate(string value) { }
     }
 
+    [Serializable]
     public class BoolField : Field
     {
         
@@ -133,6 +136,7 @@ namespace Core.Data
     }
 
 
+    [Serializable]
     public class IntergerField : Field 
 	{
 		bool is_positive    = false;
@@ -180,6 +184,7 @@ namespace Core.Data
         public bool isPositive() => is_positive;
     }
 
+    [Serializable]
     public class FloatField : Field 
 	{
 		bool is_positive        = false;
@@ -227,7 +232,8 @@ namespace Core.Data
         public bool isPositive() => is_positive;
     }
 
-	public class DateTimeField : Field
+    [Serializable]
+    public class DateTimeField : Field
 	{
         public enum Format
         {
@@ -275,7 +281,7 @@ namespace Core.Data
             if (format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException();
             setReplaceTags(replace_tags);
 		}
-		public DateTimeField(string name, List<string> replace_tags, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY, bool is_required = false) {
+		public DateTimeField(string name, List<string> replace_tags, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY, bool is_required = false, string validation_error_msg = "") {
 			this.name = name; this._value = datetime; this.is_readonly = is_readonly; this.format = format; 
             this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
             if (format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException(); is_null = false;
@@ -342,6 +348,7 @@ namespace Core.Data
         }
     }
 
+    [Serializable]
     public class EmailField : TextField
     {
         private EmailField() { }
@@ -359,6 +366,7 @@ namespace Core.Data
         }
     }
 
+    [Serializable]
     public class PhoneNumberField : TextField
     {
         private PhoneNumberField() { }
@@ -376,6 +384,7 @@ namespace Core.Data
         }
     }
 
+    [Serializable]
     public class NICField : TextField
     {
         private NICField() { }
@@ -392,7 +401,8 @@ namespace Core.Data
             // todo:
         }
     }
-    
+
+    [Serializable]
     public class WebSiteField : TextField
     {
         private WebSiteField() { }
@@ -410,6 +420,7 @@ namespace Core.Data
         }
     }
 
+    [Serializable]
     public class DropDownField<T> : Field
     {
         private ObservableCollection<T> items = new ObservableCollection<T>();

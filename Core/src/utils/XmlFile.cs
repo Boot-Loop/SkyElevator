@@ -50,51 +50,33 @@ namespace Core.Utils {
 	 ***********************************/
 	public class XmlFile<DataClass>
 	{
+		static Logger logger = new Logger();
+
 		private string file_path = null;
 		private DataClass data   = default(DataClass);
 
 		public XmlFile() { }
-		public XmlFile(string file_path = null, DataClass data = default(DataClass)) {
-			this.file_path = file_path;
-			this.data = data;
-		}
+		public XmlFile(string file_path = null, DataClass data = default(DataClass)) { this.file_path = file_path; this.data = data; }
 
-		public void setPath(string file_path) {
-			this.file_path = file_path;
-		}
-		public string getPath() {
-			return this.file_path;
-		}
-
-		public void setData(DataClass data) {
-			this.data = data;
-		}
-		public DataClass getData() {
-			// if (data == null) throw new NullReferenceException("project file data was null");
-			return data;
-		}
-
+		public void setPath(string file_path) => this.file_path = file_path;
+		public string getPath() => this.file_path;
+		
+		public void setData(DataClass data) => this.data = data;
+		public DataClass getData() => data;
+		
 		public void save() {
-			// if (data == null) throw new Exception("data was null - use setData() or load()");
-			save(data);
-		}
-		public void save(DataClass data) {
-			if (this.file_path == null) throw new Exception("file_path was null");
-
-			if (!this.data.Equals(data) && data != null) this.data = data;
+			if (this.file_path == null) logger.logError("save xml file path was null");
+			if ( this.data.Equals(default(DataClass)) ) logger.logError("data was default(DataClass) : null data");
 			XmlSerializer serializer = new XmlSerializer(typeof(DataClass));
-			using (TextWriter writer = new StreamWriter(this.file_path))
-			{
+			using (TextWriter writer = new StreamWriter(this.file_path)) {
 				serializer.Serialize(writer, this.data);
 			}
 		}
 
 		public DataClass load() {
-			if (this.file_path == null) throw new NullReferenceException("file_path was null");
-
+			if (this.file_path == null) logger.logError("save xml file path was null");
 			XmlSerializer deserializer = new XmlSerializer(typeof(DataClass));
-			using (TextReader reader = new StreamReader(this.file_path))
-			{
+			using (TextReader reader = new StreamReader(this.file_path)) {
 				data = (DataClass)deserializer.Deserialize(reader);
 				return data;
 			}

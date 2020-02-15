@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Data.Models
 {
+	[Serializable]
 	public class ClientModel
 	{
 		public TextField		name				= new TextField();
