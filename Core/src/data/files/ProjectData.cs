@@ -7,11 +7,13 @@ using System.IO;
 using System.Xml.Serialization;
 
 
-namespace Core
+namespace Core.Data.Files
 {
 	public class ProjectData
 	{
-		public ProjectData() {
+		private ProjectData() { }
+		public ProjectData( string project_name = null ) {
+			this.project_name = project_name;
 			foreach ( DirectoryItem dir in ProjectManager.getProjectTemplate()) dirs.addDir(dir);
 			// dirs.getDir(ProjectManager.Dirs.INQUIRY_SHEET).getDir(ProjectManager.Dirs.CLIENT).addFile("inq_sheet_client1.txt");
 		}

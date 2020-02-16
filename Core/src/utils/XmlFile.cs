@@ -73,6 +73,13 @@ namespace Core.Utils {
 			}
 		}
 
+		/// <summary>
+		/// throws :
+		///		InvalidOperationException - if the xml file is currupted
+		///		FileNotFoundException     - if the file not found
+		///		ArgumentNullException     - if the file_path is null
+		/// </summary>
+		/// <returns></returns>
 		public DataClass load() {
 			if (this.file_path == null) logger.logError("save xml file path was null");
 			XmlSerializer deserializer = new XmlSerializer(typeof(DataClass));

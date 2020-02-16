@@ -18,6 +18,8 @@ namespace Core
 
         public static readonly string EXECUTABLE         = new DirectoryInfo(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)).FullName;
         public static readonly string DOCUMENT_TEMPLATE  = Path.Combine(EXECUTABLE, "templates");
+        public static readonly string PROGRAME_DATA_FILE = Path.Combine(PROGRAMME_DATA, "data.xml");
+        public static readonly string CLIENTS_DATA_FILE  = Path.Combine(PROGRAMME_DATA, "clients.dat");
 
         public class Template
         {

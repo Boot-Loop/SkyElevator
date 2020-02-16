@@ -64,27 +64,18 @@ namespace Core.Data
 			get { return _value; }
 			set {
 				if (is_readonly) throw new ReadonlyError();
-                last_value = value; 
-                last_value_valid = false;
-                _validate(value); 
-                last_value_valid = true;
+                last_value = value;
+                if (value != null) {
+                    last_value_valid = false;
+                    _validate(value);
+                    last_value_valid = true;
+                    is_null = false;
+                }
 				this._value = value;
-                is_null = false;
 			}
 		}
         private TextField() { }
-        public TextField(bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "" ) { 
-            this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required;  this.validation_error_msg = validation_error_msg;
-        }
-        public TextField( string value, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") { 
-            this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-        /* constructor for document */
-		public TextField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") {
-            this.name = name; this.replace_tag = replace_tag; this.is_readonly = is_readonly; 
-            this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-        public TextField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") {
+        public TextField(string name = null, string replace_tag = null, string text=null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") {
             this.name = name; this.replace_tag = replace_tag; this.value = text; this.is_readonly = is_readonly;  
             this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
         }
@@ -114,16 +105,7 @@ namespace Core.Data
         }
 
         private BoolField() { }
-        public BoolField(bool value, bool is_readonly = false, bool default_value = false, string validation_error_msg = "") { 
-            this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; this.validation_error_msg = validation_error_msg;
-        }
-
-        /* constructor for document */
-        public BoolField(string name, string replace_tag, bool read_only = false, bool default_value = false, string validation_error_msg = "") {
-            this.name = name; this.replace_tag = replace_tag; this.is_readonly = read_only; 
-            this.default_value = default_value; this.validation_error_msg = validation_error_msg;
-        }
-        public BoolField(string name, string replace_tag, bool value, bool read_only, bool default_value = false, string validation_error_msg = "") {
+        public BoolField(string name = null, string replace_tag = null, bool value = false, bool read_only = false, bool default_value = false, string validation_error_msg = "") {
             this.name = name; this.replace_tag = replace_tag; this.value = value; this.is_readonly = read_only;
             this.default_value = default_value; this.validation_error_msg = validation_error_msg;
         }
@@ -158,21 +140,7 @@ namespace Core.Data
 		}
 
         private IntergerField() { }
-        public IntergerField(bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false, string validation_error_msg = "") {
-            this.is_positive = is_positive; this.is_readonly = is_readonly; 
-            this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-        public IntergerField(long value, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false, string validation_error_msg = "") {
-            this.value = value; this.is_positive = is_positive; this.is_readonly = is_readonly; 
-            this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-
-        /* constructor for document */
-        public IntergerField(string name, string replace_tag, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false, string validation_error_msg = "") {
-			this.name = name; this.is_positive = is_positive; this.is_readonly = is_readonly; this.replace_tag = replace_tag;
-            this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-		public IntergerField(string name, string replace_tag, long value, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false, string validation_error_msg = "") {
+		public IntergerField(string name = null, string replace_tag = null, long value = 0, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false, string validation_error_msg = "") {
 			this.name = name; this.is_positive = is_positive; this.value = value; this.is_readonly = is_readonly;
             this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
         }
@@ -206,21 +174,7 @@ namespace Core.Data
 		}
 
         private FloatField() { }
-        public FloatField(bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false, string validation_error_msg = "") { 
-            this.is_positive = is_positive; this.is_readonly = is_readonly; 
-            this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-        public FloatField( double value, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false, string validation_error_msg = "") { 
-            this.value = value; this.is_positive = is_positive; this.is_readonly = is_readonly; 
-            this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-
-        /* constructor for document */
-		public FloatField(string name, string replace_tag, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false, string validation_error_msg = "") {
-			this.name = name; this.is_positive = is_positive; this.is_readonly = is_readonly;
-            this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-		public FloatField(string name, string replace_tag, double value, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false, string validation_error_msg = "") {
+		public FloatField(string name = null, string replace_tag = null, double value =0, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false, string validation_error_msg = "") {
 			this.name = name; this.is_positive = is_positive; this.value = value; this.is_readonly = is_readonly;
             this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
         }
@@ -259,33 +213,16 @@ namespace Core.Data
 		}
 
         private DateTimeField() { }
-        public DateTimeField(bool is_readonly = false, DateTime default_value = new DateTime(), bool is_required = false, string validation_error_msg = "") { 
-            this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-        public DateTimeField( DateTime value, bool is_readonly = false, DateTime default_value = new DateTime(), bool is_required = false, string validation_error_msg = "") { 
-            this.value = value; this.is_readonly = is_readonly; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-
-        /* constructor for document */
-		public DateTimeField(string name, string replace_tag, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY, bool is_required = false, string validation_error_msg = "") {
-			this.name = name; this.is_readonly = is_readonly; this.replace_tag = replace_tag; 
-            this.default_value = default_value; this.format = format; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-		public DateTimeField(string name, string replace_tag, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY, bool is_required = false, string validation_error_msg = "") {
-			this.name = name; this._value = datetime; this.is_readonly = is_readonly; this.format = format;
-            this.replace_tag = replace_tag; this.default_value = default_value; is_null = false; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-        }
-        public DateTimeField(string name, List<string> replace_tags, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY, bool is_required = false, string validation_error_msg = "") {
-			this.name = name; this.is_readonly = is_readonly; this.default_value = default_value; 
-            this.format = format; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-            if (format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException();
-            setReplaceTags(replace_tags);
-		}
-		public DateTimeField(string name, List<string> replace_tags, DateTime datetime, bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.DDSUP_MTXT_YYYY, bool is_required = false, string validation_error_msg = "") {
+		public DateTimeField(string name = null, string replace_tag = null, List<string> replace_tags = null, DateTime datetime = default(DateTime), bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY, bool is_required = false, string validation_error_msg = "") {
+            if (replace_tag != null && replace_tags != null) throw new ArgumentException("it's ambigues to decide to use replace_tag and replace_tags");
+            if (replace_tags != null) {
+                format = Format.DDSUP_MTXT_YYYY;
+                setReplaceTags(replace_tags);
+            }
+            else if (format == Format.DDSUP_MTXT_YYYY) throw new ArgumentException("format DDSUP_MTXT_YYYY can only be use for multiple replace tag");
+            // if (replace_tags!= null && format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException(); is_null = false;
 			this.name = name; this._value = datetime; this.is_readonly = is_readonly; this.format = format; 
             this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-            if (format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException(); is_null = false;
-            setReplaceTags(replace_tags);
 		}
 
         public void setReplaceTags(List<string> replace_tags) {
@@ -352,12 +289,7 @@ namespace Core.Data
     public class EmailField : TextField
     {
         private EmailField() { }
-        public EmailField(bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(is_readonly : is_readonly, default_value : default_value, is_required : is_required, validation_error_msg : validation_error_msg) { }
-        public EmailField(string value, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(value: value, is_readonly : is_readonly, default_value : default_value, is_required : is_required, validation_error_msg : validation_error_msg) { }
-        /* constructor for document */
-        public EmailField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        :base(name: name, replace_tag: replace_tag, is_readonly : is_readonly, default_value : default_value, is_required : is_required, validation_error_msg:validation_error_msg) { }
-        public EmailField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
+        public EmailField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
         :base (name: name, replace_tag: replace_tag, text: text, is_readonly : is_readonly, default_value : default_value, is_required : is_required, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.EMAIL;
@@ -370,12 +302,7 @@ namespace Core.Data
     public class PhoneNumberField : TextField
     {
         private PhoneNumberField() { }
-        public PhoneNumberField(bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        public PhoneNumberField(string value, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(value: value, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        /* constructor for document */
-        public PhoneNumberField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        : base(name: name, replace_tag: replace_tag, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        public PhoneNumberField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
+        public PhoneNumberField(string name = null, string replace_tag=null, string text=null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
         : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.PHONE_NUMBER;
@@ -388,12 +315,7 @@ namespace Core.Data
     public class NICField : TextField
     {
         private NICField() { }
-        public NICField(bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        public NICField(string value, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(value: value, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        /* constructor for document */
-        public NICField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        : base(name: name, replace_tag: replace_tag, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        public NICField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
+        public NICField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
         : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.NIC;
@@ -406,12 +328,7 @@ namespace Core.Data
     public class WebSiteField : TextField
     {
         private WebSiteField() { }
-        public WebSiteField(bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        public WebSiteField(string value, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") : base(value: value, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        /* constructor for document */
-        public WebSiteField(string name, string replace_tag, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        : base(name: name, replace_tag: replace_tag, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
-        public WebSiteField(string name, string replace_tag, string text, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
+        public WebSiteField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
         : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.WEB_SITE;
@@ -441,12 +358,8 @@ namespace Core.Data
         }
 
         private DropDownField() { }
-        public DropDownField(bool is_readonly = false, T default_value = default(T), bool is_required = false, string validation_error_msg = "") {
-            this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly; 
-            this.validation_error_msg = validation_error_msg;
-        }
-        public DropDownField(ObservableCollection<T> items, bool is_readonly = false, T default_value = default(T), bool is_required = false, string validation_error_msg = "") {
-            this.items = items; this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly; 
+        public DropDownField( string name = null, ObservableCollection<T> items = null, bool is_readonly = false, T default_value = default(T), bool is_required = false, string validation_error_msg = "") {
+            this.name = name; this.items = items; this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly; 
             this.validation_error_msg = validation_error_msg;
         }
 
@@ -460,7 +373,10 @@ namespace Core.Data
         public void addItem(T item) { items.Add(item); }
         public void setItemIndex(int index) { this.value = items[index]; } // throws exception if index is out of range
         public int getItemIndex() { return items.IndexOf(value); }
-        public void setItems(ObservableCollection<T> items) { this.items = items; }
+        public void setItems(ObservableCollection<T> items) { 
+            this.items = items;
+            if (!this.items.Contains(this.value)) { this.value = default(T); is_null = true; }
+        }
         public ObservableCollection<T> getItems() => items;
     }
     

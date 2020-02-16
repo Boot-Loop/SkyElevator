@@ -7,91 +7,49 @@ using Xceed.Words.NET;
 using System.IO;
 
 using Core.Utils;
+using System.Reflection;
 
 namespace Core.Data.Doc
 {
     [Serializable]
-    public class InquirySheetData : IDocumentData
+    public class InquirySheetData : DocumentData
 	{
-        public List<Field> fields = new List<Field>();
+        public TextField  client_name              { get; set; } =  new TextField( name:"Client Name"            , replace_tag:"<client name>");
+        public TextField  type                     { get; set; } =  new TextField( name:"Type"                   , replace_tag:"<type>");
+        public TextField  capacity                 { get; set; } =  new TextField( name:"Capacity"               , replace_tag:"<capacity>" );
+        public TextField  speed                    { get; set; } =  new TextField( name:"Speed"                  , replace_tag:"<speed>" );
+        public TextField  travel_height            { get; set; } =  new TextField( name:"Travel Height"          , replace_tag:"<travel height>" );
+        public TextField  serving_floors_stops     { get; set; } =  new TextField( name:"Serving Floors Stops"   , replace_tag:"<serving floors>" );
+        public TextField  floor_displaying         { get; set; } =  new TextField( name:"Floor Displaying"       , replace_tag:"<floor displaying>" );
+        public TextField  quantity                 { get; set; } =  new TextField( name:"Quantity"               , replace_tag:"<quantity>" );
+        public TextField  motion_controller        { get; set; } =  new TextField( name:"Motion Controller"      , replace_tag:"<motion controller>" );
+        public TextField  drive_control            { get; set; } =  new TextField( name:"Drive Control"          , replace_tag:"<drive control>" );
+        public TextField  position_mc_room         { get; set; } =  new TextField( name:"Position M/C room"      , replace_tag:"<position of m/c room>" );
+        public TextField  door_operator            { get; set; } =  new TextField( name:"Door Operator"          , replace_tag:"<door operator>" );
+        public TextField  door_open_type           { get; set; } =  new TextField( name:"Dor Open Type"          , replace_tag:"<door open type>" );
+        public TextField  power_supply             { get; set; } =  new TextField( name:"Power Supply"           , replace_tag:"<power supply>" );
+        public TextField  car_dimension            { get; set; } =  new TextField( name:"Car Dimension"          , replace_tag:"<car dimension>" );
+        public TextField  car_side_walls           { get; set; } =  new TextField( name:"Car Side Walls"         , replace_tag:"<car side walls>" );
+        public TextField  rear_walls               { get; set; } =  new TextField( name:"Rear Walls"             , replace_tag:"<rear walls>" );
+        public TextField  car_door                 { get; set; } =  new TextField( name:"Car Door"               , replace_tag:"<car doors>" );
+        public TextField  hand_rail                { get; set; } =  new TextField( name:"Hand Rail"              , replace_tag:"<hand rail>" );
+        public TextField  flooring                 { get; set; } =  new TextField( name:"Flooring"               , replace_tag:"<flooring>" );
+        public TextField  ceiling_light            { get; set; } =  new TextField( name:"Ceiling Light"          , replace_tag:"<ceiling light>" );
+        public TextField  ventilation              { get; set; } =  new TextField( name:"Ventilation"            , replace_tag:"<ventilation>" );
+        public TextField  car_sill                 { get; set; } =  new TextField( name:"Car Sill"               , replace_tag:"<car sill>" );
+        public TextField  safety                   { get; set; } =  new TextField( name:"Safety"                 , replace_tag:"<safety>" );
+        public TextField  pit_buffers              { get; set; } =  new TextField( name:"Pit Buffers"            , replace_tag:"<pit buffers>" );
+        public TextField  available                { get; set; } =  new TextField( name:"Available"              , replace_tag:"<available>" );
+        public TextField  overhead_height          { get; set; } =  new TextField( name:"Overhead Height"        , replace_tag:"<overhead height>" );
+        public TextField  pit_depth                { get; set; } =  new TextField( name:"Pit Depth"              , replace_tag:"<pit depth>" );
+        public TextField  indicator_type           { get; set; } =  new TextField( name:"Indicator Type"         , replace_tag:"<indicator type>" );
+        public TextField  push_button              { get; set; } =  new TextField( name:"Push Button"            , replace_tag:"<push button>" );
+        public TextField  landing_door_size        { get; set; } =  new TextField( name:"Landing Door Size"      , replace_tag:"<landing door size>" );
+        public TextField  landing_door_finishing   { get; set; } =  new TextField( name:"Landing Door Finishing" , replace_tag:"<landing door finishing>" );
+        public TextField landing_door_jambs        { get; set; } =  new TextField( name: "Landing Door Jambs"    , replace_tag: "<landing door jambs>");
 
-        public TextField  client_name              =  new TextField("Client Name"            , "<client name>");
-        public TextField  type                     =  new TextField("Type"                   , "<type>");
-        public TextField  capacity                 =  new TextField("Capacity"               , "<capacity>" );
-        public TextField  speed                    =  new TextField("Speed"                  , "<speed>" );
-        public TextField  travel_height            =  new TextField("Travel Height"          , "<travel height>" );
-        public TextField  serving_floors_stops     =  new TextField("Serving Floors Stops"   , "<serving floors>" );
-        public TextField  floor_displaying         =  new TextField("Floor Displaying"       , "<floor displaying>" );
-        public TextField  quantity                 =  new TextField("Quantity"               , "<quantity>" );
-        public TextField  motion_controller        =  new TextField("Motion Controller"      , "<motion controller>" );
-        public TextField  drive_control            =  new TextField("Drive Control"          , "<drive control>" );
-        public TextField  position_mc_room         =  new TextField("Position M/C room"      , "<position of m/c room>" );
-        public TextField  door_operator            =  new TextField("Door Operator"          , "<door operator>" );
-        public TextField  door_open_type           =  new TextField("Dor Open Type"          , "<door open type>" );
-        public TextField  power_supply             =  new TextField("Power Supply"           , "<power supply>" );
-        public TextField  car_dimension            =  new TextField("Car Dimension"          , "<car dimension>" );
-        public TextField  car_side_walls           =  new TextField("Car Side Walls"         , "<car side walls>" );
-        public TextField  rear_walls               =  new TextField("Rear Walls"             , "<rear walls>" );
-        public TextField  car_door                 =  new TextField("Car Door"               , "<car doors>" );
-        public TextField  hand_rail                =  new TextField("Hand Rail"              , "<hand rail>" );
-        public TextField  flooring                 =  new TextField("Flooring"               , "<flooring>" );
-        public TextField  ceiling_light            =  new TextField("Ceiling Light"          , "<ceiling light>" );
-        public TextField  ventilation              =  new TextField("Ventilation"            , "<ventilation>" );
-        public TextField  car_sill                 =  new TextField("Car Sill"               , "<car sill>" );
-        public TextField  safety                   =  new TextField("Safety"                 , "<safety>" );
-        public TextField  pit_buffers              =  new TextField("Pit Buffers"            , "<pit buffers>" );
-        public TextField  available                =  new TextField("Available"              , "<available>" );
-        public TextField  overhead_height          =  new TextField("Overhead Height"        , "<overhead height>" );
-        public TextField  pit_depth                =  new TextField("Pit Depth"              , "<pit depth>" );
-        public TextField  indicator_type           =  new TextField("Indicator Type"         , "<indicator type>" );
-        public TextField  push_button              =  new TextField("Push Button"            , "<push button>" );
-        public TextField  landing_door_size        =  new TextField("Landing Door Size"      , "<landing door size>" );
-        public TextField  landing_door_finishing   =  new TextField("Landing Door Finishing" , "<landing door finishing>" );
-        public TextField  landing_door_jambs       =  new TextField("Landing Door Jambs"     , "<landing door jambs>");
-
-        /* constructor */
-        public InquirySheetData()
-        {
-            fields.Add(client_name);
-            fields.Add(type);
-            fields.Add(capacity);
-            fields.Add(speed);
-            fields.Add(travel_height);
-            fields.Add(serving_floors_stops);
-            fields.Add(floor_displaying);
-            fields.Add(quantity);
-            fields.Add(motion_controller);
-            fields.Add(drive_control);
-            fields.Add(position_mc_room);
-            fields.Add(door_operator);
-            fields.Add(door_open_type);
-            fields.Add(power_supply);
-            fields.Add(car_dimension);
-            fields.Add(car_side_walls);
-            fields.Add(rear_walls);
-            fields.Add(car_door);
-            fields.Add(hand_rail);
-            fields.Add(flooring);
-            fields.Add(ceiling_light);
-            fields.Add(ventilation);
-            fields.Add(car_sill);
-            fields.Add(safety);
-            fields.Add(pit_buffers);
-            fields.Add(available);
-            fields.Add(overhead_height);
-            fields.Add(pit_depth);
-            fields.Add(indicator_type);
-            fields.Add(push_button);
-            fields.Add(landing_door_size);
-            fields.Add(landing_door_finishing);
-            fields.Add(landing_door_jambs);
-        }
-
-		public void setToDefault() {
-            throw new NotImplementedException();
-        }
-
-		public DocumentType getType() => DocumentType.INQUERY_SHEET;
+		override public void setToDefault() { throw new NotImplementedException(); }
+		override public DocumentType getType() => DocumentType.INQUERY_SHEET;
 
 	} // InquirySheetData
 
@@ -108,7 +66,7 @@ namespace Core.Data.Doc
 
 		/* methods */
 		override public DocumentType getType()  => DocumentType.INQUERY_SHEET;
-		override public IDocumentData getData() => data;
+		override public DocumentData getData() => data;
 
         override public void loadDocument(bool is_readonly = false) {
 
@@ -134,7 +92,7 @@ namespace Core.Data.Doc
 
             for (int i = 2; i < document_data.Count; i++) {
                 if (i % 2 == 0){
-                    data.fields[i / 2].setValue(document_data[i], is_readonly); /* TODO: all values are assumed as strings <- might be an error in future! */
+                    data._fields[i / 2].setValue(document_data[i], is_readonly); /* TODO: all values are assumed as strings <- might be an error in future! */
                 }
             }
 
@@ -147,7 +105,7 @@ namespace Core.Data.Doc
 
         override public void saveAsDraft() {
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);
-            foreach ( Field field in data.fields) {
+            foreach ( Field field in data._fields) {
                 if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), field.getReplaceTag());
                 else template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
             }
@@ -159,7 +117,7 @@ namespace Core.Data.Doc
         public override void generateDocument(string path) {
             if (!Validator.validateFilePath(path, is_new: true) || (path == null)) throw new InvalidPathError();
             var template = DocX.Load(Paths.Template.INQUERY_SHEET);
-            foreach (Field field in data.fields) {
+            foreach (Field field in data._fields) {
                 if (field.getValue() == null)  template.ReplaceText(field.getReplaceTag(), "");
                 else template.ReplaceText(field.getReplaceTag(), field.getValue().ToString());
             }
