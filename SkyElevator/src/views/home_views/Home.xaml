@@ -9,8 +9,6 @@
         mc:Ignorable="d" Background="{StaticResource COLOR_PRIMARY_LIGHTER}"
         Title="Home" Height="768" Width="1366">
 
-
-
     <DockPanel>
         <Menu Height="22" DockPanel.Dock="Top" Margin="2 2 0 0" Style="{DynamicResource MenuCommon}">
             <MenuItem Header="_File" >
@@ -82,36 +80,59 @@
                 </Grid>
                 <GridSplitter Grid.Column="0" Width="3"/>
                 <Grid Grid.Column="1">
-                    
-                    <tab:ScrollableTabControl ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Margin="5"
-                                   BorderBrush="Gray" BorderThickness="0" IsAddItemEnabled="False" 
+                    <StackPanel VerticalAlignment="Center">
+                        <Image Source="/res/images/Sky_Elevator_Logo.png" Width="200"/>
+                        <Label Content="Welcome to SkyElevator" Style="{DynamicResource LabelSubTitle}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+                    </StackPanel>
+                    <tab:ScrollableTabControl ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                                   BorderBrush="Gray" BorderThickness="0" IsAddItemEnabled="False"                                              
                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <tab:ScrollableTabControl.ItemContainerStyle>
                             <Style TargetType="TabItem">
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type TabItem}">
-                                            <Border x:Name="tab" Background="Blue" BorderThickness="1,1,1,0" BorderBrush="DarkBlue" Padding="5">
+                                            <Border x:Name="tab" Background="Blue" BorderThickness="1 0 1 0" BorderBrush="DarkBlue" Padding="0">
                                                 <Grid>
                                                     <ContentPresenter   x:Name="contentPresenter" ContentSource="Header"
-                                TextBlock.Foreground="Black"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Left"/>
+                                                        TextBlock.Foreground="Black"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"/>    
                                                 </Grid>
                                             </Border>
                                             <ControlTemplate.Triggers>
-                                                <Trigger Property="IsSelected" Value="False">
-                                                    <Setter TargetName="tab" Property="Background" Value="LightBlue"/>
-                                                    <Setter TargetName="tab" Property="BorderBrush" Value="Blue"/>
-                                                </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsSelected" Value="False"/>
+                                                        <Condition Property="IsMouseOver" Value="False"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="tab" Property="Background" Value="{DynamicResource COLOR_PRIMARY_DARK}"/>
+                                                    <Setter TargetName="tab" Property="BorderBrush" Value="Transparent"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsSelected" Value="True"/>
+                                                        <Condition Property="IsMouseOver" Value="False"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="tab" Property="Background" Value="{DynamicResource COLOR_PRIMARY_LIGHTER}"/>
+                                                    <Setter TargetName="tab" Property="BorderBrush" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsSelected" Value="True"/>
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="tab" Property="Background" Value="{DynamicResource COLOR_PRIMARY_LIGHTER}"/>
+                                                    <Setter TargetName="tab" Property="BorderBrush" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
+                                                </MultiTrigger>
                                                 <MultiTrigger>
                                                     <MultiTrigger.Conditions>
                                                         <Condition Property="IsSelected" Value="False" />
                                                         <Condition Property="IsMouseOver" Value="True"/>
                                                     </MultiTrigger.Conditions>
                                                     <MultiTrigger.Setters>
-                                                        <Setter TargetName="tab" Property="BorderBrush" Value="DarkBlue"/>
-                                                        <Setter TargetName="tab" Property="Background" Value="AliceBlue"/>
+                                                        <Setter TargetName="tab" Property="BorderBrush" Value="Transparent"/>
+                                                        <Setter TargetName="tab" Property="Background" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
                                                     </MultiTrigger.Setters>
                                                 </MultiTrigger>
                                             </ControlTemplate.Triggers>
@@ -123,15 +144,14 @@
                         <tab:ScrollableTabControl.ItemTemplate>
 
                             <DataTemplate>
-                                <Grid Height="30" >
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="{Binding Header}" Foreground="Black" VerticalAlignment="Center"/>
-                                    <Button Content="X" FontSize="9" Grid.Column="1" Command="{Binding CloseCommand}" Height="15" Width="15" Margin="5,0,0,0" Padding="0" />
-                                </Grid>
+                                <StackPanel Height="30" Orientation="Horizontal">
+                                    <Label Content="{Binding Header}" Foreground="Black" VerticalAlignment="Center" FontSize="12"/>
+                                    <Button Command="{Binding CloseCommand}" Height="15" Width="15" Margin="5,0,2,0" BorderThickness="0" Background="Transparent">
+                                        <Button.Content>
+                                            <Image Source="/res/icons/close.png" Height="9" Width="9"/>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
                             </DataTemplate>
                         </tab:ScrollableTabControl.ItemTemplate>
                         <tab:ScrollableTabControl.ContentTemplate>
