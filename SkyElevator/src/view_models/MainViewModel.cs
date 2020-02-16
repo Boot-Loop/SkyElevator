@@ -36,8 +36,9 @@ namespace SkyElevator.src.view_models
 
         public void AddItem()
         {
+            ProgressTrackerSupplier PTS = new ProgressTrackerSupplier();
             var nextIndex = this.Items.Count + 1;
-            var newItem = new TabItemViewModel("Added tab item " + nextIndex, new ProgressTrackerSupplier(), this.CloseItem);
+            var newItem = new TabItemViewModel("Added tab item " + nextIndex, PTS, this.CloseItem);
             this.Items.Add(newItem);
             this.SelectedItem = newItem;
             RaisePropertyChanged("SelectedItem");

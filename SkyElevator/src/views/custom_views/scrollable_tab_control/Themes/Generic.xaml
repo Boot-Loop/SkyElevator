@@ -24,7 +24,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Border Margin="{StaticResource DefaultButtonMargin}" >
-                                <RepeatButton Content="&lt;" x:Name="TabLeftButtonTop" Style="{TemplateBinding TabLeftButtonTopStyle}" Padding="0" Width="30"/>
+                                <RepeatButton Content="&lt;" x:Name="TabLeftButtonTop" Style="{TemplateBinding TabLeftButtonTopStyle}" Padding="0" Width="20"/>
                             </Border>
 
                             <Grid  Grid.Column="1" HorizontalAlignment="Left" >
@@ -33,7 +33,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <ScrollViewer x:Name="TabScrollViewerTop" IsTabStop="False" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" 
-                                                  BorderThickness="0" Padding="0,0,0,0" Margin="0,0,0,-1" >
+                                                  BorderThickness="0" Padding="0,0,0,0" Margin="10,0,0,-1" >
                                     <TabPanel x:Name="HeaderPanel" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Margin="2,2,2,0" />
                                 </ScrollViewer>
 
