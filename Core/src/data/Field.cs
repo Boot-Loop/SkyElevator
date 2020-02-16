@@ -215,12 +215,14 @@ namespace Core.Data
         private DateTimeField() { }
 		public DateTimeField(string name = null, string replace_tag = null, List<string> replace_tags = null, DateTime datetime = default(DateTime), bool is_readonly = false, DateTime default_value = new DateTime(), Format format = Format.MM_DD_YYYY, bool is_required = false, string validation_error_msg = "") {
             if (replace_tag != null && replace_tags != null) throw new ArgumentException("it's ambigues to decide to use replace_tag and replace_tags");
-            if (replace_tags != null) format = Format.DDSUP_MTXT_YYYY;
+            if (replace_tags != null) {
+                format = Format.DDSUP_MTXT_YYYY;
+                setReplaceTags(replace_tags);
+            }
             else if (format == Format.DDSUP_MTXT_YYYY) throw new ArgumentException("format DDSUP_MTXT_YYYY can only be use for multiple replace tag");
             // if (replace_tags!= null && format != Format.DDSUP_MTXT_YYYY) throw new ArgumentException(); is_null = false;
 			this.name = name; this._value = datetime; this.is_readonly = is_readonly; this.format = format; 
             this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
-            setReplaceTags(replace_tags);
 		}
 
         public void setReplaceTags(List<string> replace_tags) {

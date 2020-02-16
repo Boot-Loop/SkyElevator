@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections.ObjectModel;
 
 using Core.Utils;
 using Core.Data.Files;
+using Core.Data.Models;
+
 
 namespace Core
 {
@@ -80,6 +83,12 @@ namespace Core
 
 		public List<string> getRecentProjects() => programe_data_file.getData()._recent_projects;
 		public void setRecentProject(int index) => programe_data_file.getData().setMostRecentProject(index);
-		
+
+		// TODO: DANGER changes in client must reflect in database
+		public ObservableCollection<ClientModel> getClients() => clients_file.getData().clients;
+		public void addClient( ClientModel client ) {
+			clients_file.getData().clients.Add(client);
+			clients_file.save();
+		}
 	}
 }
