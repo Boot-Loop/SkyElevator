@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 
 using Core.Utils;
+using System.Reflection;
 
 namespace Core.Data
 {
@@ -19,10 +20,19 @@ namespace Core.Data
         WARRENTY_CERTIFICATION,
         ELEVATOR_INSPECTION_SHEET
 	}
-	public interface IDocumentData
+	public abstract class DocumentData
 	{
-		void setToDefault();
-		DocumentType getType();
+		public abstract void setToDefault();
+		public abstract DocumentType getType();
+
+
+        public List<Field> _fields = new List<Field>();
+        public DocumentData()
+        {
+            foreach (PropertyInfo prop_info in this.GetType().GetProperties()) {
+                if (prop_info.GetValue(this) is Field) _fields.Add((Field)prop_info.GetValue(this));
+            }
+        }
 	}
 
     public abstract class Document
@@ -31,9 +41,9 @@ namespace Core.Data
         protected string path = null;
 
         public abstract DocumentType getType();
-        public abstract IDocumentData getData();
-        public abstract void saveAsDraft(); // save the document as per document data
-        public abstract void close();   // unlock the document file and cleanup
+        public abstract DocumentData getData();
+        public abstract void saveAsDraft();     // save the document as per document data
+        public abstract void close();           // unlock the document file and cleanup
         public abstract void loadDocument(bool is_readonly = false);
         public abstract void generateDocument(string path);
 

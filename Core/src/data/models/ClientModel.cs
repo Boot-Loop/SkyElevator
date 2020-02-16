@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 namespace Core.Data.Models
 {
 	[Serializable]
-	public class ClientModel
+	public class ClientModel : Model
 	{
-		public TextField		name				= new TextField();
-		public TextField		address				= new TextField();
-		public TextField		company				= new TextField();
-		public EmailField		email				= new EmailField();
-		public TextField		position			= new TextField();
-		public PhoneNumberField telephone_number	= new PhoneNumberField();
-		public NICField			nic					= new NICField();
-		public WebSiteField		website				= new WebSiteField();
+		public TextField		name		{ get; set; } = new TextField(		 name:"name"		);
+		public TextField		address		{ get; set; } = new TextField(		 name:"address"		);
+		public TextField		company		{ get; set; } = new TextField(		 name:"company"		);
+		public EmailField		email		{ get; set; } = new EmailField(		 name:"email"		);
+		public TextField		position	{ get; set; } = new TextField(		 name:"position"	);
+		public PhoneNumberField telephone	{ get; set; } = new PhoneNumberField( name:"telephone"	);
+		public NICField			nic			{ get; set; } = new NICField(		 name:"nic"			);
+		public WebSiteField		website		{ get; set; } = new WebSiteField(	 name:"website"		);
 
 		public ClientModel() { }
 		public ClientModel(string name) { this.name.value = name; }

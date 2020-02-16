@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
+using System.Security.AccessControl;
 
 namespace Core
 {
@@ -104,7 +105,7 @@ namespace Core
 			return singleton;
 		}
 
-		public void createNewProject(string project_name, string path) {
+		public void createProjectTemplate(string path, string project_name) {
 			if (!Directory.Exists(path)) throw new InvalidPathError();
 			string project_dir = Path.Combine(path, project_name); // TODO: project_name validation - throws illegal characters in path
 			if (Directory.Exists(project_dir)) throw new AlreadyExistsError("project directory already exists");

@@ -261,7 +261,6 @@ namespace Core.SebeClient
 			var form_data = new MultipartFormDataContent();
 
 			if (kv_data != null) {
-
 				foreach (var kv in kv_data) {
 					StringContent str_content = new StringContent(kv.Value);
 					form_data.Add(str_content, kv.Key);
