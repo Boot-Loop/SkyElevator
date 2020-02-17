@@ -65,8 +65,12 @@
             </StackPanel>
         </Grid>
         <Grid Margin="16 0 16 16">
-            <Border CornerRadius="5" Background="{StaticResource COLOR_WHITE}" Height="200"/>
-            <StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="199*"/>
+                <ColumnDefinition Width="185*"/>
+            </Grid.ColumnDefinitions>
+            <Border CornerRadius="5" Background="{StaticResource COLOR_WHITE}" Height="200" Grid.ColumnSpan="2"/>
+            <StackPanel Grid.ColumnSpan="2">
                 <Label Content="Installation Tracker" Style="{DynamicResource LabelTitleThree}"/>
                 <Grid Height="160">
                     <Grid.ColumnDefinitions>

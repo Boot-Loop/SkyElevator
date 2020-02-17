@@ -22,23 +22,19 @@
             <StackPanel Margin="32 88 32 0" Grid.Column="0" Grid.ColumnSpan="2">
 
                 <Label Content="Project name" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding ProjectModelI.ProjectName}"/>
 
                 <Grid Height="12"/>
 
                 <Label Content="Client" Style="{DynamicResource LabelTitleFour}"/>
-                <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}">
-                    <ComboBoxItem Content="Add new client" Style="{DynamicResource ComboBoxItemCommon}"/>
-                    <ComboBoxItem Content="Arafath" Style="{DynamicResource ComboBoxItemCommon}"/>
-                    <ComboBoxItem Content="Azeem" Style="{DynamicResource ComboBoxItemCommon}"/>
-                </ComboBox>
+                <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}" ItemsSource="{Binding ClientModels}" SelectedItem="{Binding SelectedClient}"/>
 
                 <Separator Height="48" Margin="0 16 0 0" Background="{DynamicResource  COLOR_GREY_LIGHTER}"/>
 
                 <Label Content="Save location" Style="{DynamicResource LabelTitleFour}"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBox Style="{DynamicResource TextBoxContent}" Width="420"/>
-                    <Button Height="20" Width="20" Margin="10 0 0 0" Style="{DynamicResource ButtonCommon}">
+                    <Button Click="Button_Click" Height="20" Width="20" Margin="10 0 0 0" Style="{DynamicResource ButtonCommon}">
                         <Button.Content>
                             <Image Source="/res/icons/more.png" Width="10" Height="10"/>
                         </Button.Content>
@@ -51,15 +47,15 @@
             <StackPanel Margin="32 88 32 0" Grid.Column="1">
 
                 <Label Content="Project location" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding ProjectModelI.ProjectLocation}"/>
 
                 <Grid Height="12"/>
                 <Label Content="Date" Style="{DynamicResource LabelTitleFour}"/>
-                <DatePicker Width="240" Style="{DynamicResource DatePickerCommon}"/>
+                <DatePicker Width="240" Style="{DynamicResource DatePickerCommon}" SelectedDate="{Binding ProjectModelI.ProjectDate, Mode=OneWayToSource}"/>
             </StackPanel>
 
 
         </Grid>
-        <Button Click="nextButtonClick" Content="Next" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+        <Button Click="nextButtonClick" Content="{Binding ButtonContent}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
     </Grid>
 </UserControl>

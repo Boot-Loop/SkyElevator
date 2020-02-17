@@ -1,4 +1,5 @@
 ﻿using SkyElevator.src.models;
+using SkyElevator.src.view_models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +23,23 @@ namespace SkyElevator.src.views.project_manager_views.sub_views
     public partial class NewClient : UserControl
     {
         private ProjectManager project_manager;
+        private NewClientViewModel _new_client_view_model = new NewClientViewModel();
         public NewClient(ProjectManager project_manager)
         {
             InitializeComponent();
-            DataContext = new ClientModel();
+            DataContext = new ClientModelI();
             this.project_manager = project_manager;
+            this.DataContext = _new_client_view_model;
         }
 
         private void backButtonClick(object sender, RoutedEventArgs e)
         {
             project_manager.backButtonPressed();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _new_client_view_model.createNewClient();
         }
     }
 }
