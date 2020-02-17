@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyElevator.src.view_models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,15 +22,23 @@ namespace SkyElevator.src.views.project_manager_views.sub_views
     public partial class NewProject : UserControl
     {
         private ProjectManager project_manager;
+        private NewProjectViewModel _new_project_view_model = new NewProjectViewModel();
         public NewProject(ProjectManager project_manager)
         {
             InitializeComponent();
             this.project_manager = project_manager;
+            this.DataContext = _new_project_view_model;
         }
 
         private void nextButtonClick(object sender, RoutedEventArgs e)
         {
-            project_manager.nextButtonPressed();
+            _new_project_view_model.nextOrCreateCommand();
+            //project_manager.nextButtonPressed();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _new_project_view_model.folderBrowserDialogCommand();
         }
     }
 }

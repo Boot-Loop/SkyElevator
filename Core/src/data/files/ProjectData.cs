@@ -20,6 +20,10 @@ namespace Core.Data.Files
 
 		public String project_name;
 		public String application_version = Reference.VERSION;
+		public string location;
+		public string client_nic;
+		public DateTime date;
+		public DateTime creation_date;
 		public DirectoryItem dirs = new DirectoryItem();
 	}
 }

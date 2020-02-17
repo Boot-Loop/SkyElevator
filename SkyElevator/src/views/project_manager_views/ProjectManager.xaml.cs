@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
+
 namespace SkyElevator.src.views.project_manager_views
 {
     /// <summary>
@@ -23,6 +25,22 @@ namespace SkyElevator.src.views.project_manager_views
         public ProjectManager()
         {
             InitializeComponent();
+
+            Core.Application.getSingleton().initialize();
+
+            foreach( var c in Core.Application.getSingleton().getClients())
+            {
+                Core.Utils.Logger.logger.logWarning(     "name     " + c.name   );
+                Core.Utils.Logger.logger.logWarning(     "address  " + c. address    );
+                Core.Utils.Logger.logger.logWarning(     "company  " + c. company    );
+                Core.Utils.Logger.logger.logWarning(     "email    " + c. email      );
+                Core.Utils.Logger.logger.logWarning(     "position " + c. position   );
+                Core.Utils.Logger.logger.logWarning(     "telephone" + c. telephone  );
+                Core.Utils.Logger.logger.logWarning(     "nic      " + c. nic        );
+                Core.Utils.Logger.logger.logWarning(     "website  " + c. website    );
+                Core.Utils.Logger.logger.log("");
+            }
+
             new_client_content_control.Content = new NewClient(this);
             new_project_content_control.Content = new NewProject(this);
             open_project_content_control.Content = new OpenProject();

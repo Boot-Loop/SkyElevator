@@ -20,14 +20,14 @@
             <StackPanel Margin="32 88 0 0" Grid.Column="0">
 
                 <Label Content="Client name" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientName}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientName}"/>
 
                 <Grid Height="16">
                     <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
                 </Grid>
 
                 <Label Content="Company" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientCompany}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientCompany}"/>
 
 
                 <Grid Height="16">
@@ -35,13 +35,13 @@
                 </Grid>
 
                 <Label Content="Position" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientPosition}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientPosition}"/>
 
                 <Grid Height="16">
                     <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
                 </Grid>
                 <Label Content="NIC" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientNIC}" />
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientNIC}" />
                 <Grid Height="16">
                     <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
                 </Grid>
@@ -49,14 +49,14 @@
             <StackPanel Margin="32 88 0 0" Grid.Column="1">
 
                 <Label Content="Address" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientAddress}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientAddress}"/>
 
                 <Grid Height="16">
                     <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
                 </Grid>
 
                 <Label Content="Email" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientEmail}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientEmail}"/>
 
 
                 <Grid Height="16">
@@ -64,13 +64,13 @@
                 </Grid>
 
                 <Label Content="Telophone number" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientTelephoneNumber}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientTelephoneNumber}"/>
 
                 <Grid Height="16">
                     <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
                 </Grid>
                 <Label Content="Website" Style="{DynamicResource LabelTitleFour}"/>
-                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientWebsite}"/>
+                <TextBox Style="{DynamicResource TextBoxContent}" Text="{Binding Path=ClientModelI.ClientWebsite}"/>
                 <Grid Height="16">
                     <Label Content="" Style="{DynamicResource LabelSubTitle }" Margin="0 -4 0 0"/>
                 </Grid>
@@ -78,7 +78,7 @@
         </Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <Button Click="backButtonClick" Content="Back" Margin="0 0 18 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
-            <Button Content="Create" Margin="0 0 36 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+            <Button Click="Button_Click" Content="Create" Margin="0 0 36 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
         </StackPanel>
     </Grid>
 </UserControl>

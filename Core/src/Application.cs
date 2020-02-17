@@ -43,6 +43,8 @@ namespace Core
 			else { programe_data_file.load(); }
 			if (!File.Exists(Paths.CLIENTS_DATA_FILE)) { clients_file.setData(new ClientsData()); clients_file.save(); }
 			else { clients_file.load(); }
+			// programe_data_file.getData().cleanProjectPaths();
+			// programe_data_file.save(); 
 		}
 
 		// public void loadProjectFile() {
@@ -58,12 +60,19 @@ namespace Core
 		// }
 
 		// throws if path, name is invalid, project directory already exists
-		public void createNewProject(string path, string project_name ) {
+		public void createNewProject(string path, ProjectModel project_model ) {
+			string project_name = project_model.name.value;
 			path = Path.GetFullPath(path);
+
+			ProjectData project_data = new ProjectData(project_name);
+			project_data.location = project_model.location.value;
+			project_data.client_nic = project_model.client.value.nic.value;
+			project_data.creation_date = project_model.creation_date.value;
+			project_data.date = project_model.date.value;
 			ProjectManager.getSingleton().createProjectTemplate(path, project_name);
 			var file_path = Path.Combine(path, project_name, project_name + Reference.PROJECT_FILE_EXTENSION);
 			project_file.setPath( file_path );
-			project_file.setData(new ProjectData( project_name ));
+			project_file.setData(project_data);
 			project_file.save();
 			programe_data_file.getData().addProjectPath(file_path);
 			programe_data_file.save();
@@ -86,7 +95,15 @@ namespace Core
 
 		// TODO: DANGER changes in client must reflect in database
 		public ObservableCollection<ClientModel> getClients() => clients_file.getData().clients;
-		public void addClient( ClientModel client ) {
+		public ObservableCollection<ClientModel> getClientsDropDownList() {
+			ObservableCollection<ClientModel> ret = new ObservableCollection<ClientModel>() { new ClientModel("<create new client>") };
+			foreach (var _client in clients_file.getData().clients) ret.Add(_client);
+			return ret;
+		}
+
+		
+
+			public void addClient( ClientModel client ) {
 			clients_file.getData().clients.Add(client);
 			clients_file.save();
 		}

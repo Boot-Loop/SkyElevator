@@ -68,7 +68,7 @@ namespace Core.Utils {
 			if (this.file_path == null) logger.logError("save xml file path was null");
 			if ( this.data.Equals(default(DataClass)) ) logger.logError("data was default(DataClass) : null data");
 			XmlSerializer serializer = new XmlSerializer(typeof(DataClass));
-			using (TextWriter writer = new StreamWriter(this.file_path)) {
+			using (TextWriter writer = new StreamWriter(this.file_path, false)) {
 				serializer.Serialize(writer, this.data);
 			}
 		}
