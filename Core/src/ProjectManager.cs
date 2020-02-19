@@ -184,6 +184,11 @@ namespace Core
 			}
 		}
 
+		public bool hasProgressTracking() {
+			if (project_file.data is null) throw new NullReferenceException("project data is null"); 
+			return has_progress_tracking[ project_file.data.project_type];
+		}
+
 
 		public void createProjectTemplate(string path, ProjectModel project_model ) {
 			string project_name = project_model.name.value;

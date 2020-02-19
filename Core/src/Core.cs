@@ -78,7 +78,14 @@ namespace Core
         public InvalidPathError() : base("InvalidPathError") { }
         public InvalidPathError(string name) : base("InvalidPathError: " + name) { }
     }
-	
+
+    /* model errors */
+    public class ModelNotExists : Exception
+    {
+        public ModelNotExists() : base("ModelNotExists") { }
+        public ModelNotExists(string name) : base("ModelNotExists: " + name) { }
+    }
+
 
     /* other errors */
     public class AlreadyExistsError : Exception

@@ -22,5 +22,14 @@ namespace Core.Data.Models
 		public ClientModel(string name) { this.name.value = name; }
 
 		override public string ToString() { return this.name.value; }
+
+		public override ModelType getType() => ModelType.MODEL_CLIENT;
+
+		public override bool matchPK(object pk) {
+			 return nic.value == (string)pk;
+		}
+		public override object getPK() {
+			return nic.value;
+		}
 	}
 }
