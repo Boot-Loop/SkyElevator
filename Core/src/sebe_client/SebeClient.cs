@@ -39,7 +39,7 @@ using Core.Utils;
 
 namespace Core.SebeClient
 {
-	public class Client
+	public class SebeClient
     {
 		private class Urls
 		{
@@ -60,7 +60,7 @@ namespace Core.SebeClient
 		private string resp_log_path  = Path.Combine(Paths.SEBE_CLIENT, "resp.html");
 		private string cookie_path    = Path.Combine(Paths.SEBE_CLIENT, "cookies.dat");
 
-		public Client(string uri)
+		public SebeClient(string uri)
 		{
 			try {
 				cookies = loadCookies();
@@ -75,7 +75,7 @@ namespace Core.SebeClient
 			this.http_client = new HttpClient(handler);
 			logger = new Logger();
 		}
-		public Client() : this(Urls.HOST) { }
+		public SebeClient() : this(Urls.HOST) { }
 
 		public void setTimeout(double seconds) => http_client.Timeout = TimeSpan.FromSeconds(seconds);
 		public void dispose() => http_client.Dispose();

@@ -14,17 +14,11 @@ namespace Core.Utils
 	{
 		static Logger logger = new Logger();
 
-		string file_path	= null;
-		DataClass data		= default(DataClass);
+		public string file_path { get; set; } = null;
+		public DataClass data	{ get; set; } = default(DataClass);
 
 		public BinFile() { }
 		public BinFile(string file_path = null, DataClass data = default(DataClass)) { this.file_path = file_path; this.data = data; }
-
-		public void setPath(string file_path) => this.file_path = file_path;
-		public string getPath() => file_path;
-
-		public void setData(DataClass data) => this.data = data;
-		public DataClass getData() => data;
 
 		public void save() {
 			if (file_path == null) logger.logError("save xml file path was null");

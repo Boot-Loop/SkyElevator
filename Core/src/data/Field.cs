@@ -379,7 +379,7 @@ namespace Core.Data
                 if (is_readonly) throw new ReadonlyError();
                 if (!items.Contains(value)) {
                     items.Add(value);
-                    Logger.logger.logWarning("drop down field add & set item which was not in items list");
+                    Logger.logger.logWarning("drop down field add & set item which was not in items list : " + value );
                 }
                 last_value  = value;
                 this._value = value;

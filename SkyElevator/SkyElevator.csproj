@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,8 +60,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\models\ClientModel.cs" />
-    <Compile Include="src\models\ProjectModel.cs" />
+    <Compile Include="src\models\ClientModelI.cs" />
+    <Compile Include="src\models\ProjectModelI.cs" />
     <Compile Include="src\views\alert_views\AlertView.xaml.cs">
       <DependentUpon>AlertView.xaml</DependentUpon>
     </Compile>
@@ -94,6 +95,8 @@
     </Compile>
     <Compile Include="src\view_models\FileTree.cs" />
     <Compile Include="src\view_models\MainViewModel.cs" />
+    <Compile Include="src\view_models\NewClientViewModel.cs" />
+    <Compile Include="src\view_models\NewProjectViewModel.cs" />
     <Compile Include="src\view_models\RelayCommand.cs" />
     <Compile Include="src\view_models\TabItemViewModel.cs" />
   </ItemGroup>

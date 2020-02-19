@@ -49,6 +49,10 @@ namespace Core.Utils
 			}
 		}
 
+		public static void logThrow(Exception err) {
+			logger.logError(err); throw err;
+		}
+
 		public string getLoggerName()	=> logger_name;
 		public string getFilePath()		=> file_path;
 
@@ -58,11 +62,11 @@ namespace Core.Utils
 		public void log(object log_msg, LogLevel level = LogLevel.LEVEL_INFO) {
 			if (this.level <= level) {
 				if (file_path != null) {
-					string log_str = String.Format("[{0}] {1, 7}: {2}", DateTime.Now.ToString(time_format), levelToString(level), log_msg.ToString());
+					string log_str = String.Format("[{0}] {1, 7}: {2}", DateTime.Now.ToString(time_format), levelToString(level), log_msg);
 					File.AppendAllText(file_path, log_str+"\n");
 				}
 				else {
-					string log_str = String.Format("[{0}] {1}", DateTime.Now.ToString(time_format), log_msg.ToString());
+					string log_str = String.Format("[{0}] {1}", DateTime.Now.ToString(time_format), log_msg);
 					consoleColoredLog(log_str, level);	
 				}
 			}

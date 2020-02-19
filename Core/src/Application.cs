@@ -18,8 +18,8 @@ namespace Core
 	{
 		/* attribute */
 		static Logger logger								= new Logger();
-		private XmlFile<ProgrameData> programe_data_file	= new XmlFile<ProgrameData>( file_path: Paths.PROGRAME_DATA_FILE );
-		private BinFile<ClientsData>  clients_file			= new BinFile<ClientsData>(  file_path: Paths.CLIENTS_DATA_FILE  );
+		public XmlFile<ProgrameData> programe_data_file	{ get; } = new XmlFile<ProgrameData>( file_path: Paths.PROGRAME_DATA_FILE );
+		public BinFile<ClientsData> clients_file		{ get; } = new BinFile<ClientsData>(file_path: Paths.CLIENTS_DATA_FILE);
 
 		/* singleton */
 		private Application() { } 
@@ -41,18 +41,22 @@ namespace Core
 			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
 			if (!File.Exists( Paths.PROGRAME_DATA_FILE)) { programe_data_file.data = new ProgrameData(); programe_data_file.save();  }
 			else { programe_data_file.load(); }
-			if (!File.Exists(Paths.CLIENTS_DATA_FILE)) { clients_file.setData(new ClientsData()); clients_file.save(); }
+			if (!File.Exists(Paths.CLIENTS_DATA_FILE)) { clients_file.data = new ClientsData(); clients_file.save(); }
 			else { clients_file.load(); }
+
+			programe_data_file.data.cleanProjectPaths();
+			programe_data_file.save(); 
 		}
 
 		// throws if path, name is invalid, project directory already exists
-		public void createNewProject(string project_name, string path = null ) {
+
+		public void createNewProject(ProjectModel project_model, string path = null ) {
 			if (path is null) path = programe_data_file.data.default_proj_dir;
 			path = Path.GetFullPath(path);
-			ProjectManager.singleton.createProjectTemplate(path, project_name);
+			ProjectManager.singleton.createProjectTemplate(path, project_model);
 			programe_data_file.data.addProjectPath(ProjectManager.singleton.project_file.path);
 			programe_data_file.save();
-			Directory.SetCurrentDirectory(Path.Combine(path, project_name));
+			Directory.SetCurrentDirectory(Path.Combine(path, project_model.name.value));
 		}
 
 		public void loadProject(string path) {
@@ -65,10 +69,17 @@ namespace Core
 		public void setRecentProject(int index) => programe_data_file.data.setMostRecentProject(index);
 
 		// TODO: DANGER changes in client must reflect in database
-		public ObservableCollection<ClientModel> getClients() => clients_file.getData().clients;
+		public ObservableCollection<ClientModel> getClients() => clients_file.data.clients;
+		public ObservableCollection<ClientModel> getClientsDropDownList() {
+			ObservableCollection<ClientModel> ret = new ObservableCollection<ClientModel>() { new ClientModel("<create new client>") };
+			foreach (var _client in clients_file.data.clients) ret.Add(_client);
+			return ret;
+		}
+
 		public void addClient( ClientModel client ) {
-			clients_file.getData().clients.Add(client);
+			clients_file.data.clients.Add(client);
 			clients_file.save();
+			throw new Exception("TODO: cache to upload");
 		}
 	}
 }

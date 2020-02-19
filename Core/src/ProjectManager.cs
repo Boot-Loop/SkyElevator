@@ -126,10 +126,11 @@ namespace Core
 		}
 
 
-		public void createProjectTemplate(string path, string project_name) {
-			if (!Directory.Exists(path)) throw new InvalidPathError();
+		public void createProjectTemplate(string path, ProjectModel project_model ) {
+			string project_name = project_model.name.value;
+			if (!Directory.Exists(path)) Logger.logThrow( new InvalidPathError() );
 			string project_dir = Path.Combine(path, project_name); // TODO: project_name validation - throws illegal characters in path
-			if (Directory.Exists(project_dir)) throw new AlreadyExistsError("project directory already exists");
+			if (Directory.Exists(project_dir)) Logger.logThrow( new AlreadyExistsError("project directory already exists"));
 			Directory.CreateDirectory(project_dir);
 			foreach (FileTreeItem item in PROJECT_TEMPLATE) buildRecursiveDirectory(project_dir, item);
 
@@ -137,6 +138,11 @@ namespace Core
 			var proj_file_path  = Path.Combine(path, project_name, project_name + Reference.PROJECT_FILE_EXTENSION);
 			project_file.path	= proj_file_path;
 			project_file.data	= new ProjectData(project_name);
+			project_file.data.location		= project_model.location.value;
+			if (project_model.client.isNull()) Logger.logThrow(new Exception("client must not be null for a project"));
+			project_file.data.client_nic	= project_model.client.value.nic.value;
+			project_file.data.creation_date = project_model.creation_date.value;
+			project_file.data.date			= project_model.date.value;
 			project_file.data.dirs.addFile(project_name + Reference.PROJECT_FILE_EXTENSION);
 
 			// progress client
