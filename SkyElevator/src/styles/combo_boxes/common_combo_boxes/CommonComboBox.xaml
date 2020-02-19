@@ -55,6 +55,7 @@
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
         <Setter Property="BorderBrush" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
         <Setter Property="FontFamily" Value="{DynamicResource SYSTEM_FONT_REGULAR}"/>
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource ComboBoxItemCommon}"/>
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">

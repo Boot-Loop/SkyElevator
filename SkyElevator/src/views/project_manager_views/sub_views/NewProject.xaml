@@ -29,14 +29,19 @@
                 <Label Content="Client" Style="{DynamicResource LabelTitleFour}"/>
                 <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}" ItemsSource="{Binding ClientModels}" SelectedItem="{Binding SelectedClient}"/>
 
+                <Grid Height="12"/>
+
+                <Label Content="Project type" Style="{DynamicResource LabelTitleFour}"/>
+                <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}" ItemsSource="{Binding ProjectTypes}" SelectedItem="{Binding SelectedProjectType}"/>
+
                 <Separator Height="48" Margin="0 16 0 0" Background="{DynamicResource  COLOR_GREY_LIGHTER}"/>
 
                 <Label Content="Save location" Style="{DynamicResource LabelTitleFour}"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox Style="{DynamicResource TextBoxContent}" Width="420"/>
-                    <Button Click="Button_Click" Height="20" Width="20" Margin="10 0 0 0" Style="{DynamicResource ButtonCommon}">
+                    <TextBox Style="{DynamicResource TextBoxContent}" Width="420" Text="{Binding FolderBrowseCommand.FolderPath}"/>
+                    <Button Command="{Binding FolderBrowseCommand}" Height="20" Width="20" Margin="10 0 0 0" Style="{DynamicResource ButtonCommon}">
                         <Button.Content>
-                            <Image Source="/res/icons/more.png" Width="10" Height="10"/>
+                            <Image Source="/res/icons/more.png" Width="10" Height="8"/>
                         </Button.Content>
                     </Button>
                 </StackPanel>

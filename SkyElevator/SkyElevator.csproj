@@ -93,6 +93,7 @@
     <Compile Include="src\views\project_manager_views\sub_views\OpenProject.xaml.cs">
       <DependentUpon>OpenProject.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\view_models\commands\FolderBrowseCommand.cs" />
     <Compile Include="src\view_models\FileTree.cs" />
     <Compile Include="src\view_models\MainViewModel.cs" />
     <Compile Include="src\view_models\NewClientViewModel.cs" />
@@ -138,9 +139,7 @@
     <Resource Include="res\images\Sky_Elevator_Logo.png" />
     <Resource Include="res\images\warning.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\view_models\commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="src\styles\buttons\common_buttons\CommonButton.xaml">
       <SubType>Designer</SubType>
