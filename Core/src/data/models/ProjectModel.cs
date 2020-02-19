@@ -15,6 +15,7 @@ namespace Core.Data.Models
 		public DropDownField<ClientModel>	client			{ get; set; } = new DropDownField<ClientModel>( name: "client");
 		public DateTimeField				date			{ get; set; } = new DateTimeField(				name: "date");
 		public DateTimeField				creation_date	{ get; set; } = new DateTimeField(				name: "creation_date");
+		public ProjectManager.ProjectType	project_type	{ get; set; } = ProjectManager.ProjectType.INSTALLATION;
 
 		public ProjectModel() {
 			client.setItems( Application.getSingleton().getClientsDropDownList() );

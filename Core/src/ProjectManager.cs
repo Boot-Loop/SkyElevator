@@ -77,6 +77,14 @@ namespace Core
 
 	public class ProjectManager
 	{
+		public enum ProjectType
+		{
+			INSTALLATION,
+			MAINTENANCE,
+			REPAIR_OR_MODERNIZATION,
+			OTHERS,
+		}
+
 		public class Dirs
 		{
 			public static readonly string DOT_SKY_DIR		= ".sky";
@@ -113,16 +121,55 @@ namespace Core
 		private ProjectManager() { }
 
 		private static readonly List<FileTreeItem> PROJECT_TEMPLATE = getProjectTemplate();
-		public static List<FileTreeItem> getProjectTemplate() {
-			return new List<FileTreeItem>() {
-				new DirectoryItem( Dirs.DOT_SKY_DIR		 ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
-				new DirectoryItem( Dirs.INQUIRY_SHEET    ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
-				new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
-				new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
-				new DirectoryItem( Dirs.PROJECT_TRACKING ),
-				new DirectoryItem( Dirs.HANDOVER         ),
-				new DirectoryItem( Dirs.MAINTENANCE      ),
-			};
+		public static List<FileTreeItem> getProjectTemplate(ProjectType project_type = ProjectType.INSTALLATION) {
+			switch (project_type)
+			{
+				case ProjectType.INSTALLATION:
+					{
+						return new List<FileTreeItem>() {
+							new DirectoryItem( Dirs.DOT_SKY_DIR		 ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.INQUIRY_SHEET    ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
+							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
+							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
+							new DirectoryItem( Dirs.PROJECT_TRACKING ),
+							new DirectoryItem( Dirs.HANDOVER         ),
+							new DirectoryItem( Dirs.MAINTENANCE      ),
+						};
+					}
+				case ProjectType.MAINTENANCE:
+					{
+						return new List<FileTreeItem>() {
+							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
+							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
+							new DirectoryItem( Dirs.HANDOVER         ),
+							new DirectoryItem( Dirs.MAINTENANCE      ),
+						};
+					}
+				case ProjectType.REPAIR_OR_MODERNIZATION:
+					{
+						return new List<FileTreeItem>() {
+							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
+							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
+							new DirectoryItem( Dirs.PROJECT_TRACKING ),
+							new DirectoryItem( Dirs.HANDOVER         ),
+							new DirectoryItem( Dirs.MAINTENANCE      ),
+						};
+					}
+				default: // case others
+					{
+						return new List<FileTreeItem>() {
+							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.INQUIRY_SHEET    ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
+							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
+							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
+							new DirectoryItem( Dirs.PROJECT_TRACKING ),
+							new DirectoryItem( Dirs.HANDOVER         ),
+							new DirectoryItem( Dirs.MAINTENANCE      ),
+						};
+					}
+			}
 		}
 
 
@@ -132,7 +179,7 @@ namespace Core
 			string project_dir = Path.Combine(path, project_name); // TODO: project_name validation - throws illegal characters in path
 			if (Directory.Exists(project_dir)) Logger.logThrow( new AlreadyExistsError("project directory already exists"));
 			Directory.CreateDirectory(project_dir);
-			foreach (FileTreeItem item in PROJECT_TEMPLATE) buildRecursiveDirectory(project_dir, item);
+			foreach (FileTreeItem item in getProjectTemplate(project_model.project_type)) buildRecursiveDirectory(project_dir, item);
 
 			// project file
 			var proj_file_path  = Path.Combine(path, project_name, project_name + Reference.PROJECT_FILE_EXTENSION);
@@ -145,19 +192,30 @@ namespace Core
 			project_file.data.date			= project_model.date.value;
 			project_file.data.dirs.addFile(project_name + Reference.PROJECT_FILE_EXTENSION);
 
-			// progress client
-			progress_client.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_CLIENT);
-			progress_client.data = new ClientProgressModel();
-			progress_client.save();
-			project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_CLIENT);
+			var file_items = getProjectTemplate(project_model.project_type);
+			foreach(var item in file_items) {
+				if (item is DirectoryItem) {
+					if (((DirectoryItem)item).name == Dirs.PROJECT_TRACKING) {
+						// progress client
+						progress_client.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_CLIENT);
+						progress_client.data = new ClientProgressModel();
+						progress_client.save();
+						project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_CLIENT);
 
-			// progress supplier
-			progress_supplier.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_SUPPLIER);
-			progress_supplier.data = new SupplierProgressModel();
-			progress_supplier.save();
-			project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_SUPPLIER);
+						// progress supplier
+						progress_supplier.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_SUPPLIER);
+						progress_supplier.data = new SupplierProgressModel();
+						progress_supplier.save();
+						project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_SUPPLIER);
+
+						break;
+					}
+				}
+			}
 
 			project_file.save();
+			
+
 		}
 
 		public void loadProject(string path) {
