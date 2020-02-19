@@ -132,7 +132,7 @@
                                                     </MultiTrigger.Conditions>
                                                     <MultiTrigger.Setters>
                                                         <Setter TargetName="tab" Property="BorderBrush" Value="Transparent"/>
-                                                        <Setter TargetName="tab" Property="Background" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
+                                                        <Setter TargetName="tab" Property="Background" Value="{DynamicResource COLOR_PRIMARY_LIGHT}"/>
                                                     </MultiTrigger.Setters>
                                                 </MultiTrigger>
                                             </ControlTemplate.Triggers>

@@ -17,11 +17,27 @@
                 <Grid MaxHeight="324">
 
                     <DataGrid x:Name="payment_tracker" Margin="5 0 5 0" DockPanel.Dock="Bottom" Style="{DynamicResource DataGridCommon}" >
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="{StaticResource COLOR_WHITE}" />
+                                <Setter Property="Height" Value="25"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource COLOR_PRIMARY_LIGHTER}"/>
+                                        <Setter Property="Foreground" Value="{StaticResource COLOR_BLACK}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource COLOR_PRIMARY_DARKER}"/>
+                                        <Setter Property="Foreground" Value="{StaticResource COLOR_BLACK}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date"           Width="*" Binding="{Binding Date}"/>
-                            <DataGridTextColumn Header="Amount"         Width="*" Binding="{Binding Amount}"/>
-                            <DataGridTextColumn Header="Payment Method" Width="*" Binding="{Binding Payment_Method}"/>
-                            <DataGridTextColumn Header="Total"          Width="*" Binding="{Binding Total}"/>
+                            <DataGridTextColumn Header="Date"           Width="*" Binding="{Binding Date}" HeaderStyle="{DynamicResource HeaderStyleDataGridCommon}"/>
+                            <DataGridTextColumn Header="Amount"         Width="*" Binding="{Binding Amount}" HeaderStyle="{DynamicResource HeaderStyleDataGridCommon}"/>
+                            <DataGridTextColumn Header="Payment Method" Width="*" Binding="{Binding Payment_Method}" HeaderStyle="{DynamicResource HeaderStyleDataGridCommon}"/>
+                            <DataGridTextColumn Header="Total"          Width="*" Binding="{Binding Total}" HeaderStyle="{DynamicResource HeaderStyleDataGridCommon}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
