@@ -58,11 +58,11 @@
     <Compile Include="src\data\files\ClientsData.cs" />
     <Compile Include="src\data\models\Model.cs" />
     <Compile Include="src\data\models\ProjectModel.cs" />
-    <Compile Include="src\data\XmlData.cs" />
+    <Compile Include="src\data\ModelData.cs" />
     <Compile Include="src\data\models\ClientModel.cs" />
-    <Compile Include="src\data\xml\InstallationTracking.cs" />
-    <Compile Include="src\data\xml\ProgressTracking.cs" />
+    <Compile Include="src\data\models\ProgressTrackingModel.cs" />
     <Compile Include="src\data\files\ProgrameData.cs" />
+    <Compile Include="src\data\model_api\ModelAPI.cs" />
     <Compile Include="src\ProjectManager.cs" />
     <Compile Include="src\sebe_client\SebeClient.cs" />
     <Compile Include="src\Core.cs" />

@@ -13,6 +13,7 @@ namespace Core
 		/* if these dirs not exists -> create them on initialize */
 		public static readonly string APP_DATA           = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		public static readonly string PROGRAMME_DATA     = Path.Combine(APP_DATA, "SkyElevator/");
+        public static readonly string DEFAULT_PROJ_DIR   = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SkyElevator/" );
 		public static readonly string SEBE_CLIENT        = Path.Combine(PROGRAMME_DATA, "sebe_client/");
 		public static readonly string LOGS               = Path.Combine(PROGRAMME_DATA, "logs/");
 

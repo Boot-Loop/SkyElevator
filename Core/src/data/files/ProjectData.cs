@@ -14,7 +14,10 @@ namespace Core.Data.Files
 		private ProjectData() { }
 		public ProjectData( string project_name = null ) {
 			this.project_name = project_name;
-			foreach ( DirectoryItem dir in ProjectManager.getProjectTemplate()) dirs.addDir(dir);
+			foreach (FileTreeItem item in ProjectManager.getProjectTemplate()) {
+				if (item is DirectoryItem) dirs.addDir((DirectoryItem)item);
+				else if (item is FileItem) dirs.addFile((FileItem)item);
+			}
 			// dirs.getDir(ProjectManager.Dirs.INQUIRY_SHEET).getDir(ProjectManager.Dirs.CLIENT).addFile("inq_sheet_client1.txt");
 		}
 

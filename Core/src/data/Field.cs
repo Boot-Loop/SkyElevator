@@ -15,7 +15,7 @@ namespace Core.Data
     public enum FieldType
     {
         TEXT, INTEGER, BOOL, FLOAT, DATE_TIME, DIMENTION, EMAIL, PHONE_NUMBER, NIC, WEB_SITE,
-        DROP_DOWN,
+        DROP_DOWN, LIST_FIELD,
     }
 
     [Serializable]
@@ -338,11 +338,41 @@ namespace Core.Data
     }
 
     [Serializable]
+    public class ListField<T> : Field
+    {
+        private List<T> default_value;
+        private List<T> _value;
+        [XmlArray]
+        public  List<T> value {
+            get { return _value; }
+            set {
+                if (is_readonly) throw new ReadonlyError();
+                last_value = value;
+                this._value = value;
+                is_null = false;
+            }
+        }
+
+        private ListField() { }
+        public ListField(string name = null, List<T> list = null, bool is_readonly = false, List<T> default_value = null, bool is_required = false, string validation_error_msg = "") {
+            this.name = name; this.value = list; this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly;
+            this.validation_error_msg = validation_error_msg;
+        }
+
+        public override object getDefault() => default_value;
+        public override FieldType getType() => FieldType.LIST_FIELD;
+        public override object getValue() => value;
+        public override void setValue(object value, bool is_readonly = false) {
+            this.value = (List<T>)value; this.is_readonly = is_readonly; is_null = false;
+        }
+    }
+
+    [Serializable]
     public class DropDownField<T> : Field
     {
         private ObservableCollection<T> items = new ObservableCollection<T>();
-        T _value;
         T default_value;
+        T _value;
         public T value {
             get { return _value; }
             set {

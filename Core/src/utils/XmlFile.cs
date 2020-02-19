@@ -52,23 +52,17 @@ namespace Core.Utils {
 	{
 		static Logger logger = new Logger();
 
-		private string file_path = null;
-		private DataClass data   = default(DataClass);
+		public string path { get; set; } = null;
+		public DataClass data	{ get; set; } = default(DataClass);
 
 		public XmlFile() { }
-		public XmlFile(string file_path = null, DataClass data = default(DataClass)) { this.file_path = file_path; this.data = data; }
-
-		public void setPath(string file_path) => this.file_path = file_path;
-		public string getPath() => this.file_path;
-		
-		public void setData(DataClass data) => this.data = data;
-		public DataClass getData() => data;
+		public XmlFile(string file_path = null, DataClass data = default(DataClass)) { this.path = file_path; this.data = data; }
 		
 		public void save() {
-			if (this.file_path == null) logger.logError("save xml file path was null");
+			if (this.path == null) logger.logError("save xml file path was null");
 			if ( this.data.Equals(default(DataClass)) ) logger.logError("data was default(DataClass) : null data");
 			XmlSerializer serializer = new XmlSerializer(typeof(DataClass));
-			using (TextWriter writer = new StreamWriter(this.file_path)) {
+			using (TextWriter writer = new StreamWriter(this.path)) {
 				serializer.Serialize(writer, this.data);
 			}
 		}
@@ -81,9 +75,9 @@ namespace Core.Utils {
 		/// </summary>
 		/// <returns></returns>
 		public DataClass load() {
-			if (this.file_path == null) logger.logError("save xml file path was null");
+			if (this.path == null) logger.logError("save xml file path was null");
 			XmlSerializer deserializer = new XmlSerializer(typeof(DataClass));
-			using (TextReader reader = new StreamReader(this.file_path)) {
+			using (TextReader reader = new StreamReader(this.path)) {
 				data = (DataClass)deserializer.Deserialize(reader);
 				return data;
 			}

@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace Core.Data
 {
-	public enum XmlDataType
+	public enum ModelDataType
 	{
 		PROGRESS_CLIENT,
 		PROGRESS_SUPPLIER,
 		INSTALLATION_MECHANICAL,
 		INSTALLATION_ELECTRICAL,
 		INSTALLATION_TESTING,
+		PAYMENT,
 	}
 
-	public interface IXmlData
+	public interface IModelData
 	{
-		XmlDataType getType();
+		ModelDataType getType();
 	}
 
 	/* xml file is at the utils directory */
