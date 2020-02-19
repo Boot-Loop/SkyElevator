@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkyElevator.src.views.alert_views"
-        mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="AlertView" Height="200" Width="440">
     <StackPanel Background="{StaticResource COLOR_PRIMARY_LIGHTER}">
         <Grid Height="40" Background="{StaticResource COLOR_PRIMARY_LIGHT}">

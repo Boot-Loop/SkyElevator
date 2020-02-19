@@ -35,10 +35,5 @@ namespace SkyElevator.src.views.project_manager_views.sub_views
             _new_project_view_model.nextOrCreateCommand();
             //project_manager.nextButtonPressed();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            _new_project_view_model.folderBrowserDialogCommand();
-        }
     }
 }
