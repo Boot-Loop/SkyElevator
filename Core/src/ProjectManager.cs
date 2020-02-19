@@ -84,6 +84,7 @@ namespace Core
 			REPAIR_OR_MODERNIZATION,
 			OTHERS,
 		}
+		private static Dictionary<ProjectType, bool> has_progress_tracking = null;
 
 		public class Dirs
 		{
@@ -105,11 +106,14 @@ namespace Core
 		{
 			public static readonly string PROGRESS_CLIENT	= "progress_client.xml";
 			public static readonly string PROGRESS_SUPPLIER = "progress_supplier.xml";
+			public static readonly string PROGRESS_PAYMENTS = "progress_payments.xml";
 		}
 
-		public XmlFile<ProjectData>				project_file		{ get; set; } = new XmlFile<ProjectData>();
-		public XmlFile<ClientProgressModel>		progress_client		{ get; set; } = new XmlFile<ClientProgressModel>();
-		public XmlFile<SupplierProgressModel>	progress_supplier	{ get; set; } = new XmlFile<SupplierProgressModel>();
+		public XmlFile<ProjectData>				project_file		{ get; } = new XmlFile<ProjectData>();
+		public XmlFile<ClientProgressModel>		progress_client		{ get; } = new XmlFile<ClientProgressModel>();
+		public XmlFile<SupplierProgressModel>	progress_supplier	{ get; } = new XmlFile<SupplierProgressModel>();
+		public XmlFile<List<PaymentModel>>		progress_payments	{ get; } = new XmlFile<List<PaymentModel>>();
+
 
 		private static ProjectManager _singleton;
 		public static ProjectManager singleton {
@@ -120,7 +124,15 @@ namespace Core
 		}
 		private ProjectManager() { }
 
-		private static readonly List<FileTreeItem> PROJECT_TEMPLATE = getProjectTemplate();
+		public static void initialize() {
+			if (has_progress_tracking is null) {
+				has_progress_tracking = new Dictionary<ProjectType, bool>();
+				foreach (var type in Enum.GetValues(typeof(ProjectType))) {
+					has_progress_tracking[(ProjectType)type] = hasProgressTracking((ProjectType)type);
+				}
+			}
+		}
+
 		public static List<FileTreeItem> getProjectTemplate(ProjectType project_type = ProjectType.INSTALLATION) {
 			switch (project_type)
 			{
@@ -184,7 +196,7 @@ namespace Core
 			// project file
 			var proj_file_path  = Path.Combine(path, project_name, project_name + Reference.PROJECT_FILE_EXTENSION);
 			project_file.path	= proj_file_path;
-			project_file.data	= new ProjectData(project_name);
+			project_file.data	= new ProjectData(project_name, project_model.project_type);
 			project_file.data.location		= project_model.location.value;
 			if (project_model.client.isNull()) Logger.logThrow(new Exception("client must not be null for a project"));
 			project_file.data.client_nic	= project_model.client.value.nic.value;
@@ -193,48 +205,55 @@ namespace Core
 			project_file.data.dirs.addFile(project_name + Reference.PROJECT_FILE_EXTENSION);
 
 			var file_items = getProjectTemplate(project_model.project_type);
-			foreach(var item in file_items) {
-				if (item is DirectoryItem) {
-					if (((DirectoryItem)item).name == Dirs.PROJECT_TRACKING) {
-						// progress client
-						progress_client.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_CLIENT);
-						progress_client.data = new ClientProgressModel();
-						progress_client.save();
-						project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_CLIENT);
+			if (has_progress_tracking is null) Logger.logThrow(new NullReferenceException("did you call Application.singleton.initialize()"));
+			if (has_progress_tracking[project_model.project_type]) {
 
-						// progress supplier
-						progress_supplier.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_SUPPLIER);
-						progress_supplier.data = new SupplierProgressModel();
-						progress_supplier.save();
-						project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_SUPPLIER);
+				// progress client
+				progress_client.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_CLIENT);
+				progress_client.data = new ClientProgressModel();
+				progress_client.save();
+				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_CLIENT);
 
-						break;
-					}
-				}
+				// progress supplier
+				progress_supplier.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_SUPPLIER);
+				progress_supplier.data = new SupplierProgressModel();
+				progress_supplier.save();
+				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_SUPPLIER);
+
+				// payments
+				progress_payments.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_PAYMENTS);
+				progress_payments.data = new List<PaymentModel>();
+				progress_payments.save();
+				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_PAYMENTS);
 			}
 
 			project_file.save();
-			
-
 		}
 
 		public void loadProject(string path) {
 			project_file.path = path;
 			project_file.load();
+			if (has_progress_tracking is null) Logger.logThrow(new NullReferenceException("did you call Application.singleton.initialize()"));
+			if (has_progress_tracking[project_file.data.project_type]) {
+				path = Path.GetDirectoryName(path);
 
-			path = Path.GetDirectoryName(path);
+				var progress_client_path = Path.Combine(path, project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).getFile(Files.PROGRESS_CLIENT).path);
+				progress_client.path = progress_client_path;
+				progress_client.load();
 
-			var progress_client_path = Path.Combine(path, project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).getFile(Files.PROGRESS_CLIENT).path);
-			progress_client.path = progress_client_path;
-			progress_client.load();
+				var progress_supplier_path = Path.Combine(path, project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).getFile(Files.PROGRESS_SUPPLIER).path);
+				progress_supplier.path = progress_supplier_path;
+				progress_supplier.load();
 
-			var progress_supplier_path = Path.Combine(path, project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).getFile(Files.PROGRESS_SUPPLIER).path);
-			progress_supplier.path = progress_supplier_path;
-			progress_supplier.load();
+				var progress_payments_path = Path.Combine(path, project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).getFile(Files.PROGRESS_PAYMENTS).path);
+				progress_payments.path = progress_payments_path;
+				progress_payments.load();
+			}
+
 		}
 
 		/***** PRIVATE *****/
-		void buildRecursiveDirectory(string path, FileTreeItem item) {
+		private static void buildRecursiveDirectory(string path, FileTreeItem item) {
 			if (item is DirectoryItem) {
 				var directory = (DirectoryItem)item;
 				DirectoryInfo dir_info = Directory.CreateDirectory(Path.Combine(path, directory.path));
@@ -245,5 +264,17 @@ namespace Core
 			}
 			else if (item is FileItem) { } // do nothing
 		}
+
+		private static bool hasProgressTracking(ProjectType type) {
+			var file_items = getProjectTemplate(type);
+			foreach (var item in file_items) {
+				if (item is DirectoryItem) {
+					if (((DirectoryItem)item).name == Dirs.PROJECT_TRACKING)
+						return true;
+				}
+			}
+			return false;
+		}
+
 	}
 }

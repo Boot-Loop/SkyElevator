@@ -9,20 +9,22 @@ using System.Xml.Serialization;
 
 namespace Core.Data.Files
 {
+	[Serializable]
 	public class ProjectData
 	{
 		private ProjectData() { }
-		public ProjectData( string project_name = null ) {
+		public ProjectData( string project_name = null, ProjectManager.ProjectType project_type = ProjectManager.ProjectType.INSTALLATION ) {
 			this.project_name = project_name;
-			foreach (FileTreeItem item in ProjectManager.getProjectTemplate()) {
+			this.project_type = project_type;
+			foreach (FileTreeItem item in ProjectManager.getProjectTemplate(project_type)) {
 				if (item is DirectoryItem) dirs.addDir((DirectoryItem)item);
 				else if (item is FileItem) dirs.addFile((FileItem)item);
 			}
-			// dirs.getDir(ProjectManager.Dirs.INQUIRY_SHEET).getDir(ProjectManager.Dirs.CLIENT).addFile("inq_sheet_client1.txt");
 		}
 
 		public String project_name;
-		public String application_version = Reference.VERSION;
+		public ProjectManager.ProjectType project_type	= ProjectManager.ProjectType.INSTALLATION;
+		public String application_version				= Reference.VERSION;
 		public string location;
 		public string client_nic;
 		public DateTime date;
