@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using SkyElevator.src.views.inquiry_sheet_views;
 using SkyElevator.src.views.progress_tracker_views.supplier;
+using SkyElevator.src.views.progress_tracker_views.client;
 
 namespace SkyElevator.src.view_models
 {
@@ -36,7 +37,7 @@ namespace SkyElevator.src.view_models
 
         public void AddItem()
         {
-            ProgressTrackerSupplier PTS = new ProgressTrackerSupplier();
+            ProgressTrackerClient PTS = new ProgressTrackerClient();
             var nextIndex = this.Items.Count + 1;
             var newItem = new TabItemViewModel("Added tab item " + nextIndex, PTS, this.CloseItem);
             this.Items.Add(newItem);

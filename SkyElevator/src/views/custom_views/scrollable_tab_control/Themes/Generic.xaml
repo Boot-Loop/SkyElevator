@@ -23,8 +23,8 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Border Margin="{StaticResource DefaultButtonMargin}" >
-                                <RepeatButton Content="&lt;" x:Name="TabLeftButtonTop" Style="{TemplateBinding TabLeftButtonTopStyle}" Padding="0" Width="20"/>
+                            <Border Margin="0 4 0 1" >
+                                <RepeatButton Content="&lt;" x:Name="TabLeftButtonTop" Style="{DynamicResource RepeatButtonCommon}" Padding="0" Width="15" Height="25"/>
                             </Border>
 
                             <Grid  Grid.Column="1" HorizontalAlignment="Left" >
@@ -37,13 +37,13 @@
                                     <TabPanel x:Name="HeaderPanel" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Margin="2,2,2,0" />
                                 </ScrollViewer>
 
-                                <Border Grid.Column="1" Margin="{StaticResource DefaultButtonMargin}" Width="{StaticResource HeaderHeight}">
+                                <!--<Border Grid.Column="1" Margin="{StaticResource DefaultButtonMargin}" Width="{StaticResource HeaderHeight}">
                                     <Button x:Name="TabAddItemButton" Grid.Column="1" Padding="0" Content="+"/>
-                                </Border>
+                                </Border>-->
                             </Grid>
 
-                            <Border Grid.Column="2" Margin="{StaticResource DefaultButtonMargin}">
-                                <RepeatButton Content="&gt;" x:Name="TabRightButtonTop"  Style="{TemplateBinding TabRightButtonTopStyle}" Padding="0" Width="30"/>
+                            <Border Grid.Column="2" Margin="8 4 2 1">
+                                <RepeatButton Content="&gt;" x:Name="TabRightButtonTop"  Style="{DynamicResource RepeatButtonCommon}" Padding="0" Width="15" Height="25"/>
                             </Border>
                         </Grid>
 
