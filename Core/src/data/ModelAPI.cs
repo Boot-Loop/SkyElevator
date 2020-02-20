@@ -91,12 +91,11 @@ namespace Core.Data
 		private void generateUploadFiles(HttpRequestMethod method, ModelType model_type, object pk = null, Dictionary<string, object> json = null) {
 			DateTime date_time = DateTime.Now;
 			UploadData upload_data = new UploadData(method, model_type, pk, json, date_time);
-			var cache_dir_path = ProjectManager.singleton.project_file.data.dirs.getDir(ProjectManager.Dirs.DOT_SKY_DIR).getDir(ProjectManager.Dirs.SEBE_CACHE).path;
 			var cache_file_name = date_time.Ticks.ToString() + ".dat";
-			XmlFile<UploadData> upload_file = new XmlFile<UploadData>( file_path: Path.Combine(cache_dir_path, cache_file_name), data : upload_data );
+			XmlFile<UploadData> upload_file = new XmlFile<UploadData>( file_path: Path.Combine(Core.Paths.UPLOAD_CACHE, cache_file_name), data : upload_data );
 			upload_file.save();
-			ProjectManager.singleton.project_file.data.dirs.getDir(ProjectManager.Dirs.DOT_SKY_DIR).getDir(ProjectManager.Dirs.SEBE_CACHE).addFile(cache_file_name);
-			ProjectManager.singleton.project_file.save();
+			Application.getSingleton().programe_data_file.data.upload_cache_files.Add(cache_file_name);
+			Application.getSingleton().programe_data_file.save();
 		}
 
 		private void setModel(object pk)

@@ -45,7 +45,7 @@ namespace SkyElevator.src.view_models
         }
 
         public void createNewProjectWithClient() {
-            CoreApp.getSingleton().addClient(_client_model_i.ClientModel);
+            _client_model_i.api.update();
             NewProjectViewModel new_project_view_model = NewClient.ProjectManager.NewProject.NewProjectViewModel;
             new_project_view_model.ProjectModelI.SelectedClient = _client_model_i.ClientModel;
 

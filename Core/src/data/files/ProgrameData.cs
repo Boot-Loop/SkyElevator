@@ -18,6 +18,10 @@ namespace Core.Data.Files
 		[XmlArrayItem("project")]
 		public List<string> _recent_projects = new List<string>();
 
+		[XmlArray("uploads_caches")]
+		[XmlArrayItem("cache")]
+		public List<string> upload_cache_files = new List<string>();
+
 		public void addProjectPath(string path) {
 			if (!File.Exists(Path.GetFullPath(path))) { Logger.logThrow(new FileNotFoundException("project file not found")); }
 			if (!path.EndsWith(Reference.PROJECT_FILE_EXTENSION)) { Logger.logThrow(new InvalidPathError("project file path must ends with : " + Reference.PROJECT_FILE_EXTENSION)); }

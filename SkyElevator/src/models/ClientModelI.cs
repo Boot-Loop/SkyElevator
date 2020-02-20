@@ -15,53 +15,53 @@ namespace SkyElevator.src.models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ClientModel _client_model = new ClientModel();
+        public ModelAPI<ClientModel> api { get; } = new ModelAPI<ClientModel>(null, ModelApiMode.MODE_CREATE);
 
         public ClientModelI(string name) {
-            _client_model.name.value = name;
+            api.model.name.value = name;
         }
 
         public ClientModelI() {
 
         }
-        public ClientModel ClientModel { get { return _client_model; } }
+        public ClientModel ClientModel { get { return api.model; } }
 
         public string ClientName {
-            get { return _client_model.name.value; }
-            set { _client_model.name.value = value; onPropertyRaised("ClientName"); }
+            get { return api.model.name.value; }
+            set { api.model.name.value = value; onPropertyRaised("ClientName"); }
         }
         public string ClientAddress {
-            get { return _client_model.address.value; }
-            set { _client_model.address.value = value; onPropertyRaised("ClientAddress"); }
+            get { return api.model.address.value; }
+            set { api.model.address.value = value; onPropertyRaised("ClientAddress"); }
         }
         public string ClientCompany {
-            get { return _client_model.company.value; }
-            set { _client_model.company.value = value; onPropertyRaised("ClientCompany"); }
+            get { return api.model.company.value; }
+            set { api.model.company.value = value; onPropertyRaised("ClientCompany"); }
         }
         public string ClientEmail {
-            get { return _client_model.email.value; }
-            set { _client_model.email.value = value; onPropertyRaised("ClientEmail"); }
+            get { return api.model.email.value; }
+            set { api.model.email.value = value; onPropertyRaised("ClientEmail"); }
         }
         public string ClientPosition {
-            get { return _client_model.position.value; }
-            set { _client_model.position.value = value;onPropertyRaised("ClientPosition"); }
+            get { return api.model.position.value; }
+            set { api.model.position.value = value;onPropertyRaised("ClientPosition"); }
         }
         public string ClientTelephoneNumber {
-            get { return _client_model.telephone.value; }
-            set { _client_model.telephone.value = value; onPropertyRaised("ClientTelephoneNumber"); }
+            get { return api.model.telephone.value; }
+            set { api.model.telephone.value = value; onPropertyRaised("ClientTelephoneNumber"); }
         }
         public string ClientNIC {
-            get { return _client_model.nic.value; }
-            set { _client_model.nic.value = value; onPropertyRaised("ClientNIC"); }
+            get { return api.model.nic.value; }
+            set { api.model.nic.value = value; onPropertyRaised("ClientNIC"); }
         }
         public string ClientWebsite {
-            get { return _client_model.website.value; }
-            set { _client_model.website.value = value; onPropertyRaised("ClientWebsite"); }
+            get { return api.model.website.value; }
+            set { api.model.website.value = value; onPropertyRaised("ClientWebsite"); }
         }
 
         public override string ToString()
         {
-            return _client_model.name.value;
+            return api.model.name.value;
         }
 
         private void onPropertyRaised(string property_name) {

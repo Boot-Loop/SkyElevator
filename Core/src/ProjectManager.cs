@@ -90,7 +90,7 @@ namespace Core
 		{
 			public static readonly string DOT_SKY_DIR		= ".sky";
 			public static readonly string DRAFTS			= "drafts";
-			public static readonly string SEBE_CACHE		= "sebe_cache";
+			//public static readonly string SEBE_CACHE		= "sebe_cache";
 
 			public static readonly string CLIENT			= "Client";
 			public static readonly string SUPPLIER			= "Supplier";
@@ -139,7 +139,7 @@ namespace Core
 				case ProjectType.INSTALLATION:
 					{
 						return new List<FileTreeItem>() {
-							new DirectoryItem( Dirs.DOT_SKY_DIR		 ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.DOT_SKY_DIR		 ) .addDir(Dirs.DRAFTS), //.addDir(Dirs.SEBE_CACHE),
 							new DirectoryItem( Dirs.INQUIRY_SHEET    ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
 							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
 							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)	,
@@ -151,7 +151,7 @@ namespace Core
 				case ProjectType.MAINTENANCE:
 					{
 						return new List<FileTreeItem>() {
-							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS), //.addDir(Dirs.SEBE_CACHE),
 							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
 							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
 							new DirectoryItem( Dirs.HANDOVER         ),
@@ -161,7 +161,7 @@ namespace Core
 				case ProjectType.REPAIR_OR_MODERNIZATION:
 					{
 						return new List<FileTreeItem>() {
-							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS), //.addDir(Dirs.SEBE_CACHE),
 							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
 							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
 							new DirectoryItem( Dirs.PROJECT_TRACKING ),
@@ -172,7 +172,7 @@ namespace Core
 				default: // case others
 					{
 						return new List<FileTreeItem>() {
-							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS) .addDir(Dirs.SEBE_CACHE),
+							new DirectoryItem( Dirs.DOT_SKY_DIR      ) .addDir(Dirs.DRAFTS), //.addDir(Dirs.SEBE_CACHE),
 							new DirectoryItem( Dirs.INQUIRY_SHEET    ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
 							new DirectoryItem( Dirs.QUOTATION        ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
 							new DirectoryItem( Dirs.SALES_AGREEMENT  ) .addDir(Dirs.CLIENT) .addDir(Dirs.SUPPLIER)  ,
