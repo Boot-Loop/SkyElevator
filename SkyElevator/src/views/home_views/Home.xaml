@@ -76,7 +76,11 @@
                             <TreeViewItem Header="About NKC"/>
                         </TreeViewItem>
                     </TreeView>
-                    <Button Height="40" Click="Button_Click"></Button>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <Button Content="Inquiry Sheet" Height="40" Click="Button_Click" Width="100" Margin="5"/>
+                        <Button Content="Client" Height="40" Click="Button_Click" Width="100" Margin="5"/>
+                        <Button Content="Supplier" Height="40" Click="Button_Click" Width="100" Margin="5"/>
+                    </StackPanel>
                 </Grid>
                 <GridSplitter Grid.Column="0" Width="3"/>
                 <Grid Grid.Column="1">

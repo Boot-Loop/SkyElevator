@@ -1,4 +1,7 @@
 ﻿using SkyElevator.src.view_models;
+using SkyElevator.src.views.inquiry_sheet_views;
+using SkyElevator.src.views.progress_tracker_views.client;
+using SkyElevator.src.views.progress_tracker_views.supplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +32,11 @@ namespace SkyElevator.src.views.home_views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            mvm.AddItem();
+            Button but = (Button)sender;
+            if (but.Content.ToString() == "Inquiry Sheet") { mvm.AddItem(new InquirySheet()); }
+            else if (but.Content.ToString() == "Client") { mvm.AddItem(new ProgressTrackerClient()); }
+            else if (but.Content.ToString() == "Supplier") { mvm.AddItem(new ProgressTrackerSupplier()); }
+            //mvm.AddItem(new InquirySheet());
         }
     }
 }
