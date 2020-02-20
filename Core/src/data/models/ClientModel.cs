@@ -26,10 +26,14 @@ namespace Core.Data.Models
 		public override ModelType getType() => ModelType.MODEL_CLIENT;
 
 		public override bool matchPK(object pk) {
-			 return nic.value == (string)pk;
+			return nic.value.Equals ( (string)pk );
 		}
 		public override object getPK() {
 			return nic.value;
+		}
+
+		public override void save() {
+			Application.getSingleton().clients_file.save();
 		}
 	}
 }

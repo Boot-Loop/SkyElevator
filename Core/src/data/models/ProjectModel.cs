@@ -31,5 +31,9 @@ namespace Core.Data.Models
 		public override object getPK() {
 			throw new NotImplementedException();
 		}
+
+		public override void save(){
+			throw new InvalidOperationException("project model can't be saved");
+		}
 	}
 }

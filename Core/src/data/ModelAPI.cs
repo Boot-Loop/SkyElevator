@@ -3,8 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Reflection;
+using System.IO;
 
 using Core.Data.Models;
+using Core.Data.Files;
+using Core.Utils;
+
+/** TODO:
+ * modified field -> check value has changed
+ * required fields null throw for create mode
+ * if field null dont add to dictionary
+ * check pk already exists
+ */
 
 namespace Core.Data
 {
@@ -18,26 +30,76 @@ namespace Core.Data
 			MODE_DELETE,
 		}
 
-		public  Model repr_model { get; set; } = null;
-		private Model real_model { get; set; } = null;
+		private ModelType model_type;
+		public  Model model { get; set; } = null;
 
 		private APIMode _api_mode = APIMode.MODE_READ;
-		private ModelType model_type;
 		public APIMode api_mode { get { return _api_mode; } } 
 
-		public ModelAPI(Model model, object pk = null, ModelType model_type = ModelType.MODEL_CLIENT, APIMode api_mode = APIMode.MODE_READ) {
-			repr_model = model;
+		public ModelAPI(object pk, ModelType model_type, APIMode api_mode) {
 			_api_mode	= api_mode;
-			if (model != null) this.model_type = model.getType();
-			else this.model_type = model_type;
-			setRealModel(pk);
+			this.model_type = model_type;
+			setModel(pk);
+		}
+
+		public void update() {
+			
+			Dictionary<string, object> json = new Dictionary<string, object>();
+			switch (api_mode)
+			{
+				case APIMode.MODE_CREATE: {
+						foreach( PropertyInfo prop_info in model.GetType().GetRuntimeProperties()) {
+							if ( prop_info.GetValue(model) is Field) { 
+								Field field = prop_info.GetValue(model) as Field;
+								if (field.isRequired() && field.isNull()) throw new RequiredFieldNullError("field : " + field.ToString() );
+								if (!field.isNull())
+									json.Add(field.getName(), field.getValue());
+							}
+						}
+						generateUploadFiles(HttpRequestMethod.POST, model.getType(), model.getPK(), json);
+						Model.saveNewModel(model);
+						break;
+					}
+				case APIMode.MODE_READ:
+					throw new NotImplementedException("read mode for api not implimented");
+					// break;
+
+				case APIMode.MODE_UPDATE: {
+						foreach (PropertyInfo prop_info in model.GetType().GetRuntimeProperties()) {
+							if (prop_info.GetValue(model) is Field) {
+								Field field = prop_info.GetValue(model) as Field;
+								if (field.isModified()) {
+									json.Add(field.getName(), field.getValue());
+									field._setNotModified();
+								}
+							}
+						}
+						generateUploadFiles(HttpRequestMethod.PATCH, model.getType(), model.getPK(), json);
+						model.save();
+						break;
+					}
+				case APIMode.MODE_DELETE: {
+						generateUploadFiles(HttpRequestMethod.DELETE, model.getType(), model.getPK(), json);
+						break;
+					}
+
+			}
 		}
 
 
-
-
 		/* private methods */
-		private void setRealModel(object pk)
+		private void generateUploadFiles(HttpRequestMethod method, ModelType model_type, object pk = null, Dictionary<string, object> json = null) {
+			DateTime date_time = DateTime.Now;
+			UploadData upload_data = new UploadData(method, model_type, pk, json, date_time);
+			var cache_dir_path = ProjectManager.singleton.project_file.data.dirs.getDir(ProjectManager.Dirs.DOT_SKY_DIR).getDir(ProjectManager.Dirs.SEBE_CACHE).path;
+			var cache_file_name = date_time.Ticks.ToString() + ".dat";
+			XmlFile<UploadData> upload_file = new XmlFile<UploadData>( file_path: Path.Combine(cache_dir_path, cache_file_name), data : upload_data );
+			upload_file.save();
+			ProjectManager.singleton.project_file.data.dirs.getDir(ProjectManager.Dirs.DOT_SKY_DIR).getDir(ProjectManager.Dirs.SEBE_CACHE).addFile(cache_file_name);
+			ProjectManager.singleton.project_file.save();
+		}
+
+		private void setModel(object pk)
 		{
 			// TODO: delete, modification need access
 
@@ -55,47 +117,12 @@ namespace Core.Data
 				}
 			}
 
-			if (api_mode == APIMode.MODE_CREATE) return;
-
-			switch (model_type)
-			{
-				case ModelType.MODEL_CLIENT: {
-						foreach (var client in Application.getSingleton().getClients()) {
-							if (client.matchPK(pk)) { this.real_model = client; break; }
-						}
-						throw new ModelNotExists("model for client not exists pk: " + pk.ToString());
-					}
-				case ModelType.MODEL_SUPPLIER: { // TODO: create an interface for supplier same as clients
-						break;
-					}
-				case ModelType.PROGRESS_CLIENT: {
-						if (ProjectManager.singleton.hasProgressTracking()) {
-							real_model = ProjectManager.singleton.progress_client.data;
-						} else {
-							throw new ArgumentException("this project has no tracking data");
-						}
-						break;
-					}
-				case ModelType.PROGRESS_SUPPLIER: {
-						if (ProjectManager.singleton.hasProgressTracking()) {
-							real_model = ProjectManager.singleton.progress_supplier.data;
-						} else {
-							throw new ArgumentException("this project has no tracking data");
-						}
-						break;
-					}
-				case ModelType.PROGRESS_PAYMENT: {
-						if (ProjectManager.singleton.hasProgressTracking()) {
-							foreach (var payment in ProjectManager.singleton.progress_payments.data) {
-								if (payment.matchPK(pk)) real_model = payment;
-								break;
-							}
-						} else {
-							throw new ArgumentException("this project has no tracking data");
-						}
-						throw new ModelNotExists("model for progress payment not exists pk: " + pk.ToString());
-					}
+			if (api_mode == APIMode.MODE_CREATE) {
+				if (!(pk is null)) Logger.logger.logWarning("for model creation mode pk is not-required");
+				model = Model.newModel(model_type);
 			}
+			else model = Model.getModel(pk, model_type);
+			
 		}
 	}
 }

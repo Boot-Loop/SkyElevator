@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 using Core.Data.Models;
 
 namespace Core.Data.Files
 {
-	public enum RequestMethod
-	{
-		GET, POST, DELETE, PUT, PATCH
-	}
 
 
 	[Serializable]
 	public class UploadData
 	{
-		public RequestMethod method = RequestMethod.GET;
-		ModelType model_type;
+		public DateTime creation_date;
+		public HttpRequestMethod method = HttpRequestMethod.GET;
+		public ModelType model_type;
 		public string pk;
 		public string json;
 
 		private UploadData() { }
-		public UploadData( RequestMethod method, ModelType model_type, string pk = null, string json = null) {
-			this.method = method; this.model_type = model_type; this.pk = pk; this.json = json;
+		public UploadData( HttpRequestMethod method, ModelType model_type, object pk = null, string json = null, DateTime creation_date = default(DateTime)) {
+			this.method = method; this.model_type = model_type; this.pk = (string)pk; this.json = json;
+			if (creation_date.Equals(default(DateTime))) this.creation_date = DateTime.Now;
+			else this.creation_date = creation_date;
 		}
+		public UploadData(HttpRequestMethod method, ModelType model_type, object pk = null, Dictionary<string, object> json = null, DateTime creation_date = default(DateTime)) 
+			: this(method, model_type, pk, JsonSerializer.Serialize(json), creation_date) {}
 
 	}
 }

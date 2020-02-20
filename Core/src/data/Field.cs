@@ -23,13 +23,14 @@ namespace Core.Data
     {
         protected string name;
         protected string replace_tag;
-        protected bool is_readonly = false;
-        protected bool is_required = false;
-        protected bool is_null = true;
+        protected bool is_readonly              = false;
+        protected bool is_required              = false;
+        protected bool is_null                  = true;
 
-        protected object last_value = null; // value before validation
-        protected bool last_value_valid = true;
-        protected string validation_error_msg = "";
+        protected object last_value             = null; // value before validation
+        protected bool modified                 = false;
+        protected bool last_value_valid         = true;
+        protected string validation_error_msg   = "";
 
         public string getName() => name;
         public bool isReadonly() => is_readonly;
@@ -39,17 +40,19 @@ namespace Core.Data
         abstract public object getValue();
         abstract public FieldType getType();
 
-        public string getReplaceTag() => replace_tag;
-        public void setRequired(bool is_required) => this.is_required = is_required;
-        public bool isRequired() => is_required;
-        public bool isNull() => is_null;
-        public void setToNull() { this.is_null = true; }
-        public void setValidationErrorMsg(string msg) => validation_error_msg = msg;
+        public string getReplaceTag()                   => replace_tag;
+        public void setRequired(bool is_required)       => this.is_required = is_required;
+        public bool isRequired()                        => is_required;
+        public bool isNull()                            => is_null;
+        public void setToNull()                         => this.is_null = true;
+        public void setValidationErrorMsg(string msg)   => validation_error_msg = msg;
         public string getValidationErrorMsg() { 
             if (last_value_valid) return ""; 
             return validation_error_msg; 
         }
-        public object getLastValue() => last_value;
+        public object getLastValue()    => last_value;
+        public bool isModified()        => modified;
+        public void _setNotModified()   => modified = false;
     }
 
 
@@ -72,6 +75,7 @@ namespace Core.Data
                     is_null = false;
                 }
 				this._value = value;
+                modified = true;
 			}
 		}
         private TextField() { }
@@ -100,6 +104,7 @@ namespace Core.Data
                 if (is_readonly) throw new ReadonlyError();
                 last_value = value;
                 this._value = value;
+                modified = true;
                 is_null = false;
             }
         }
@@ -115,6 +120,7 @@ namespace Core.Data
         override public object getDefault() => this.default_value;
         override public void setValue(object value, bool is_readonly = false) { this.value = (bool)value; this.is_readonly = is_readonly; }
         override public string ToString() => this.value.ToString();
+
     }
 
 
@@ -135,6 +141,7 @@ namespace Core.Data
 				if (is_positive && value < 0) throw new ArgumentException();
                 last_value_valid = true;
 				this._value = value;
+                modified = true;
                 is_null = false;
 			}
 		}
@@ -150,6 +157,7 @@ namespace Core.Data
         override public object getValue() { return this.value;  }
         override public object getDefault() => default_value;
         public bool isPositive() => is_positive;
+
     }
 
     [Serializable]
@@ -169,6 +177,7 @@ namespace Core.Data
 				if (is_positive && value < 0) throw new ArgumentException();
                 last_value_valid = true;
 				this._value = value;
+                modified = true;
                 is_null = false;
 			}
 		}
@@ -184,6 +193,7 @@ namespace Core.Data
         override public void setValue(object value, bool is_readonly = false) { this.value = (double)value; this.is_readonly = is_readonly; }
         override public object getValue() => value;
         public bool isPositive() => is_positive;
+
     }
 
     [Serializable]
@@ -208,6 +218,7 @@ namespace Core.Data
 				if (is_readonly) throw new ReadonlyError();
                 last_value = value;
                 this._value = value;
+                modified = true;
                 is_null = (value == default(DateTime));
             }
 		}
@@ -257,6 +268,7 @@ namespace Core.Data
         override public void setValue(object value, bool is_readonly = false) { this.value = (DateTime)value; this.is_readonly = is_readonly; is_null = false; }
         override public object getValue() => value;
         public Format getFormat() => this.format;
+
 
 
         private string getDayPrefix() {
@@ -349,6 +361,7 @@ namespace Core.Data
                 if (is_readonly) throw new ReadonlyError();
                 last_value = value;
                 this._value = value;
+                modified = true;
                 is_null = false;
             }
         }
@@ -383,6 +396,7 @@ namespace Core.Data
                 }
                 last_value  = value;
                 this._value = value;
+                modified = true;
                 is_null     = false;
             }
         }
@@ -408,6 +422,7 @@ namespace Core.Data
             if (!this.items.Contains(this.value)) { this.value = default(T); is_null = true; }
         }
         public ObservableCollection<T> getItems() => items;
+
     }
     
 

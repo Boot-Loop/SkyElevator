@@ -17,7 +17,7 @@ namespace Core
 	public class Application
 	{
 		/* attribute */
-		static Logger logger								= new Logger();
+		static Logger logger = new Logger();
 		public XmlFile<ProgrameData> programe_data_file	{ get; } = new XmlFile<ProgrameData>( file_path: Paths.PROGRAME_DATA_FILE );
 		public BinFile<ClientsData> clients_file		{ get; } = new BinFile<ClientsData>(file_path: Paths.CLIENTS_DATA_FILE);
 

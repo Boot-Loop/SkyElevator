@@ -25,11 +25,18 @@ namespace Core.Data.Models
 		override public ModelType getType() => ModelType.PROGRESS_PAYMENT;
 
 		public override bool matchPK(object pk) {
-			return id.value == (int)pk;
+			return id.value.Equals((int)pk);
 		}
 		public override object getPK(){
 			return id.value;
 		}
+		
+		public override void save() {
+			if (ProjectManager.singleton.hasProgressTracking())
+				ProjectManager.singleton.progress_payments.save();
+			else throw new InvalidOperationException("project has no progress tracking");
+		}
+
 	}
 
 	[Serializable]
@@ -48,10 +55,15 @@ namespace Core.Data.Models
 		override public ModelType getType() => ModelType.PROGRESS_SUPPLIER;
 
 		public override bool matchPK(object pk) {
-			return id.value == (int)pk;
+			return id.value.Equals((int)pk);
 		}
 		public override object getPK() {
 			return id.value;
+		}
+		public override void save() {
+			if (ProjectManager.singleton.hasProgressTracking())
+				ProjectManager.singleton.progress_supplier.save();
+			else throw new InvalidOperationException("project has no progress tracking");
 		}
 	}
 
@@ -80,10 +92,16 @@ namespace Core.Data.Models
 		override public ModelType getType() => ModelType.PROGRESS_CLIENT;
 
 		public override bool matchPK(object pk) {
-			return id.value == (int)pk;
+			return id.value.Equals((int)pk);
 		}
 		public override object getPK() {
 			return id.value;
+		}
+
+		public override void save() {
+			if (ProjectManager.singleton.hasProgressTracking())
+				ProjectManager.singleton.progress_client.save();
+			else throw new InvalidOperationException("project has no progress tracking");
 		}
 	}
 

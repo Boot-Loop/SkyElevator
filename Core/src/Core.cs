@@ -38,6 +38,11 @@ namespace Core
         public static readonly string PROJECT_FILE_EXTENSION    = ".skyproj";
     }
 
+    public enum HttpRequestMethod
+    {
+        GET, POST, DELETE, PUT, PATCH
+    }
+
     /* custom exceptions */
 
     /* sebe client */
@@ -85,6 +90,13 @@ namespace Core
         public ModelNotExists() : base("ModelNotExists") { }
         public ModelNotExists(string name) : base("ModelNotExists: " + name) { }
     }
+
+    public class RequiredFieldNullError : Exception
+    {
+        public RequiredFieldNullError() : base("RequiredFieldNullError") { }
+        public RequiredFieldNullError(string name) : base("RequiredFieldNullError: " + name) { }
+    }
+
 
 
     /* other errors */
