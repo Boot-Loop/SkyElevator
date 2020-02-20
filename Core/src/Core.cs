@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+using Core.Utils;
+
 namespace Core
 {
     
@@ -36,6 +38,7 @@ namespace Core
     {
         public static readonly string VERSION                   = "1.0.0";
         public static readonly string PROJECT_FILE_EXTENSION    = ".skyproj";
+        public static Logger logger { get; }                    = new Logger("ui.logs");
     }
 
     public enum HttpRequestMethod

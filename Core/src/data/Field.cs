@@ -419,7 +419,7 @@ namespace Core.Data
         public int getItemIndex() { return items.IndexOf(value); }
         public void setItems(ObservableCollection<T> items) { 
             this.items = items;
-            if (!this.items.Contains(this.value)) { this.value = default(T); is_null = true; }
+            if (!this.items.Contains(this.value)) { this.value = items[0]; is_null = true; }
         }
         public ObservableCollection<T> getItems() => items;
 

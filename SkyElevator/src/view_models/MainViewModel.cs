@@ -35,11 +35,12 @@ namespace SkyElevator.src.view_models
 
         public RelayCommand AddCommand { get; set; }
 
-        public void AddItem()
+        public void AddItem(UserControl UC)
         {
-            ProgressTrackerClient PTS = new ProgressTrackerClient();
+           
+            //ProgressTrackerClient PTS = new ProgressTrackerClient();
             var nextIndex = this.Items.Count + 1;
-            var newItem = new TabItemViewModel("Added tab item " + nextIndex, PTS, this.CloseItem);
+            var newItem = new TabItemViewModel("Added tab item " + nextIndex, UC, this.CloseItem);
             this.Items.Add(newItem);
             this.SelectedItem = newItem;
             RaisePropertyChanged("SelectedItem");

@@ -14,7 +14,7 @@ namespace SkyElevator.src.view_models
         {
             this.Header = header;
             this.Content = content;
-            this.CloseCommand = new RelayCommand(() => onClose(this));
+            this.CloseCommand = new RelayCommand(x => onClose(this));
         }
         public string Header { get; set; }
         public UserControl Content { get; set; }

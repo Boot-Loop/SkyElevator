@@ -6,17 +6,20 @@
         xmlns:local="clr-namespace:SkyElevator.src.views.project_manager_views"
         mc:Ignorable="d" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True"
         Title="ProjectManager" Height="420" Width="680">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConvertor"/>
+    </Window.Resources>
 
 
-    <Grid x:Name="main_grid" MouseLeftButtonDown="main_grid_MouseLeftButtonDown">
+    <Grid x:Name="main_grid" MouseLeftButtonDown="mainGridMouseLeftButtonDown">
         <TabControl x:Name="tab_control" Margin="0 15 0 0" SelectedIndex="0" BorderThickness="0">
             <TabItem Header="Open Project">
                 <ContentControl x:Name="open_project_content_control"/>
             </TabItem>
             <TabItem Header="New Project">
                 <Grid>
-                    <ContentControl x:Name="new_client_content_control" Visibility="Hidden"/>
-                    <ContentControl x:Name="new_project_content_control"/>
+                    <ContentControl x:Name="new_client_content_control" Visibility="{Binding NewClientCCVisibility, Converter={StaticResource BoolToVisConvertor}}"/>
+                    <ContentControl x:Name="new_project_content_control" Visibility="{Binding NewProjectCCVisibility, Converter={StaticResource BoolToVisConvertor}}"/>
                 </Grid>
             </TabItem>
         </TabControl>

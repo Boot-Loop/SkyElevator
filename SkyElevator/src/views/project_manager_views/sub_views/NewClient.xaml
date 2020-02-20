@@ -77,8 +77,8 @@
             </StackPanel>
         </Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button Click="backButtonClick" Content="Back" Margin="0 0 18 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
-            <Button Click="Button_Click" Content="Create" Margin="0 0 36 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+            <Button Command="{Binding BackButtonCommand}" Content="Back" Margin="0 0 18 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+            <Button Command="{Binding CreatNewProjectWithClientCommand}" Content="Create" Margin="0 0 36 36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
         </StackPanel>
     </Grid>
 </UserControl>
