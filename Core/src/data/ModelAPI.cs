@@ -20,25 +20,25 @@ using Core.Utils;
 
 namespace Core.Data
 {
-	public class ModelAPI
+	public enum ModelApiMode
 	{
-		public enum APIMode
-		{
-			MODE_CREATE,
-			MODE_UPDATE,
-			MODE_READ,
-			MODE_DELETE,
-		}
+		MODE_CREATE,
+		MODE_UPDATE,
+		MODE_READ,
+		MODE_DELETE,
+	}
 
+	public class ModelAPI<T> where T : Model
+	{
 		private ModelType model_type;
-		public  Model model { get; set; } = null;
+		public  T model { get; set; } = null;
 
-		private APIMode _api_mode = APIMode.MODE_READ;
-		public APIMode api_mode { get { return _api_mode; } } 
+		private ModelApiMode _api_mode = ModelApiMode.MODE_READ;
+		public ModelApiMode api_mode { get { return _api_mode; } } 
 
-		public ModelAPI(object pk, ModelType model_type, APIMode api_mode) {
+		public ModelAPI(object pk, ModelApiMode api_mode) {
 			_api_mode	= api_mode;
-			this.model_type = model_type;
+			this.model_type = Model.toModelType(typeof(T));
 			setModel(pk);
 		}
 
@@ -47,7 +47,7 @@ namespace Core.Data
 			Dictionary<string, object> json = new Dictionary<string, object>();
 			switch (api_mode)
 			{
-				case APIMode.MODE_CREATE: {
+				case ModelApiMode.MODE_CREATE: {
 						foreach( PropertyInfo prop_info in model.GetType().GetRuntimeProperties()) {
 							if ( prop_info.GetValue(model) is Field) { 
 								Field field = prop_info.GetValue(model) as Field;
@@ -60,11 +60,11 @@ namespace Core.Data
 						Model.saveNewModel(model);
 						break;
 					}
-				case APIMode.MODE_READ:
+				case ModelApiMode.MODE_READ:
 					throw new NotImplementedException("read mode for api not implimented");
 					// break;
 
-				case APIMode.MODE_UPDATE: {
+				case ModelApiMode.MODE_UPDATE: {
 						foreach (PropertyInfo prop_info in model.GetType().GetRuntimeProperties()) {
 							if (prop_info.GetValue(model) is Field) {
 								Field field = prop_info.GetValue(model) as Field;
@@ -78,7 +78,7 @@ namespace Core.Data
 						model.save();
 						break;
 					}
-				case APIMode.MODE_DELETE: {
+				case ModelApiMode.MODE_DELETE: {
 						generateUploadFiles(HttpRequestMethod.DELETE, model.getType(), model.getPK(), json);
 						break;
 					}
@@ -104,12 +104,12 @@ namespace Core.Data
 			// TODO: delete, modification need access
 
 			if (model_type == ModelType.PROJECT_MODEL) throw new ArgumentException("can't create model for project");
-			if (_api_mode == APIMode.MODE_CREATE) {
+			if (_api_mode == ModelApiMode.MODE_CREATE) {
 				if (model_type == ModelType.PROGRESS_CLIENT || model_type == ModelType.PROGRESS_PAYMENT || model_type == ModelType.PROGRESS_SUPPLIER) {
 					throw new ArgumentException( "can't create model : " + model_type.ToString() );
 				}
 			}
-			if (_api_mode != APIMode.MODE_CREATE) { // need pk
+			if (_api_mode != ModelApiMode.MODE_CREATE) { // need pk
 				if (model_type == ModelType.MODEL_CLIENT || model_type == ModelType.MODEL_SUPPLIER
 					|| model_type == ModelType.PROGRESS_PAYMENT
 				) {
@@ -117,11 +117,11 @@ namespace Core.Data
 				}
 			}
 
-			if (api_mode == APIMode.MODE_CREATE) {
+			if (api_mode == ModelApiMode.MODE_CREATE) {
 				if (!(pk is null)) Logger.logger.logWarning("for model creation mode pk is not-required");
-				model = Model.newModel(model_type);
+				model = Model.newModel(model_type) as T;
 			}
-			else model = Model.getModel(pk, model_type);
+			else model = Model.getModel(pk, model_type) as T;
 			
 		}
 	}

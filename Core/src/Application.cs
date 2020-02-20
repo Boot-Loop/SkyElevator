@@ -85,11 +85,5 @@ namespace Core
 			}
 			return _dropdown_clients_list;
 		}
-
-		public void addClient( ClientModel client ) {
-			clients_file.data.clients.Add(client);
-			clients_file.save();
-			//throw new Exception("TODO: cache to upload");
-		}
 	}
 }

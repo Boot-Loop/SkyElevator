@@ -26,6 +26,19 @@ namespace Core.Data.Models
 		public abstract ModelType getType();
 		public abstract void save();
 
+		public static ModelType toModelType(Type type)
+		{
+			if ( type == typeof(ClientModel))				return ModelType.MODEL_CLIENT;
+			// TODO: supplier model if ( type == typeof() ) return 
+			if ( type == typeof(ClientProgressModel))		return ModelType.PROGRESS_CLIENT;
+			if ( type == typeof(SupplierProgressModel))		return ModelType.PROGRESS_SUPPLIER;
+			if ( type == typeof(PaymentModel))				return ModelType.PROGRESS_PAYMENT;
+			if ( type == typeof(ProjectModel))				return ModelType.PROJECT_MODEL;
+
+			throw new Exception( "un handled model type or type is not model, Type : " + type.ToString() );
+			
+		}
+
 		public static Model newModel(ModelType model_type)
 		{
 			switch (model_type)
