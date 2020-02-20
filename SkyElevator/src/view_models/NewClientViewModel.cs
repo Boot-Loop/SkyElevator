@@ -1,16 +1,13 @@
-﻿using Core;
+﻿using System;
+using System.ComponentModel;
+
+using CoreApp = Core.Application;
+
+using static SkyElevator.src.view_models.AlertViewViewModel;
 using SkyElevator.src.models;
 using SkyElevator.src.view_models.commands;
 using SkyElevator.src.views.alert_views;
 using SkyElevator.src.views.project_manager_views.sub_views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static SkyElevator.src.view_models.AlertViewViewModel;
-using CoreApp = Core.Application;
 
 namespace SkyElevator.src.view_models
 {
@@ -55,6 +52,7 @@ namespace SkyElevator.src.view_models
             try {
                 CoreApp.getSingleton().createNewProject(new_project_view_model.ProjectModelI.ProjectModel, new_project_view_model.FolderBrowseCommand.FolderPath);
                 CoreApp.getSingleton().setDefaultProjectPath(new_project_view_model.FolderBrowseCommand.FolderPath);
+                NewClient.ProjectManager.closeWindow();
             }
             catch (Exception err) {
                 Core.Reference.logger.logError(err);

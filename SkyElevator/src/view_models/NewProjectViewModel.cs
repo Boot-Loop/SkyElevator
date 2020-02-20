@@ -81,6 +81,7 @@ namespace SkyElevator.src.view_models
                     try {
                         CoreApp.getSingleton().createNewProject(ProjectModelI.ProjectModel, FolderBrowseCommand.FolderPath);
                         CoreApp.getSingleton().setDefaultProjectPath(FolderBrowseCommand.FolderPath);
+                        NewProject.ProjectManager.closeWindow();
                     }
                     catch (AlreadyExistsError) {
                         AlertView alertView = new AlertView("Project already exist", "The project you are trying to create is already exist, try a different project name.", AlertViewType.ERROR, button);
