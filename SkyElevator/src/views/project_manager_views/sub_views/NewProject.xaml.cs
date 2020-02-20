@@ -22,18 +22,24 @@ namespace SkyElevator.src.views.project_manager_views.sub_views
     public partial class NewProject : UserControl
     {
         private ProjectManager project_manager;
-        private NewProjectViewModel _new_project_view_model = new NewProjectViewModel();
+        private NewProjectViewModel _new_project_view_model;
+
+        public ProjectManager ProjectManager {
+            get { return project_manager; }
+            set { project_manager = value; }
+        }
+        public NewProjectViewModel NewProjectViewModel {
+            get { return _new_project_view_model; }
+            set { _new_project_view_model = value; }
+        }
+
         public NewProject(ProjectManager project_manager)
         {
             InitializeComponent();
-            this.project_manager = project_manager;
-            this.DataContext = _new_project_view_model;
-        }
+            NewProjectViewModel = new NewProjectViewModel(this);
 
-        private void nextButtonClick(object sender, RoutedEventArgs e)
-        {
-            _new_project_view_model.nextOrCreateCommand();
-            //project_manager.nextButtonPressed();
+            this.DataContext = _new_project_view_model;
+            this.ProjectManager = project_manager;
         }
     }
 }

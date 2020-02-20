@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:SkyElevator.src.views.alert_views"
         mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="AlertView" Height="200" Width="440">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConvertor"/>
+    </Window.Resources>
     <StackPanel Background="{StaticResource COLOR_PRIMARY_LIGHTER}">
         <Grid Height="40" Background="{StaticResource COLOR_PRIMARY_LIGHT}">
-            <Label Content="Heading of alert view" VerticalAlignment="Center" Margin="16 0 0 0" Style="{DynamicResource LabelTitleThree}"/>
-            <Button Height="12" Width="12" HorizontalAlignment="Right" Margin="0 0 12 0" Style="{DynamicResource ButtonCommon}" BorderThickness="0">
+            <Label Content="{Binding Title}" VerticalAlignment="Center" Margin="16 0 0 0" Style="{DynamicResource LabelTitleThree}"/>
+            <Button Height="12" Width="12" HorizontalAlignment="Right" Margin="0 0 12 0" Style="{DynamicResource ButtonCommon}" BorderThickness="0" Command="{Binding CloseCommand}">
                 <Button.Content>
                     <Image Source="/res/icons/close.png"/>
                 </Button.Content>
@@ -18,14 +21,14 @@
         <Grid Height="160">
             <Border CornerRadius="5" Margin="16" Background="{DynamicResource COLOR_WHITE}"/>
             <Grid Margin="32 24 32 0">
-                <Image Source="/res/images/warning.png" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <TextBlock Text="Content of this alert view goes here. If this don't look good let's change." Margin="80 0 0 0" TextWrapping="WrapWithOverflow"/>
+                <Image Source="{Binding DisplayedImage}" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Message}" Margin="80 0 0 0" TextWrapping="WrapWithOverflow"/>
             </Grid>
             <Grid VerticalAlignment="Bottom" Margin="32 0 32 32">
-                <Button Content="Cancel" Style="{DynamicResource ButtonWarning}" HorizontalAlignment="Left"/>
+                <Button Content="{Binding ButtonThreeName}" Style="{DynamicResource ButtonWarning}" HorizontalAlignment="Left" Visibility="{Binding Path=ButtonThreeVisibility, Converter={StaticResource BoolToVisConvertor}}" Command="{Binding ButtonThreeCommand}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Apply" Margin="0 0 16 0" Style="{DynamicResource ButtonCommon}"/>
-                    <Button Content="OK" Style="{DynamicResource ButtonCommon}"/>
+                    <Button Content="{Binding ButtonTwoName}" Margin="0 0 16 0" Style="{DynamicResource ButtonCommon}" Visibility="{Binding Path=ButtonTwoVisibility, Converter={StaticResource BoolToVisConvertor}}" Command="{Binding ButtonTwoCommand}"/>
+                    <Button Content="{Binding ButtonOneName}" Style="{DynamicResource ButtonCommon}" Command="{Binding ButtonOneCommand}"/>
                 </StackPanel>
             </Grid>
         </Grid>

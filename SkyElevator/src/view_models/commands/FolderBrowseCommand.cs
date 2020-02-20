@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
+using CoreApp = Core.Application;
+
 namespace SkyElevator.src.view_models.commands
 {
     public class FolderBrowseCommand : ICommand, INotifyPropertyChanged
@@ -21,7 +23,7 @@ namespace SkyElevator.src.view_models.commands
         }
 
         public FolderBrowseCommand() {
-            FolderPath = @"C:\";
+            FolderPath = CoreApp.getSingleton().programe_data_file.data.default_proj_dir;
         }
 
         public event EventHandler CanExecuteChanged {
