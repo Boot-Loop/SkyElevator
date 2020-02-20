@@ -130,6 +130,7 @@
     <Compile Include="src\view_models\MainViewModel.cs" />
     <Compile Include="src\view_models\NewClientViewModel.cs" />
     <Compile Include="src\view_models\NewProjectViewModel.cs" />
+    <Compile Include="src\view_models\OpenProjectViewModel.cs" />
     <Compile Include="src\view_models\ProjectManagerViewModel.cs" />
     <Compile Include="src\view_models\RelayCommand.cs" />
     <Compile Include="src\view_models\TabItemViewModel.cs" />

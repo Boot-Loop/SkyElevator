@@ -18,7 +18,7 @@ namespace SkyElevator.src.models
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ProjectModel _project_model;
-        private ObservableCollection<ClientModel> _client_models;
+        //private ObservableCollection<ClientModel> _client_models;
         private List<string> _project_types = new List<string>();
         private string _button_content = "Next";
         private int _selected_proj_type_index = 0;
@@ -28,8 +28,8 @@ namespace SkyElevator.src.models
             set { _project_model = value; }
         }
         public ObservableCollection<ClientModel> ClientModels {
-            get { return _client_models; }
-            set { _client_models = value; onPropertyRaised("ClientModels"); }
+            get { return CoreApp.getSingleton().getClientsDropDownList(); }
+            //set { _client_models = value; onPropertyRaised("ClientModels"); }
         }
         public List<string> ProjectTypes
         {
@@ -51,9 +51,9 @@ namespace SkyElevator.src.models
             get { return _project_model.client.value; }
             set {
                 _project_model.client.value = value;
-                if (_project_model.client.value == _client_models[0]) _button_content = "Next";
+                if (_project_model.client.value == ClientModels[0]) _button_content = "Next";
                 else _button_content = "Create";
-                _project_model.client.setItemIndex(_client_models.IndexOf(value));
+                _project_model.client.setItemIndex(ClientModels.IndexOf(value));
                 onPropertyRaised("SelectedClient");
                 onPropertyRaised("ButtonContent");
             }
@@ -81,12 +81,12 @@ namespace SkyElevator.src.models
 
         public ProjectModelI() {
             this.ProjectModel = new ProjectModel();
-            this.ClientModels = CoreApp.getSingleton().getClientsDropDownList();
+            //this.ClientModels = ;
             foreach (var type in Enum.GetValues(typeof(ProjectManager.ProjectType))) {
                 TextInfo text_info = new CultureInfo("en-US", false).TextInfo;
                 _project_types.Add(text_info.ToTitleCase(type.ToString().Replace('_', ' ').ToLower().Replace("or", "/")));
             }
-            SelectedClient = _client_models[0];
+            SelectedClient = ClientModels[0];
             SelectedProjectTypeIndex = 0;
         }
 

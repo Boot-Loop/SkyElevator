@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:SkyElevator.src.view_models"
              xmlns:local="clr-namespace:SkyElevator.src.views.project_manager_views.sub_views"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="420" d:DesignWidth="680">
+    <UserControl.Resources>
+        <vm:OpenProjectViewModel x:Key="OpenProjectViewModel"/>
+    </UserControl.Resources>
     <Grid>
         <Grid Background="{DynamicResource COLOR_PRIMARY_LIGHTER}">
             <Grid.ColumnDefinitions>
@@ -16,6 +20,9 @@
             <StackPanel Grid.Column="0" Margin="24">
                 <Image Source="/res/images/Sky_Elevator_Logo.png" Height="72" Margin="0 24 0 0"/>
                 <Label Content="Welcome to Sky Elevator" Style="{DynamicResource LabelTitleOne}" FontSize="26" HorizontalAlignment="Center" Margin="0 20 0 0"/>
+                
+                    
+                
                 <Label Content="Version 1.0.0 (11C504)" Style="{DynamicResource LabelSubTitle}" FontSize="12" HorizontalAlignment="Center" Margin="0 0 0 0"/>
             </StackPanel>
 
@@ -24,6 +31,20 @@
                 <Label Content="Open a recent project" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Style="{DynamicResource LabelTitleOne}"/>
                 <Label Content="Continue on recently started project" Margin="12 38 0 0" Style="{DynamicResource LabelSubTitle}"/>
                 <Grid Margin="16 72 16 16">
+                    <ListView ItemsSource="{Binding RecentProjectDatas}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Height="40" Background="{StaticResource COLOR_PRIMARY_LIGHTER}" Margin="2" DataContext="{Binding Source={StaticResource OpenProjectViewModel}}">
+                                    <Border BorderBrush="{StaticResource COLOR_PRIMARY_DARKER}" BorderThickness="1"/>
+                                    <Image Source="/res/images/Sky_Elevator_Logo.png" HorizontalAlignment="Left" Height="32" Width="32" Margin="4"/>
+                                    <StackPanel  Margin="40 0 0 0">
+                                        <Label Content="{Binding Path=Name}" Style="{DynamicResource LabelTitleFour}" Margin="2 2 0 0"/>
+                                        <Label Content="Path" Style="{DynamicResource LabelSubTitle}" Margin="0 0 0 8"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                     <Label Content="No Recent Projects" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource LabelSubTitle}" FontSize="14"/>
                     <Button Content="Open another project..." HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{DynamicResource ButtonCommon}" BorderThickness="0" Margin="8 0 0 4" Width="140"/>
                 </Grid>

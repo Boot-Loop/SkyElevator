@@ -59,18 +59,24 @@ namespace Core
 			if (path is null) path = programe_data_file.data.default_proj_dir;
 			path = Path.GetFullPath(path);
 			ProjectManager.singleton.createProjectTemplate(path, project_model);
-			programe_data_file.data.addProjectPath(ProjectManager.singleton.project_file.path);
+			programe_data_file.data.addProject(project_model.name.value, project_model.client.value.name.value, ProjectManager.singleton.project_file.path);
 			programe_data_file.save();
 			Directory.SetCurrentDirectory(Path.Combine(path, project_model.name.value));
 		}
 
-		public void loadProject(string path) {
+		public void loadProject(int index) {
+			var proj = programe_data_file.data.recent_projects[index]; // throws index out of range exception
+			string path = proj.path;
 			path = Path.GetFullPath(path);
 			ProjectManager.singleton.loadProject(path);
+			programe_data_file.data.setMostRecentProject(index);
+			programe_data_file.save();
 			Directory.SetCurrentDirectory( Path.GetDirectoryName(path) );
+
 		}
 
-		public List<string> getRecentProjects() => programe_data_file.data._recent_projects;
+
+		public ObservableCollection<ProgrameData.ProjectViewData> getRecentProjects() => programe_data_file.data.recent_projects;
 		public void setRecentProject(int index) => programe_data_file.data.setMostRecentProject(index);
 		public void setDefaultProjectPath(string path) {
 			if (!Directory.Exists(path)) throw new DirectoryNotFoundException("default project path directory not exists");
