@@ -93,11 +93,16 @@
     <Compile Include="src\views\project_manager_views\sub_views\OpenProject.xaml.cs">
       <DependentUpon>OpenProject.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\view_models\AlertViewViewModel.cs" />
+    <Compile Include="src\view_models\commands\AlertViewRelayCommand.cs" />
     <Compile Include="src\view_models\commands\FolderBrowseCommand.cs" />
+    <Compile Include="src\view_models\commands\NewClientRelayCommand.cs" />
+    <Compile Include="src\view_models\commands\NewProjectRelayCommand.cs" />
     <Compile Include="src\view_models\FileTree.cs" />
     <Compile Include="src\view_models\MainViewModel.cs" />
     <Compile Include="src\view_models\NewClientViewModel.cs" />
     <Compile Include="src\view_models\NewProjectViewModel.cs" />
+    <Compile Include="src\view_models\ProjectManagerViewModel.cs" />
     <Compile Include="src\view_models\RelayCommand.cs" />
     <Compile Include="src\view_models\TabItemViewModel.cs" />
   </ItemGroup>
@@ -139,7 +144,11 @@
     <Resource Include="res\images\Sky_Elevator_Logo.png" />
     <Resource Include="res\images\warning.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="res\images\error.png" />
+    <Resource Include="res\images\info.png" />
+    <Resource Include="res\images\ok.png" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="src\styles\buttons\common_buttons\CommonButton.xaml">
       <SubType>Designer</SubType>

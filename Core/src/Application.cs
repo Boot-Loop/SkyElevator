@@ -21,6 +21,8 @@ namespace Core
 		public XmlFile<ProgrameData> programe_data_file	{ get; } = new XmlFile<ProgrameData>( file_path: Paths.PROGRAME_DATA_FILE );
 		public BinFile<ClientsData> clients_file		{ get; } = new BinFile<ClientsData>(file_path: Paths.CLIENTS_DATA_FILE);
 
+		private ObservableCollection<ClientModel> _dropdown_clients_list = null;
+
 		/* singleton */
 		private Application() { } 
 		private static Application singleton;
@@ -69,19 +71,25 @@ namespace Core
 
 		public List<string> getRecentProjects() => programe_data_file.data._recent_projects;
 		public void setRecentProject(int index) => programe_data_file.data.setMostRecentProject(index);
-
+		public void setDefaultProjectPath(string path) {
+			if (!Directory.Exists(path)) throw new DirectoryNotFoundException("default project path directory not exists");
+			programe_data_file.data.default_proj_dir = path;
+			programe_data_file.save();
+		}
 		// TODO: DANGER changes in client must reflect in database
 		public ObservableCollection<ClientModel> getClients() => clients_file.data.clients;
 		public ObservableCollection<ClientModel> getClientsDropDownList() {
-			ObservableCollection<ClientModel> ret = new ObservableCollection<ClientModel>() { new ClientModel("<create new client>") };
-			foreach (var _client in clients_file.data.clients) ret.Add(_client);
-			return ret;
+			if (_dropdown_clients_list is null) {
+				_dropdown_clients_list = new ObservableCollection<ClientModel>() { new ClientModel("<create new client>") };
+				foreach (var _client in clients_file.data.clients) _dropdown_clients_list.Add(_client);
+			}
+			return _dropdown_clients_list;
 		}
 
 		public void addClient( ClientModel client ) {
 			clients_file.data.clients.Add(client);
 			clients_file.save();
-			throw new Exception("TODO: cache to upload");
+			//throw new Exception("TODO: cache to upload");
 		}
 	}
 }

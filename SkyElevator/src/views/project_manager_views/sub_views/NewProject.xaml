@@ -27,12 +27,12 @@
                 <Grid Height="12"/>
 
                 <Label Content="Client" Style="{DynamicResource LabelTitleFour}"/>
-                <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}" ItemsSource="{Binding ClientModels}" SelectedItem="{Binding SelectedClient}"/>
+                <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}" ItemsSource="{Binding ProjectModelI.ClientModels}" SelectedItem="{Binding ProjectModelI.SelectedClient}"/>
 
                 <Grid Height="12"/>
 
                 <Label Content="Project type" Style="{DynamicResource LabelTitleFour}"/>
-                <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}" ItemsSource="{Binding ProjectTypes}" SelectedItem="{Binding SelectedProjectType}"/>
+                <ComboBox Height="20" Width="240" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxCommon}" ItemsSource="{Binding ProjectModelI.ProjectTypes}" SelectedIndex="{Binding ProjectModelI.SelectedProjectTypeIndex}"/>
 
                 <Separator Height="48" Margin="0 16 0 0" Background="{DynamicResource  COLOR_GREY_LIGHTER}"/>
 
@@ -61,6 +61,6 @@
 
 
         </Grid>
-        <Button Click="nextButtonClick" Content="{Binding ButtonContent}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
+        <Button Command="{Binding NextOrCreateCommand}" Content="{Binding ProjectModelI.ButtonContent}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="36" Style="{DynamicResource ButtonCommon}" Width="72" Height="24"/>
     </Grid>
 </UserControl>

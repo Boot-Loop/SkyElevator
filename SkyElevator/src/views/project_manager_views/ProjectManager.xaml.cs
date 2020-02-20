@@ -1,4 +1,5 @@
-﻿using SkyElevator.src.views.project_manager_views.sub_views;
+﻿using SkyElevator.src.view_models;
+using SkyElevator.src.views.project_manager_views.sub_views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,28 +23,32 @@ namespace SkyElevator.src.views.project_manager_views
     /// </summary>
     public partial class ProjectManager : Window
     {
+        private ProjectManagerViewModel _project_manager_view_model;
+        private NewProject _new_project;
+
+        public ProjectManagerViewModel ProjectManagerViewModel {
+            get { return _project_manager_view_model; }
+            set { _project_manager_view_model = value; }
+        }
+        public NewProject NewProject {
+            get { return _new_project; }
+            set { _new_project = value; }
+        }
+
         public ProjectManager()
         {
             InitializeComponent();
+            this.ProjectManagerViewModel = new ProjectManagerViewModel(this);
 
             Core.Application.getSingleton().initialize();
 
-            foreach( var c in Core.Application.getSingleton().getClients())
-            {
-                Core.Utils.Logger.logger.logWarning(     "name     " + c.name   );
-                Core.Utils.Logger.logger.logWarning(     "address  " + c. address    );
-                Core.Utils.Logger.logger.logWarning(     "company  " + c. company    );
-                Core.Utils.Logger.logger.logWarning(     "email    " + c. email      );
-                Core.Utils.Logger.logger.logWarning(     "position " + c. position   );
-                Core.Utils.Logger.logger.logWarning(     "telephone" + c. telephone  );
-                Core.Utils.Logger.logger.logWarning(     "nic      " + c. nic        );
-                Core.Utils.Logger.logger.logWarning(     "website  " + c. website    );
-                Core.Utils.Logger.logger.log("");
-            }
+            this.DataContext = _project_manager_view_model;
 
             new_client_content_control.Content = new NewClient(this);
             new_project_content_control.Content = new NewProject(this);
+            this.NewProject = new_project_content_control.Content as NewProject;
             open_project_content_control.Content = new OpenProject();
+            Console.WriteLine(this.NewProject.ToString());
         }
 
         private void tabBarButtonClick(object sender, RoutedEventArgs e)
@@ -63,7 +68,7 @@ namespace SkyElevator.src.views.project_manager_views
             tab_cursor.Margin = new Thickness(tab_control.SelectedIndex * 120, 40, 0, 0);
         }
 
-        private void main_grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void mainGridMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
@@ -71,18 +76,6 @@ namespace SkyElevator.src.views.project_manager_views
         private void closeButtonClick(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        public void nextButtonPressed()
-        {
-            new_client_content_control.Visibility = Visibility.Visible;
-            new_project_content_control.Visibility = Visibility.Hidden;
-        }
-
-        public void backButtonPressed()
-        {
-            new_client_content_control.Visibility = Visibility.Hidden;
-            new_project_content_control.Visibility = Visibility.Visible;
         }
     }
 }

@@ -1,96 +1,109 @@
-﻿using SkyElevator.src.models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows;
+using System.IO;
+using SystemApp = System.Windows.Application;
 
-using Core.Data.Models;
 using CoreApp = Core.Application;
+using Core;
 
-using SkyElevator.src.views.home_views;
+using SkyElevator.src.models;
 using SkyElevator.src.view_models.commands;
 using SkyElevator.src.views.alert_views;
+using static SkyElevator.src.view_models.AlertViewViewModel;
+using SkyElevator.src.views.project_manager_views.sub_views;
+using Core.Utils;
+using Core.Data.Models;
 
 namespace SkyElevator.src.view_models
 {
     public class NewProjectViewModel : INotifyPropertyChanged
     {
-        private ProjectModelI _project_model_i = new ProjectModelI();
-        private ClientModel _selected_client;
-        private FolderBrowseCommand _folderBrowseCommand;
-        private string _selected_projet_type;
-        private string _button_content = "Next";
-        //private string _save_path;
-
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private ProjectModelI _project_model_i;
+        private FolderBrowseCommand _folderBrowseCommand;
+        private NewProject _new_project;
+        private NewProjectRelayCommand _next_or_create_command;
+
 
         public ProjectModelI ProjectModelI {
             get { return _project_model_i; }
             set { _project_model_i = value; onPropertyRaised("ProjectModelI"); }
         }
-        public ClientModel SelectedClient {
-            get { return _selected_client; }
-            set { _selected_client = value;
-                if (_selected_client == _client_models[0]) _button_content = "Next";
-                else _button_content = "Create";
-                onPropertyRaised("SelectedClient");
-                onPropertyRaised("ButtonContent");
-                _project_model_i.ProjectModel.client.setItemIndex( _client_models.IndexOf(value) );
-            }
-        }
         public FolderBrowseCommand FolderBrowseCommand {
             get { return _folderBrowseCommand; }
             set { _folderBrowseCommand = value; onPropertyRaised("FolderBrowseCommand"); }
         }
-        public string SelectedProjectType {
-            get { return _selected_projet_type; }
-            set { _selected_projet_type = value; onPropertyRaised("SelectedProjectType"); }
+        public NewProject NewProject {
+            get { return _new_project; }
+            set { _new_project = value; }
         }
-        public string ButtonContent {
-            get { return _button_content; }
-            set { _button_content = value; onPropertyRaised("ButtonContent"); }
-        }
-
-        private ObservableCollection<ClientModel> _client_models = CoreApp.getSingleton().getClientsDropDownList();
-        private List<string> _project_types = new List<string> { "Installation", "Maintenance", "Repair/Modernization", "Others" };
-        
-        public ObservableCollection<ClientModel> ClientModels {
-            get { return _client_models; }
-            set { _client_models = value; onPropertyRaised("ClientModels"); }
-        }
-        public List<string> ProjectTypes {
-            get { return _project_types; }
-            set { _project_types = value; onPropertyRaised("ProjectTypes"); }
+        public NewProjectRelayCommand NextOrCreateCommand {
+            get { return _next_or_create_command; }
+            set { _next_or_create_command = value; }
         }
 
-        public NewProjectViewModel() {
-            SelectedClient = _client_models[0];
-            SelectedProjectType = _project_types[0];
-            FolderBrowseCommand = new FolderBrowseCommand();
+        public NewProjectViewModel(NewProject new_project) {
+            this.ProjectModelI = new ProjectModelI();
+            this.FolderBrowseCommand = new FolderBrowseCommand();
+            this.NewProject = new_project;
+            this.NextOrCreateCommand = new NewProjectRelayCommand(() => nextOrCreateCommand());
         }
 
         public void nextOrCreateCommand() {
+            AlertViewViewModel.Button button = new AlertViewViewModel.Button { name = "Okay" };
             if (string.IsNullOrWhiteSpace(_project_model_i.ProjectName) || string.IsNullOrWhiteSpace(_project_model_i.ProjectLocation) || _project_model_i.ProjectModel == null || _project_model_i.ProjectDate == DateTime.MinValue) {
-                //TODO: Implement Message box showing empty fields to be filled.
-                AlertView alertView = new AlertView();
+                AlertView alertView = new AlertView("Not enough informations", "The informations you have provided to create a new project is not sufficient. Please fill essential fields.", AlertViewType.WARNING, button);
                 alertView.ShowDialog();
             }
             else {
                 DateTime current_date_time = DateTime.Now;
                 _project_model_i.ProjectCreationDate = current_date_time;
-                if (_selected_client == _client_models[0]) {
-
+                if (_project_model_i.ProjectModel.client.value == _project_model_i.ClientModels[0]) {
+                    try {
+                        this.nextButtonClicked();
+                    }
+                    catch (AlreadyExistsError) {
+                        AlertView alertView = new AlertView("Project already exist", "The project you are trying to create is already exist, try a different project name.", AlertViewType.ERROR, button);
+                        alertView.ShowDialog();
+                    }
+                    catch (DirectoryNotFoundException) {
+                        AlertView alertView = new AlertView("Invalid path", "The path you are trying to create the project is invalid, insert a correct path or explore a path.", AlertViewType.ERROR, button);
+                        alertView.ShowDialog();
+                    }
+                    catch (Exception err) {
+                        Core.Reference.logger.logError(err);
+                        AlertView alertView = new AlertView("Unknown error", "Unknown error has occured while creating a project. Please try again.", AlertViewType.ERROR, button);
+                        alertView.ShowDialog();
+                    }
                 }
                 else {
-                    CoreApp.getSingleton().createNewProject(FolderBrowseCommand.FolderPath, _project_model_i.ProjectModel);
+                    try {
+                        CoreApp.getSingleton().createNewProject(ProjectModelI.ProjectModel, FolderBrowseCommand.FolderPath);
+                        CoreApp.getSingleton().setDefaultProjectPath(FolderBrowseCommand.FolderPath);
+                    }
+                    catch (AlreadyExistsError) {
+                        AlertView alertView = new AlertView("Project already exist", "The project you are trying to create is already exist, try a different project name.", AlertViewType.ERROR, button);
+                        alertView.ShowDialog();
+                    }
+                    catch (DirectoryNotFoundException) {
+                        AlertView alertView = new AlertView("Invalid path", "The path you are trying to create the project is invalid, insert a correct path or explore a path.", AlertViewType.ERROR, button);
+                        alertView.ShowDialog();
+                    }
+                    catch (Exception err) {
+                        Core.Reference.logger.logError(err);
+                        AlertView alertView = new AlertView("Unknown error", "Unknown error has occured while creating a project. Please try again.", AlertViewType.ERROR, button);
+                        alertView.ShowDialog();
+                    }
                 }
             }
+        }
+
+        private void nextButtonClicked() {
+            if (!Directory.Exists(FolderBrowseCommand.FolderPath)) throw new DirectoryNotFoundException();
+            if (Directory.Exists(Path.Combine(FolderBrowseCommand.FolderPath, ProjectModelI.ProjectModel.name.value)))
+                throw new Core.AlreadyExistsError();
+            NewProject.ProjectManager.ProjectManagerViewModel.nextButtonPressed();
         }
 
         private void onPropertyRaised(string property_name) {
