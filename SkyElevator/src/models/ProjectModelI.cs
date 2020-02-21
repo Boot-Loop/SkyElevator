@@ -27,7 +27,7 @@ namespace SkyElevator.src.models
             get { return _project_model; }
             set { _project_model = value; }
         }
-        public ObservableCollection<ClientModel> ClientModels {
+        public List<ClientModel> ClientModels {
             get { return CoreApp.getSingleton().getClientsDropDownList(); }
             //set { _client_models = value; onPropertyRaised("ClientModels"); }
         }

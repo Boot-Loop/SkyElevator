@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Core.Data.Files;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/** TODO:
+ * create a model.validate method to validate
+ * is_readonly modified, required is null, foreign key exists, ...
+ */
 
 namespace Core.Data.Models
 {
@@ -24,16 +29,17 @@ namespace Core.Data.Models
 		public abstract bool matchPK(object pk);
 		public abstract object getPK();
 		public abstract ModelType getType();
-		public abstract void save();
+		public abstract void saveUpdates();
+		public abstract void saveNew();
 
 		public static ModelType toModelType(Type type)
 		{
+			if ( type == typeof(ProjectModel))				return ModelType.PROJECT_MODEL;
 			if ( type == typeof(ClientModel))				return ModelType.MODEL_CLIENT;
 			// TODO: supplier model if ( type == typeof() ) return 
 			if ( type == typeof(ClientProgressModel))		return ModelType.PROGRESS_CLIENT;
 			if ( type == typeof(SupplierProgressModel))		return ModelType.PROGRESS_SUPPLIER;
 			if ( type == typeof(PaymentModel))				return ModelType.PROGRESS_PAYMENT;
-			if ( type == typeof(ProjectModel))				return ModelType.PROJECT_MODEL;
 
 			throw new Exception( "un handled model type or type is not model, Type : " + type.ToString() );
 			
@@ -43,20 +49,13 @@ namespace Core.Data.Models
 		{
 			switch (model_type)
 			{
-				case ModelType.MODEL_CLIENT: 
-					return new ClientModel();
-				case ModelType.MODEL_SUPPLIER:
-					throw new Exception("TODO: suppiler model didn't created yet");
-				case ModelType.PROGRESS_CLIENT:
-					throw new InvalidOperationException("cant create new progress client model");
-				case ModelType.PROGRESS_SUPPLIER:
-					throw new InvalidOperationException("cant create new progress supplier model");
-				case ModelType.PROGRESS_PAYMENT:
-					return new PaymentModel();
-				case ModelType.PROJECT_MODEL:
-					throw new InvalidOperationException("cant create new progress project model");
-				default:
-					throw new Exception("un handled model type " + model_type.ToString());
+				case ModelType.PROJECT_MODEL:		return new ProjectModel();
+				case ModelType.MODEL_CLIENT:		return new ClientModel();
+				case ModelType.MODEL_SUPPLIER:		throw new Exception("TODO: suppiler model didn't created yet");
+				case ModelType.PROGRESS_CLIENT:		return new ClientProgressModel();
+				case ModelType.PROGRESS_SUPPLIER:	return new SupplierProgressModel();
+				case ModelType.PROGRESS_PAYMENT:	return new PaymentModel();
+				default:							throw new Exception("un handled model type " + model_type.ToString());
 			}
 		}
 
@@ -64,6 +63,9 @@ namespace Core.Data.Models
 		public static Model getModel( object pk, ModelType model_type) {
 			switch (model_type)
 			{
+				case ModelType.PROJECT_MODEL: {
+						throw new InvalidOperationException("can't access project model with pk");
+					}
 				case ModelType.MODEL_CLIENT: {
 						foreach (var client in Application.getSingleton().getClients()) {
 							if (client.matchPK(pk)) { return client; }
@@ -95,30 +97,6 @@ namespace Core.Data.Models
 					}
 				default:
 					throw new Exception("un handled model type " + model_type.ToString());
-			}
-		}
-
-
-		public static void saveNewModel(Model model)
-		{
-			switch (model.getType())
-			{
-				case ModelType.MODEL_CLIENT:
-					Application.getSingleton().clients_file.data.clients.Add((ClientModel)model);
-					Application.getSingleton().clients_file.save();
-					break;
-
-				case ModelType.MODEL_SUPPLIER:
-					throw new Exception("TODO: impliment");
-
-				case ModelType.PROGRESS_PAYMENT:
-					ProjectManager.singleton.progress_payments.data.Add((PaymentModel)model);
-					ProjectManager.singleton.progress_payments.save();
-					break;
-
-				default:
-					throw new InvalidOperationException("can't create new model for " + model.getType());
-
 			}
 		}
 

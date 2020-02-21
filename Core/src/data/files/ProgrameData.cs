@@ -30,7 +30,7 @@ namespace Core.Data.Files
 		public string default_proj_dir = Paths.DEFAULT_PROJ_DIR;
 		[XmlArray("projects")]
 		[XmlArrayItem("project")]
-		public ObservableCollection<ProjectViewData> recent_projects = new ObservableCollection<ProjectViewData>();
+		public List<ProjectViewData> recent_projects = new List<ProjectViewData>();
 
 		[XmlArray("uploads_caches")]
 		[XmlArrayItem("cache")]

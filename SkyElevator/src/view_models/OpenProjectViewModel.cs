@@ -14,7 +14,7 @@ namespace SkyElevator.src.view_models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<ProgrameData.ProjectViewData> RecentProjectDatas { 
+        public List<ProgrameData.ProjectViewData> RecentProjectDatas { 
             get { return Core.Application.getSingleton().getRecentProjects(); }
         }
 

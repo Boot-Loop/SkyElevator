@@ -66,16 +66,17 @@ namespace Core.Data
 		public string value { 
 			get { return _value; }
 			set {
-				if (is_readonly) throw new ReadonlyError();
+				if (is_readonly && !is_null) throw new ReadonlyError();
                 last_value = value;
                 if (value != null) {
-                    last_value_valid = false;
+                    last_value_valid    = false;
                     _validate(value);
-                    last_value_valid = true;
-                    is_null = false;
+                    last_value_valid    = true;
+                    is_null             = false;
                 }
 				this._value = value;
-                modified = true;
+                is_null     = true;
+                modified    = true;
 			}
 		}
         private TextField() { }
@@ -101,7 +102,7 @@ namespace Core.Data
         public bool value {
             get { return _value; }
             set {
-                if (is_readonly) throw new ReadonlyError();
+                if (is_readonly && !is_null) throw new ReadonlyError();
                 last_value = value;
                 this._value = value;
                 modified = true;
@@ -110,8 +111,8 @@ namespace Core.Data
         }
 
         private BoolField() { }
-        public BoolField(string name = null, string replace_tag = null, bool value = false, bool read_only = false, bool default_value = false, string validation_error_msg = "") {
-            this.name = name; this.replace_tag = replace_tag; this.value = value; this.is_readonly = read_only;
+        public BoolField(string name = null, string replace_tag = null, bool read_only = false, bool default_value = false, string validation_error_msg = "") {
+            this.name = name; this.replace_tag = replace_tag; this.is_readonly = read_only;
             this.default_value = default_value; this.validation_error_msg = validation_error_msg;
         }
 
@@ -135,20 +136,20 @@ namespace Core.Data
 		public long value {
 			get { return _value; }
 			set {
-				if (is_readonly) throw new ReadonlyError();
+				if ( is_readonly && !is_null ) throw new ReadonlyError();
                 last_value = value;
-                last_value_valid = false;
+                last_value_valid    = false;
 				if (is_positive && value < 0) throw new ArgumentException();
-                last_value_valid = true;
-				this._value = value;
-                modified = true;
-                is_null = false;
+                last_value_valid    = true;
+				this._value         = value;
+                modified            = true;
+                is_null             = false;
 			}
 		}
 
         private IntergerField() { }
-		public IntergerField(string name = null, string replace_tag = null, long value = 0, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false, string validation_error_msg = "") {
-			this.name = name; this.is_positive = is_positive; this.value = value; this.is_readonly = is_readonly;
+		public IntergerField(string name = null, string replace_tag = null, bool is_positive = false, bool is_readonly = false, long default_value = 0, bool is_required = false, string validation_error_msg = "") {
+			this.name = name; this.is_positive = is_positive; this.is_readonly = is_readonly;
             this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
         }
         override public FieldType getType() => FieldType.INTEGER;
@@ -171,20 +172,20 @@ namespace Core.Data
         public double value {
 			get { return _value; }
 			set {
-				if (is_readonly) throw new ReadonlyError();
-                last_value = value;
-                last_value_valid = false;
+				if (is_readonly && !is_null) throw new ReadonlyError();
+                last_value          = value;
+                last_value_valid    = false;
 				if (is_positive && value < 0) throw new ArgumentException();
-                last_value_valid = true;
-				this._value = value;
-                modified = true;
-                is_null = false;
+                last_value_valid    = true;
+				this._value         = value;
+                modified            = true;
+                is_null             = false;
 			}
 		}
 
         private FloatField() { }
-		public FloatField(string name = null, string replace_tag = null, double value =0, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false, string validation_error_msg = "") {
-			this.name = name; this.is_positive = is_positive; this.value = value; this.is_readonly = is_readonly;
+		public FloatField(string name = null, string replace_tag = null, bool is_positive = false, bool is_readonly = false, double default_value = 0, bool is_required = false, string validation_error_msg = "") {
+			this.name = name; this.is_positive = is_positive; this.is_readonly = is_readonly;
             this.replace_tag = replace_tag; this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
         }
         override public FieldType getType() => FieldType.FLOAT;
@@ -215,11 +216,11 @@ namespace Core.Data
 		public DateTime value {
 			get { return _value; }
 			set {
-				if (is_readonly) throw new ReadonlyError();
-                last_value = value;
-                this._value = value;
-                modified = true;
-                is_null = (value == default(DateTime));
+				if (is_readonly && !is_null) throw new ReadonlyError();
+                last_value      = value;
+                this._value     = value;
+                modified        = true;
+                is_null         = (value == default(DateTime));
             }
 		}
 
@@ -358,11 +359,11 @@ namespace Core.Data
         public  List<T> value {
             get { return _value; }
             set {
-                if (is_readonly) throw new ReadonlyError();
-                last_value = value;
+                if (is_readonly && !is_null) throw new ReadonlyError();
+                last_value  = value;
                 this._value = value;
-                modified = true;
-                is_null = false;
+                modified    = true;
+                is_null     = value is null;
             }
         }
 
@@ -380,50 +381,50 @@ namespace Core.Data
         }
     }
 
-    [Serializable]
-    public class DropDownField<T> : Field
-    {
-        private ObservableCollection<T> items = new ObservableCollection<T>();
-        T default_value;
-        T _value;
-        public T value {
-            get { return _value; }
-            set {
-                if (is_readonly) throw new ReadonlyError();
-                if (!items.Contains(value)) {
-                    items.Add(value);
-                    Logger.logger.logWarning("drop down field add & set item which was not in items list : " + value );
-                }
-                last_value  = value;
-                this._value = value;
-                modified = true;
-                is_null     = false;
-            }
-        }
-
-        private DropDownField() { }
-        public DropDownField( string name = null, ObservableCollection<T> items = null, bool is_readonly = false, T default_value = default(T), bool is_required = false, string validation_error_msg = "") {
-            this.name = name; this.items = items; this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly; 
-            this.validation_error_msg = validation_error_msg;
-        }
-
-        public override object getDefault() => default_value;
-        public override FieldType getType() => FieldType.DROP_DOWN;
-        public override object getValue() => value;
-        public override void setValue(object value, bool is_readonly = false) { 
-            if (value != null) { this.value = (T)value; }
-            this.is_readonly = is_readonly; 
-        }
-        public void addItem(T item) { items.Add(item); }
-        public void setItemIndex(int index) { this.value = items[index]; } // throws exception if index is out of range
-        public int getItemIndex() { return items.IndexOf(value); }
-        public void setItems(ObservableCollection<T> items) { 
-            this.items = items;
-            if (!this.items.Contains(this.value)) { this.value = items[0]; is_null = true; }
-        }
-        public ObservableCollection<T> getItems() => items;
-
-    }
+    // [Serializable]
+    // public class DropDownField<T> : Field
+    // {
+    //     private List<T> items = new List<T>();
+    //     T default_value;
+    //     T _value;
+    //     public T value {
+    //         get { return _value; }
+    //         set {
+    //             if (is_readonly) throw new ReadonlyError();
+    //             if (!items.Contains(value)) {
+    //                 items.Add(value);
+    //                 Logger.logger.logWarning("drop down field add & set item which was not in items list : " + value );
+    //             }
+    //             last_value  = value;
+    //             this._value = value;
+    //             modified = true;
+    //             is_null     = ( value.Equals(default(T)) );
+    //         }
+    //     }
+    // 
+    //     private DropDownField() { }
+    //     public DropDownField( string name = null, List<T> items = null, bool is_readonly = false, T default_value = default(T), bool is_required = false, string validation_error_msg = "") {
+    //         this.name = name; this.items = items; this.is_readonly = is_readonly; this.default_value = default_value; this.is_readonly = is_readonly; 
+    //         this.validation_error_msg = validation_error_msg;
+    //     }
+    // 
+    //     public override object getDefault() => default_value;
+    //     public override FieldType getType() => FieldType.DROP_DOWN;
+    //     public override object getValue() => value;
+    //     public override void setValue(object value, bool is_readonly = false) { 
+    //         if (value != null) { this.value = (T)value; }
+    //         this.is_readonly = is_readonly; 
+    //     }
+    //     public void addItem(T item) { items.Add(item); }
+    //     public void setItemIndex(int index) { this.value = items[index]; } // throws exception if index is out of range
+    //     public int getItemIndex() { return items.IndexOf(value); }
+    //     public void setItems(List<T> items) { 
+    //         this.items = items;
+    //         if (!this.items.Contains(this.value)) { this.value = items[0]; is_null = true; }
+    //     }
+    //     public List<T> getItems() => items;
+    // 
+    // }
     
 
 

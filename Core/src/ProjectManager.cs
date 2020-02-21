@@ -10,6 +10,7 @@ using System.Security.AccessControl;
 using Core.Data.Files;
 using Core.Data.Models;
 using Core.Utils;
+using Core.Data;
 
 namespace Core
 {
@@ -112,7 +113,7 @@ namespace Core
 		public XmlFile<ProjectData>				project_file		{ get; } = new XmlFile<ProjectData>();
 		public XmlFile<ClientProgressModel>		progress_client		{ get; } = new XmlFile<ClientProgressModel>();
 		public XmlFile<SupplierProgressModel>	progress_supplier	{ get; } = new XmlFile<SupplierProgressModel>();
-		public XmlFile<List<PaymentModel>>		progress_payments	{ get; } = new XmlFile<List<PaymentModel>>();
+		public XmlFile<List<PaymentModel>>		progress_payments	{ get; } = new XmlFile<List<PaymentModel>>(data:new List<PaymentModel>());
 
 
 		private static ProjectManager _singleton;
@@ -186,48 +187,45 @@ namespace Core
 
 		public bool hasProgressTracking() {
 			if (project_file.data is null) throw new NullReferenceException("project data is null"); 
-			return has_progress_tracking[ project_file.data.project_type];
+			return has_progress_tracking[ project_file.data.project_model.getProjectType() ];
 		}
 
 
-		public void createProjectTemplate(string path, ProjectModel project_model ) {
+		public void createProjectTemplate(string path, ModelAPI<ProjectModel> api ) {
+			var project_model = api.model;
 			string project_name = project_model.name.value;
 			if (!Directory.Exists(path)) Logger.logThrow( new DirectoryNotFoundException() );
 			string project_dir = Path.Combine(path, project_name); // TODO: project_name validation - throws illegal characters in path
 			if (Directory.Exists(project_dir)) Logger.logThrow( new AlreadyExistsError("project directory already exists"));
 			Directory.CreateDirectory(project_dir);
-			foreach (FileTreeItem item in getProjectTemplate(project_model.project_type)) buildRecursiveDirectory(project_dir, item);
+			foreach (FileTreeItem item in getProjectTemplate(project_model.getProjectType())) buildRecursiveDirectory(project_dir, item);
+
+			if (project_model.client_id.isNull()) throw new Exception("client must not be null for a project");
 
 			// project file
 			var proj_file_path  = Path.Combine(path, project_name, project_name + Reference.PROJECT_FILE_EXTENSION);
 			project_file.path	= proj_file_path;
-			project_file.data	= new ProjectData(project_name, project_model.project_type);
-			project_file.data.location		= project_model.location.value;
-			if (project_model.client.isNull()) throw new Exception("client must not be null for a project");
-			project_file.data.client_nic	= project_model.client.value.nic.value;
-			project_file.data.creation_date = project_model.creation_date.value;
-			project_file.data.date			= project_model.date.value;
-			project_file.data.dirs.addFile(project_name + Reference.PROJECT_FILE_EXTENSION);
+			api.update(); // creates project file and save, upload cache
 
-			var file_items = getProjectTemplate(project_model.project_type);
+			var file_items = getProjectTemplate(project_model.getProjectType());
 			if (has_progress_tracking is null) throw new NullReferenceException("did you call Application.singleton.initialize()");
-			if (has_progress_tracking[project_model.project_type]) {
+			if (has_progress_tracking[project_model.getProjectType()]) {
 
 				// progress client
 				progress_client.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_CLIENT);
-				progress_client.data = new ClientProgressModel();
-				progress_client.save();
+				ModelAPI<ClientProgressModel> api_progress_client = new ModelAPI<ClientProgressModel>(null, ModelApiMode.MODE_CREATE);
+				api_progress_client.update(); // create and save progress_client file
 				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_CLIENT);
 
 				// progress supplier
 				progress_supplier.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_SUPPLIER);
+				ModelAPI<SupplierProgressModel> api_progress_supplier = new ModelAPI<SupplierProgressModel>(null, ModelApiMode.MODE_CREATE);
 				progress_supplier.data = new SupplierProgressModel();
-				progress_supplier.save();
+				api_progress_supplier.update(); // create and save progress_supplier file
 				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_SUPPLIER);
 
 				// payments
 				progress_payments.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_PAYMENTS);
-				progress_payments.data = new List<PaymentModel>();
 				progress_payments.save();
 				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_PAYMENTS);
 			}
@@ -239,7 +237,7 @@ namespace Core
 			project_file.path = path;
 			project_file.load();
 			if (has_progress_tracking is null) Logger.logThrow(new NullReferenceException("did you call Application.singleton.initialize()"));
-			if (has_progress_tracking[project_file.data.project_type]) {
+			if (has_progress_tracking[project_file.data.project_model.getProjectType()]) {
 				path = Path.GetDirectoryName(path);
 
 				var progress_client_path = Path.Combine(path, project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).getFile(Files.PROGRESS_CLIENT).path);

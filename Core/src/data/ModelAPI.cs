@@ -13,9 +13,8 @@ using Core.Utils;
 
 /** TODO:
  * modified field -> check value has changed
- * required fields null throw for create mode
- * if field null dont add to dictionary
  * check pk already exists
+ * save models data a dictionary { pk 1: model }
  */
 
 namespace Core.Data
@@ -51,13 +50,13 @@ namespace Core.Data
 						foreach( PropertyInfo prop_info in model.GetType().GetRuntimeProperties()) {
 							if ( prop_info.GetValue(model) is Field) { 
 								Field field = prop_info.GetValue(model) as Field;
-								if (field.isRequired() && field.isNull()) throw new RequiredFieldNullError("field : " + field.ToString() );
-								if (!field.isNull())
-									json.Add(field.getName(), field.getValue());
+								if (field.isRequired() && field.isNull()) throw new RequiredFieldNullError("field : " + field.getName() );
+								if (!field.isNull()) json.Add(field.getName(), field.getValue());
+								field._setNotModified();
 							}
 						}
 						generateUploadFiles(HttpRequestMethod.POST, model.getType(), model.getPK(), json);
-						Model.saveNewModel(model);
+						model.saveNew();
 						break;
 					}
 				case ModelApiMode.MODE_READ:
@@ -75,11 +74,12 @@ namespace Core.Data
 							}
 						}
 						generateUploadFiles(HttpRequestMethod.PATCH, model.getType(), model.getPK(), json);
-						model.save();
+						model.saveUpdates();
 						break;
 					}
 				case ModelApiMode.MODE_DELETE: {
-						generateUploadFiles(HttpRequestMethod.DELETE, model.getType(), model.getPK(), json);
+						/* TODO: delete the model from the disc : model.delete() or something */
+						generateUploadFiles(HttpRequestMethod.DELETE, model.getType(), model.getPK(), null);
 						break;
 					}
 
@@ -100,20 +100,13 @@ namespace Core.Data
 
 		private void setModel(object pk)
 		{
-			// TODO: delete, modification need access
-
-			if (model_type == ModelType.PROJECT_MODEL) throw new ArgumentException("can't create model for project");
-			if (_api_mode == ModelApiMode.MODE_CREATE) {
-				if (model_type == ModelType.PROGRESS_CLIENT || model_type == ModelType.PROGRESS_PAYMENT || model_type == ModelType.PROGRESS_SUPPLIER) {
-					throw new ArgumentException( "can't create model : " + model_type.ToString() );
-				}
-			}
+			// if (_api_mode == ModelApiMode.MODE_CREATE) {
+			// 		if (model_type == ModelType.PROGRESS_CLIENT || model_type == ModelType.PROGRESS_SUPPLIER) {
+			// 			throw new ArgumentException( "can't create model : " + model_type.ToString() );
+			// 		}
+			// }
 			if (_api_mode != ModelApiMode.MODE_CREATE) { // need pk
-				if (model_type == ModelType.MODEL_CLIENT || model_type == ModelType.MODEL_SUPPLIER
-					|| model_type == ModelType.PROGRESS_PAYMENT
-				) {
-					if (pk is null) throw new ArgumentNullException("required argument pk");
-				}
+				if (pk is null) throw new ArgumentNullException("required argument pk");
 			}
 
 			if (api_mode == ModelApiMode.MODE_CREATE) {

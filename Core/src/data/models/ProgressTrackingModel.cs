@@ -21,51 +21,24 @@ namespace Core.Data.Models
 		public FloatField amount { get; set; }			= new FloatField();
 		public IntergerField payment_type { get; set; }	= new IntergerField();
 
-		public void setPaymentType( PaymentType type) => payment_type.value = (int)type;
-		override public ModelType getType() => ModelType.PROGRESS_PAYMENT;
+		public void setPaymentType( PaymentType type)	=> payment_type.value = (int)type;
+		/* overrides */
+		override public ModelType getType()				=> ModelType.PROGRESS_PAYMENT;
+		public override bool matchPK(object pk)			=> id.value == Convert.ToInt64(pk);
+		public override object getPK()					=> id.value;
 
-		public override bool matchPK(object pk) {
-			return id.value.Equals((int)pk);
-		}
-		public override object getPK(){
-			return id.value;
-		}
-		
-		public override void save() {
+		public override void saveUpdates() {
 			if (ProjectManager.singleton.hasProgressTracking())
 				ProjectManager.singleton.progress_payments.save();
 			else throw new InvalidOperationException("project has no progress tracking");
 		}
-
-	}
-
-	[Serializable]
-	public class SupplierProgressModel : Model
-	{
-		public IntergerField	id						{ get; set; } = new IntergerField(	name: "id"						);
-		public FloatField		total_amount_tobe_paid	{ get; set; } = new FloatField(		name: "total_ammount"			);
-		public ListField<int>	payments				{ get; set; } = new ListField<int>(	name: "payments"				);
-		public DateTimeField	production_start_date	{ get; set; } = new DateTimeField(	name: "production_start_date"	);
-		public DateTimeField	estimated_arival_date	{ get; set; } = new DateTimeField(	name: "estimated_arival_date"	);
-		public DateTimeField	shipping_date			{ get; set; } = new DateTimeField(	name: "shipping_date"			);
-		public DateTimeField	arrival_date			{ get; set; } = new DateTimeField(	name: "arrival_date"			);
-
-		// TODO: text field for comments, and attachments
-
-		override public ModelType getType() => ModelType.PROGRESS_SUPPLIER;
-
-		public override bool matchPK(object pk) {
-			return id.value.Equals((int)pk);
-		}
-		public override object getPK() {
-			return id.value;
-		}
-		public override void save() {
-			if (ProjectManager.singleton.hasProgressTracking())
-				ProjectManager.singleton.progress_supplier.save();
-			else throw new InvalidOperationException("project has no progress tracking");
+		public override void saveNew() {
+			ProjectManager.singleton.progress_payments.data.Add(this);
+			ProjectManager.singleton.progress_payments.save();
 		}
 	}
+
+	
 
 	[Serializable]
 	public class ClientProgressModel : Model
@@ -89,19 +62,52 @@ namespace Core.Data.Models
 
 		// TODO: text field for comments, and attachments
 
+		/* overrides */
 		override public ModelType getType() => ModelType.PROGRESS_CLIENT;
-
-		public override bool matchPK(object pk) {
-			return id.value.Equals((int)pk);
-		}
-		public override object getPK() {
-			return id.value;
-		}
-
-		public override void save() {
+		public override bool matchPK(object pk) => id.value == Convert.ToInt64(pk);
+		public override object getPK() => id.value;
+		public override void saveUpdates() {
 			if (ProjectManager.singleton.hasProgressTracking())
 				ProjectManager.singleton.progress_client.save();
 			else throw new InvalidOperationException("project has no progress tracking");
+		}
+		public override void saveNew() {
+			if (Application.getSingleton().is_proj_loaded) throw new InvalidOperationException("can't create project when another project already loaded");
+			var progress_client_file = ProjectManager.singleton.progress_client;
+			if (progress_client_file.path is null) throw new Exception("path is null -> did you call Application.createNewProject()");
+			progress_client_file.data = this;
+			progress_client_file.save();
+		}
+	}
+
+	[Serializable]
+	public class SupplierProgressModel : Model
+	{
+		public IntergerField id { get; set; } = new IntergerField(name: "id");
+		public FloatField total_amount_tobe_paid { get; set; } = new FloatField(name: "total_ammount");
+		public ListField<int> payments { get; set; } = new ListField<int>(name: "payments");
+		public DateTimeField production_start_date { get; set; } = new DateTimeField(name: "production_start_date");
+		public DateTimeField estimated_arival_date { get; set; } = new DateTimeField(name: "estimated_arival_date");
+		public DateTimeField shipping_date { get; set; } = new DateTimeField(name: "shipping_date");
+		public DateTimeField arrival_date { get; set; } = new DateTimeField(name: "arrival_date");
+
+		// TODO: text field for comments, and attachments
+
+		/* overrides */
+		override public ModelType getType() => ModelType.PROGRESS_SUPPLIER;
+		public override bool matchPK(object pk) => id.value == Convert.ToInt64(pk);
+		public override object getPK() => id.value;
+		public override void saveUpdates() {
+			if (ProjectManager.singleton.hasProgressTracking())
+				ProjectManager.singleton.progress_supplier.save();
+			else throw new InvalidOperationException("project has no progress tracking");
+		}
+		public override void saveNew() {
+			if (Application.getSingleton().is_proj_loaded) throw new InvalidOperationException("can't create project when another project already loaded");
+			var progress_supplier_file = ProjectManager.singleton.progress_supplier;
+			if (progress_supplier_file.path is null) throw new Exception("path is null -> did you call Application.createNewProject()");
+			progress_supplier_file.data = this;
+			progress_supplier_file.save();
 		}
 	}
 
