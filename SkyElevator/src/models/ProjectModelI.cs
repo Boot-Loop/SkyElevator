@@ -16,12 +16,11 @@ namespace SkyElevator.src.models
 {
     public class ProjectModelI : INotifyPropertyChanged
     {
-        private static readonly int NULL_CLIENT_PK = 0;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private static readonly int NULL_CLIENT_PK = 0;
+
         private ModelAPI<ProjectModel> api = new ModelAPI<ProjectModel>(null, ModelApiMode.MODE_CREATE);
-        //private ProjectModel _project_model;
-        //private ObservableCollection<ClientModel> _client_models;
         private List<string> _project_types = new List<string>();
         private string _button_content = "Next";
         private int _selected_proj_type_index = 0;
@@ -29,11 +28,12 @@ namespace SkyElevator.src.models
         public ModelAPI<ProjectModel> ProjectModelApi { get { return api; } }
         public ProjectModel ProjectModel {
             get { return api.model; }
-            // set { _project_model = value; }
+            set { api.model = value; }
         }
+        private List<ClientModel> _client_models = CoreApp.getSingleton().getClientsDropDownList();
         public List<ClientModel> ClientModels {
-            get { return CoreApp.getSingleton().getClientsDropDownList(); }
-            //set { _client_models = value; onPropertyRaised("ClientModels"); }
+            get { return _client_models; }
+            set { _client_models = value; onPropertyRaised("ClientModels"); }
         }
         public List<string> ProjectTypes
         {
@@ -52,14 +52,14 @@ namespace SkyElevator.src.models
                 // _project_model.project_type.value = value;
             }
         }
+        ClientModel _selected_client;
         public ClientModel SelectedClient {
             get {
-                if (api.model.id.value == NULL_CLIENT_PK) return ClientModels[NULL_CLIENT_PK];
-                return Model.getModel(api.model.getPK(), ModelType.MODEL_CLIENT) as ClientModel; 
+                return _selected_client;
             } 
             set {
-                api.model.client_id.value = value.id.value;
-                if (api.model.client_id.value == ClientModels[NULL_CLIENT_PK].id.value) _button_content = "Next";
+                _selected_client = value;
+                if (_selected_client.id.value == ClientModels[NULL_CLIENT_PK].id.value) _button_content = "Next";
                 else _button_content = "Create";
                 api.model.client_id.value = value.id.value;
                 onPropertyRaised("SelectedClient");
