@@ -26,13 +26,11 @@ namespace SkyElevator.src.view_models.commands
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter)
-        {
+        public bool CanExecute(object parameter) {
             return _can_ececute == null ? true : _can_ececute((object)parameter);
         }
 
-        public void Execute(object parameter)
-        {
+        public void Execute(object parameter) {
             _execute((object)parameter);
         }
     }
