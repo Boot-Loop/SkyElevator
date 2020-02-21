@@ -17,11 +17,8 @@ namespace SkyElevator.src.view_models
         public string DisplayName { get; set; }
         public string Path { get; set; }
 
-        private ObservableCollection<ProgrameData.ProjectViewData> _recent_project_datas = new ObservableCollection<ProgrameData.ProjectViewData>();
-
-        public ObservableCollection<ProgrameData.ProjectViewData> RecentProjectDatas {
-            get { return _recent_project_datas; }
-            set { _recent_project_datas = value; }
+        public List<ProgrameData.ProjectViewData> RecentProjectDatas { 
+            get { return Core.Application.getSingleton().getRecentProjects(); }
         }
 
         public RecentProjectModel()

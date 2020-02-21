@@ -9,7 +9,8 @@ using System.Collections.ObjectModel;
 using Core.Utils;
 using Core.Data.Files;
 using Core.Data.Models;
-
+using System.Reflection;
+using Core.Data;
 
 namespace Core
 {
@@ -21,7 +22,10 @@ namespace Core
 		public XmlFile<ProgrameData> programe_data_file	{ get; } = new XmlFile<ProgrameData>( file_path: Paths.PROGRAME_DATA_FILE );
 		public BinFile<ClientsData> clients_file		{ get; } = new BinFile<ClientsData>(file_path: Paths.CLIENTS_DATA_FILE);
 
-		private ObservableCollection<ClientModel> _dropdown_clients_list = null;
+		private bool _is_proj_loaded = false;
+		public bool is_proj_loaded { get { return _is_proj_loaded; } }
+
+		private List<ClientModel> _dropdown_clients_list = null;
 
 		/* singleton */
 		private Application() { } 
@@ -54,29 +58,33 @@ namespace Core
 		}
 
 		// throws if path, name is invalid, project directory already exists
-
-		public void createNewProject(ProjectModel project_model, string path = null ) {
+		public void createNewProject(ModelAPI<ProjectModel> api, string path = null ) {
+			if (api.api_mode != ModelApiMode.MODE_CREATE) throw new InvalidOperationException("api mode must be MODE_CREATE");
 			if (path is null) path = programe_data_file.data.default_proj_dir;
 			path = Path.GetFullPath(path);
-			ProjectManager.singleton.createProjectTemplate(path, project_model);
-			programe_data_file.data.addProject(project_model.name.value, project_model.client.value.name.value, ProjectManager.singleton.project_file.path);
+			ProjectManager.singleton.createProjectTemplate(path, api);
+			var client = Model.getModel(api.model.client_id.value, ModelType.MODEL_CLIENT) as ClientModel;
+			programe_data_file.data.addProject(api.model.name.value, client.name.value, ProjectManager.singleton.project_file.path);
 			programe_data_file.save();
-			Directory.SetCurrentDirectory(Path.Combine(path, project_model.name.value));
+			Directory.SetCurrentDirectory(Path.Combine(path, api.model.name.value));
+			_is_proj_loaded = true;
 		}
 
 		public void loadProject(int index) {
-			var proj = programe_data_file.data.recent_projects[index]; // throws index out of range exception
+			var recent_projects = programe_data_file.data.recent_projects;
+			if (recent_projects.Count == 0) throw new IndexOutOfRangeException("no projects available");
+			var proj = recent_projects[index]; 
 			string path = proj.path;
 			path = Path.GetFullPath(path);
 			ProjectManager.singleton.loadProject(path);
 			programe_data_file.data.setMostRecentProject(index);
 			programe_data_file.save();
 			Directory.SetCurrentDirectory( Path.GetDirectoryName(path) );
-
+			_is_proj_loaded = true;
 		}
 
 
-		public ObservableCollection<ProgrameData.ProjectViewData> getRecentProjects() => programe_data_file.data.recent_projects;
+		public List<ProgrameData.ProjectViewData> getRecentProjects() => programe_data_file.data.recent_projects;
 		public void setRecentProject(int index) => programe_data_file.data.setMostRecentProject(index);
 		public void setDefaultProjectPath(string path) {
 			if (!Directory.Exists(path)) throw new DirectoryNotFoundException("default project path directory not exists");
@@ -84,10 +92,10 @@ namespace Core
 			programe_data_file.save();
 		}
 		// TODO: DANGER changes in client must reflect in database
-		public ObservableCollection<ClientModel> getClients() => clients_file.data.clients;
-		public ObservableCollection<ClientModel> getClientsDropDownList() {
+		public List<ClientModel> getClients() => clients_file.data.clients;
+		public List<ClientModel> getClientsDropDownList() {
 			if (_dropdown_clients_list is null) {
-				_dropdown_clients_list = new ObservableCollection<ClientModel>() { new ClientModel("<create new client>") };
+				_dropdown_clients_list = new List<ClientModel>() { new ClientModel("<create new client>") };
 				foreach (var _client in clients_file.data.clients) _dropdown_clients_list.Add(_client);
 			}
 			return _dropdown_clients_list;

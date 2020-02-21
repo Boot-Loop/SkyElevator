@@ -22,12 +22,12 @@ namespace Core.Data.Files
 
 		private UploadData() { }
 		public UploadData( HttpRequestMethod method, ModelType model_type, object pk = null, string json = null, DateTime creation_date = default(DateTime)) {
-			this.method = method; this.model_type = model_type; this.pk = (string)pk; this.json = json;
+			this.method = method; this.model_type = model_type; this.pk = Convert.ToString(pk); this.json = json;
 			if (creation_date.Equals(default(DateTime))) this.creation_date = DateTime.Now;
 			else this.creation_date = creation_date;
 		}
 		public UploadData(HttpRequestMethod method, ModelType model_type, object pk = null, Dictionary<string, object> json = null, DateTime creation_date = default(DateTime)) 
-			: this(method, model_type, pk, JsonSerializer.Serialize(json), creation_date) {}
+			: this(method, model_type, pk, (json is null)?null:JsonSerializer.Serialize(json), creation_date) {}
 
 	}
 }

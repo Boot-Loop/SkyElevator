@@ -12,6 +12,6 @@ namespace Core.Data.Files
 	[Serializable]
 	public class ClientsData
 	{
-		public ObservableCollection<ClientModel> clients = new ObservableCollection<ClientModel>();
+		public List<ClientModel> clients = new List<ClientModel>();
 	}
 }
