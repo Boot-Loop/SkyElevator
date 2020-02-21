@@ -79,6 +79,7 @@ namespace SkyElevator.src.view_models
                 }
                 else {
                     try {
+                        ProjectModelI.ProjectModelApi.model.client_id.value = ProjectModelI.SelectedClient.id.value;
                         CoreApp.getSingleton().createNewProject(ProjectModelI.ProjectModelApi, FolderBrowseCommand.FolderPath);
                         CoreApp.getSingleton().setDefaultProjectPath(FolderBrowseCommand.FolderPath);
                         NewProject.ProjectManager.closeWindow();
