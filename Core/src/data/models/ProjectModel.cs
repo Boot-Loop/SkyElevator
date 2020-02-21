@@ -33,16 +33,19 @@ namespace Core.Data.Models
 		public override string ToString()		=> this.name.value;
 		public override ModelType getType()		=> ModelType.PROJECT_MODEL;
 		public override bool matchPK(object pk) => id.value == Convert.ToInt64(pk);
-		public override object getPK()			=>  id.value;
+		public override object getPK()			=> id.value;
 		public override void saveUpdates()		=> ProjectManager.singleton.project_file.save();
 
 		public override void saveNew() {
-			if (Application.getSingleton().is_proj_loaded) throw new InvalidOperationException("can't create project when another project already loaded");
+			if (Application.singleton.is_proj_loaded) throw new InvalidOperationException("can't create project when another project already loaded");
 			var project_file = ProjectManager.singleton.project_file;
 			if (project_file.path is null) throw new Exception("path is null -> did you call Application.createNewProject()");
 			project_file.data = new ProjectData(this.name.value, this);
 			project_file.data.dirs.addFile(this.name.value + Reference.PROJECT_FILE_EXTENSION);
 			project_file.save();
+		}
+		public override void validateRelation() {
+			Model.getModel(client_id.value, ModelType.MODEL_CLIENT); // throws model does not exists
 		}
 	}
 }

@@ -21,6 +21,7 @@ namespace Core
 		static Logger logger = new Logger();
 		public XmlFile<ProgrameData> programe_data_file	{ get; } = new XmlFile<ProgrameData>( file_path: Paths.PROGRAME_DATA_FILE );
 		public BinFile<ClientsData> clients_file		{ get; } = new BinFile<ClientsData>(file_path: Paths.CLIENTS_DATA_FILE);
+		public BinFile<SuppliersData> suppliers_file	{ get; } = new BinFile<SuppliersData>(file_path: Paths.SUPPLIERS_DATA_FILE);
 
 		private bool _is_proj_loaded = false;
 		public bool is_proj_loaded { get { return _is_proj_loaded; } }
@@ -29,10 +30,17 @@ namespace Core
 
 		/* singleton */
 		private Application() { } 
-		private static Application singleton;
+		private static Application _singleton;
+		public static Application singleton {
+			get {
+				if (_singleton == null) _singleton = new Application();
+				return _singleton;
+			}
+		}
+		[Obsolete("this method will dipricate, use Application.singleton property", false)]
 		public static Application getSingleton() {
-			if (singleton == null) singleton = new Application();
-			return singleton;
+			if (_singleton == null) _singleton = new Application();
+			return _singleton;
 		}
 
 
@@ -51,6 +59,8 @@ namespace Core
 			else { programe_data_file.load(); }
 			if (!File.Exists(Paths.CLIENTS_DATA_FILE)) { clients_file.data = new ClientsData(); clients_file.save(); }
 			else { clients_file.load(); }
+			if (!File.Exists(Paths.SUPPLIERS_DATA_FILE)) { suppliers_file.data = new SuppliersData(); suppliers_file.save(); }
+			else { suppliers_file.load(); }
 			if (!Directory.Exists(Paths.UPLOAD_CACHE)) Directory.CreateDirectory(Paths.UPLOAD_CACHE);
 
 			programe_data_file.data.cleanProjectPaths();
@@ -69,6 +79,21 @@ namespace Core
 			programe_data_file.save();
 			Directory.SetCurrentDirectory(Path.Combine(path, api.model.name.value));
 			_is_proj_loaded = true;
+		}
+		public XmlFile<ProjectData> _addExistingProject(string path) {
+			if (!File.Exists(path)) throw new FileNotFoundException("invalid file path : " + path);
+			// !path.EndsWith(Core.Reference.PROJECT_FILE_EXTENSION
+			XmlFile<ProjectData> proj = new XmlFile<ProjectData>(file_path: path);
+			proj.load();
+			var client = Model.getModel(proj.data.project_model.client_id, ModelType.MODEL_CLIENT) as ClientModel;
+			programe_data_file.data.addProject(proj.data.project_model.name.value, client.name.value, proj.path);
+			programe_data_file.save();
+			return proj;
+		}
+		public void addAndLoadExistingProject(string path) {
+			var proj = _addExistingProject(path);
+			ProjectManager.singleton.project_file.data = proj.data;
+			Directory.SetCurrentDirectory( path );
 		}
 
 		public void loadProject(int index) {
@@ -92,11 +117,13 @@ namespace Core
 			programe_data_file.data.default_proj_dir = path;
 			programe_data_file.save();
 		}
-		// TODO: DANGER changes in client must reflect in database
+
 		public List<ClientModel> getClients() => clients_file.data.clients;
 		public List<ClientModel> getClientsDropDownList() {
 			if (_dropdown_clients_list is null) {
-				_dropdown_clients_list = new List<ClientModel>() { new ClientModel("<create new client>") };
+				var create_new_client = new ClientModel("<create new client>");
+				create_new_client.id.value = 0;
+				_dropdown_clients_list = new List<ClientModel>() { create_new_client };
 				foreach (var _client in clients_file.data.clients) _dropdown_clients_list.Add(_client);
 			}
 			return _dropdown_clients_list;

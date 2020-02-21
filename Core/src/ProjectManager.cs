@@ -205,22 +205,28 @@ namespace Core
 			// project file
 			var proj_file_path  = Path.Combine(path, project_name, project_name + Reference.PROJECT_FILE_EXTENSION);
 			project_file.path	= proj_file_path;
+			// project_file.data.project_model = project_model;
 			api.update(); // creates project file and save, upload cache
 
 			var file_items = getProjectTemplate(project_model.getProjectType());
 			if (has_progress_tracking is null) throw new NullReferenceException("did you call Application.singleton.initialize()");
 			if (has_progress_tracking[project_model.getProjectType()]) {
 
+				var progress_pk = DateTime.Now.Ticks;
+
 				// progress client
 				progress_client.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_CLIENT);
 				ModelAPI<ClientProgressModel> api_progress_client = new ModelAPI<ClientProgressModel>(null, ModelApiMode.MODE_CREATE);
+				api_progress_client.model.id.value = progress_pk;
+				api_progress_client.model.project_id.value = api.model.id.value;
 				api_progress_client.update(); // create and save progress_client file
 				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_CLIENT);
 
 				// progress supplier
 				progress_supplier.path = Path.Combine(path, project_name, Dirs.PROJECT_TRACKING, Files.PROGRESS_SUPPLIER);
 				ModelAPI<SupplierProgressModel> api_progress_supplier = new ModelAPI<SupplierProgressModel>(null, ModelApiMode.MODE_CREATE);
-				progress_supplier.data = new SupplierProgressModel();
+				api_progress_supplier.model.id.value = progress_pk;
+				api_progress_supplier.model.project_id.value = api.model.id.value;
 				api_progress_supplier.update(); // create and save progress_supplier file
 				project_file.data.dirs.getDir(Dirs.PROJECT_TRACKING).addFile(Files.PROGRESS_SUPPLIER);
 

@@ -84,6 +84,7 @@
     <Compile Include="src\data\doc\InquirySheet.cs" />
     <Compile Include="src\data\doc\WarrantyCertification.cs" />
     <Compile Include="src\data\files\ClientsData.cs" />
+    <Compile Include="src\data\files\SuppliersData.cs" />
     <Compile Include="src\data\files\UploadData.cs" />
     <Compile Include="src\data\models\Model.cs" />
     <Compile Include="src\data\models\ProjectModel.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="src\data\models\ProgressTrackingModel.cs" />
     <Compile Include="src\data\files\ProgrameData.cs" />
     <Compile Include="src\data\ModelAPI.cs" />
+    <Compile Include="src\data\models\SupplierModel.cs" />
     <Compile Include="src\ProjectManager.cs" />
     <Compile Include="src\sebe_client\SebeClient.cs" />
     <Compile Include="src\Core.cs" />

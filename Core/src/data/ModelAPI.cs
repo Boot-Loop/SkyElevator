@@ -94,8 +94,8 @@ namespace Core.Data
 			var cache_file_name = date_time.Ticks.ToString() + ".dat";
 			XmlFile<UploadData> upload_file = new XmlFile<UploadData>( file_path: Path.Combine(Core.Paths.UPLOAD_CACHE, cache_file_name), data : upload_data );
 			upload_file.save();
-			Application.getSingleton().programe_data_file.data.upload_cache_files.Add(cache_file_name);
-			Application.getSingleton().programe_data_file.save();
+			Application.singleton.programe_data_file.data.upload_cache_files.Add(cache_file_name);
+			Application.singleton.programe_data_file.save();
 		}
 
 		private void setModel(object pk)

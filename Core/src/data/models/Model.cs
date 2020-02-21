@@ -31,6 +31,7 @@ namespace Core.Data.Models
 		public abstract ModelType getType();
 		public abstract void saveUpdates();
 		public abstract void saveNew();
+		public abstract void validateRelation();
 
 		public static ModelType toModelType(Type type)
 		{
@@ -67,7 +68,7 @@ namespace Core.Data.Models
 						throw new InvalidOperationException("can't access project model with pk");
 					}
 				case ModelType.MODEL_CLIENT: {
-						foreach (var client in Application.getSingleton().getClients()) {
+						foreach (var client in Application.singleton.getClients()) {
 							if (client.matchPK(pk)) { return client; }
 						}
 						throw new ModelNotExists("model for client not exists pk: " + pk.ToString());

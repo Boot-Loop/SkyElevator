@@ -27,10 +27,12 @@ namespace Core.Data.Models
 		override public ModelType getType()		=> ModelType.MODEL_CLIENT;
 		override public bool matchPK(object pk) => id.value == Convert.ToInt64(pk);
 		override public object getPK()			=> id.value;
-		override public void saveUpdates()		=> Application.getSingleton().clients_file.save();
+		override public void saveUpdates()		=> Application.singleton.clients_file.save();
 		override public void saveNew() {
-			Application.getSingleton().clients_file.data.clients.Add(this);
-			Application.getSingleton().clients_file.save();
+			Application.singleton.clients_file.data.clients.Add(this);
+			Application.singleton.clients_file.save();
 		}
+		public override void validateRelation() { }
+
 	}
 }
