@@ -59,7 +59,7 @@ namespace SkyElevator.src.view_models
             else {
                 DateTime current_date_time = DateTime.Now;
                 _project_model_i.ProjectCreationDate = current_date_time;
-                if (_project_model_i.ProjectModel.client.value == _project_model_i.ClientModels[0]) {
+                if (_project_model_i.ProjectModel.client_id.value == _project_model_i.ClientModels[0].id.value) {
                     try {
                         this.nextButtonClicked();
                     }
@@ -79,7 +79,7 @@ namespace SkyElevator.src.view_models
                 }
                 else {
                     try {
-                        CoreApp.getSingleton().createNewProject(ProjectModelI.ProjectModel, FolderBrowseCommand.FolderPath);
+                        CoreApp.getSingleton().createNewProject(ProjectModelI.ProjectModelApi, FolderBrowseCommand.FolderPath);
                         CoreApp.getSingleton().setDefaultProjectPath(FolderBrowseCommand.FolderPath);
                         NewProject.ProjectManager.closeWindow();
                     }

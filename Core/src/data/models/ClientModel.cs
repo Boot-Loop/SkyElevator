@@ -26,7 +26,7 @@ namespace Core.Data.Models
 		override public string ToString()		=> this.name.value;
 		override public ModelType getType()		=> ModelType.MODEL_CLIENT;
 		override public bool matchPK(object pk) => id.value == Convert.ToInt64(pk);
-		override public object getPK()			=> nic.value;
+		override public object getPK()			=> id.value;
 		override public void saveUpdates()		=> Application.getSingleton().clients_file.save();
 		override public void saveNew() {
 			Application.getSingleton().clients_file.data.clients.Add(this);
