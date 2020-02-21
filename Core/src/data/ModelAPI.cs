@@ -50,7 +50,7 @@ namespace Core.Data
 						foreach( PropertyInfo prop_info in model.GetType().GetRuntimeProperties()) {
 							if ( prop_info.GetValue(model) is Field) { 
 								Field field = prop_info.GetValue(model) as Field;
-								if (field.isRequired() && field.isNull()) throw new RequiredFieldNullError("field : " + field.getName() );
+								if (field.isRequired() && field.isNull()) throw new RequiredFieldNullError( String.Format("model={0} field={1}", typeof(T).ToString(), field.getName()) );
 								if (!field.isNull()) json.Add(field.getName(), field.getValue());
 								field._setNotModified();
 							}

@@ -66,7 +66,7 @@ namespace Core.Data
 		public string value { 
 			get { return _value; }
 			set {
-				if (is_readonly && !is_null) throw new ReadonlyError();
+				// if (is_readonly && !is_null) throw new ReadonlyError();
                 last_value = value;
                 if (value != null) {
                     last_value_valid    = false;
@@ -102,7 +102,7 @@ namespace Core.Data
         public bool value {
             get { return _value; }
             set {
-                if (is_readonly && !is_null) throw new ReadonlyError();
+                // if (is_readonly && !is_null) throw new ReadonlyError();
                 last_value = value;
                 this._value = value;
                 modified = true;
@@ -136,7 +136,7 @@ namespace Core.Data
 		public long value {
 			get { return _value; }
 			set {
-				if ( is_readonly && !is_null ) throw new ReadonlyError();
+				// if ( is_readonly && !is_null ) throw new ReadonlyError();
                 last_value = value;
                 last_value_valid    = false;
 				if (is_positive && value < 0) throw new ArgumentException();
@@ -172,7 +172,7 @@ namespace Core.Data
         public double value {
 			get { return _value; }
 			set {
-				if (is_readonly && !is_null) throw new ReadonlyError();
+				// if (is_readonly && !is_null) throw new ReadonlyError();
                 last_value          = value;
                 last_value_valid    = false;
 				if (is_positive && value < 0) throw new ArgumentException();
@@ -216,7 +216,7 @@ namespace Core.Data
 		public DateTime value {
 			get { return _value; }
 			set {
-				if (is_readonly && !is_null) throw new ReadonlyError();
+				// if (is_readonly && !is_null) throw new ReadonlyError();
                 last_value      = value;
                 this._value     = value;
                 modified        = true;
@@ -359,7 +359,7 @@ namespace Core.Data
         public  List<T> value {
             get { return _value; }
             set {
-                if (is_readonly && !is_null) throw new ReadonlyError();
+                // if (is_readonly && !is_null) throw new ReadonlyError();
                 last_value  = value;
                 this._value = value;
                 modified    = true;

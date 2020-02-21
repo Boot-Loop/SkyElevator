@@ -45,13 +45,14 @@ namespace SkyElevator.src.view_models
         }
 
         public void createNewProjectWithClient() {
+            _client_model_i.api.model.id.value = DateTime.Now.Ticks; // TODO: consider change the pk
             _client_model_i.api.update();
             NewProjectViewModel new_project_view_model = NewClient.ProjectManager.NewProject.NewProjectViewModel;
             new_project_view_model.ProjectModelI.SelectedClient = _client_model_i.ClientModel;
 
             AlertViewViewModel.Button button = new AlertViewViewModel.Button { name = "Okay" };
             try {
-                CoreApp.getSingleton().createNewProject(new_project_view_model.ProjectModelI.ProjectModel, new_project_view_model.FolderBrowseCommand.FolderPath);
+                CoreApp.getSingleton().createNewProject(new_project_view_model.ProjectModelI.ProjectModelApi, new_project_view_model.FolderBrowseCommand.FolderPath);
                 CoreApp.getSingleton().setDefaultProjectPath(new_project_view_model.FolderBrowseCommand.FolderPath);
                 NewClient.ProjectManager.closeWindow();
             }

@@ -62,6 +62,7 @@ namespace Core
 			if (api.api_mode != ModelApiMode.MODE_CREATE) throw new InvalidOperationException("api mode must be MODE_CREATE");
 			if (path is null) path = programe_data_file.data.default_proj_dir;
 			path = Path.GetFullPath(path);
+			api.model.id.value = DateTime.Now.Ticks; // TODO: consider change in pk
 			ProjectManager.singleton.createProjectTemplate(path, api);
 			var client = Model.getModel(api.model.client_id.value, ModelType.MODEL_CLIENT) as ClientModel;
 			programe_data_file.data.addProject(api.model.name.value, client.name.value, ProjectManager.singleton.project_file.path);
