@@ -40,6 +40,10 @@
                 
                 <!--data grids-->
                 <ResourceDictionary Source="src/styles/data_grids/common_data_grids/CommonDataGrid.xaml"/>
+                
+                <!--list views-->
+                <ResourceDictionary Source="src/styles/list_views/common_list_views/CommonListView.xaml"/>
+                <ResourceDictionary Source="src/styles/list_views/list_view_items/common_list_view_items/CommonListViewItem.xaml"/>
 
 
                 <ResourceDictionary Source="src/views/custom_views/scrollable_tab_control/Themes/Generic.xaml"/>
