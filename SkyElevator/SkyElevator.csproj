@@ -126,6 +126,7 @@
     <Compile Include="src\view_models\commands\FolderBrowseCommand.cs" />
     <Compile Include="src\view_models\commands\NewClientRelayCommand.cs" />
     <Compile Include="src\view_models\commands\NewProjectRelayCommand.cs" />
+    <Compile Include="src\view_models\commands\RelayCommand.cs" />
     <Compile Include="src\view_models\FileTree.cs" />
     <Compile Include="src\view_models\MainViewModel.cs" />
     <Compile Include="src\view_models\NewClientViewModel.cs" />
@@ -229,6 +230,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\styles\labels\title_two_labels\TitleTwoLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\list_views\common_list_views\CommonListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\list_views\list_view_items\common_list_view_items\CommonListViewItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
