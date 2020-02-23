@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Core.Data
 {
     public enum FieldType
     {
-        TEXT, INTEGER, BOOL, FLOAT, DATE_TIME, DIMENTION, EMAIL, PHONE_NUMBER, NIC, WEB_SITE,
+        TEXT, INTEGER, BOOL, FLOAT, DATE_TIME, DIMENTION, EMAIL, PHONE_NUMBER, NIC, WEB_SITE, FILE,
         DROP_DOWN, LIST_FIELD,
     }
 
@@ -59,29 +60,31 @@ namespace Core.Data
     [Serializable]
     public class TextField : Field
 	{
-		
+        int max_length          = -1;
         string default_value    = null;
 		string _value	        = null;
         [XmlAttribute]
 		public string value { 
 			get { return _value; }
 			set {
-				// if (is_readonly && !is_null) throw new ReadonlyError();
+                // if (is_readonly && !is_null) throw new ReadonlyError();
+                if (this.max_length > 0 && value != null) {
+                    if (this.max_length < value.Length) throw new ValidationError("value exceded max length : " + max_length.ToString());
+                }
                 last_value = value;
                 if (value != null) {
                     last_value_valid    = false;
                     _validate(value);
                     last_value_valid    = true;
                     is_null             = false;
-                }
+                } else is_null = true;
 				this._value = value;
-                is_null     = true;
                 modified    = true;
 			}
 		}
         private TextField() { }
-        public TextField(string name = null, string replace_tag = null, string text=null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "") {
-            this.name = name; this.replace_tag = replace_tag; this.value = text; this.is_readonly = is_readonly;  
+        public TextField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, int max_length = -1, string validation_error_msg = "") {
+            this.name = name; this.replace_tag = replace_tag; this.max_length = max_length; this.value = text; this.is_readonly = is_readonly;  
             this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;
         }
         override public FieldType getType() => FieldType.TEXT;
@@ -302,8 +305,8 @@ namespace Core.Data
     public class EmailField : TextField
     {
         private EmailField() { }
-        public EmailField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        :base (name: name, replace_tag: replace_tag, text: text, is_readonly : is_readonly, default_value : default_value, is_required : is_required, validation_error_msg: validation_error_msg) { }
+        public EmailField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, int max_length=75, string validation_error_msg = "")
+        :base (name: name, replace_tag: replace_tag, text: text, is_readonly : is_readonly, default_value : default_value, is_required : is_required, max_length: max_length, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.EMAIL;
         public override void _validate(string value) {
@@ -315,8 +318,8 @@ namespace Core.Data
     public class PhoneNumberField : TextField
     {
         private PhoneNumberField() { }
-        public PhoneNumberField(string name = null, string replace_tag=null, string text=null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
+        public PhoneNumberField(string name = null, string replace_tag=null, string text=null, bool is_readonly = false, string default_value = null, bool is_required = false, int max_length = 20, string validation_error_msg = "")
+        : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, max_length: max_length, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.PHONE_NUMBER;
         public override void _validate(string value) {
@@ -328,8 +331,8 @@ namespace Core.Data
     public class NICField : TextField
     {
         private NICField() { }
-        public NICField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
+        public NICField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, int max_length = 10, string validation_error_msg = "")
+        : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, max_length: max_length, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.NIC;
         public override void _validate(string value) {
@@ -341,14 +344,28 @@ namespace Core.Data
     public class WebSiteField : TextField
     {
         private WebSiteField() { }
-        public WebSiteField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
-        : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
+        public WebSiteField(string name = null, string replace_tag = null, string text = null, bool is_readonly = false, string default_value = null, bool is_required = false, int max_length = -1, string validation_error_msg = "")
+        : base(name: name, replace_tag: replace_tag, text: text, is_readonly: is_readonly, default_value: default_value, is_required: is_required, max_length:max_length, validation_error_msg: validation_error_msg) { }
 
         override public FieldType getType() => FieldType.WEB_SITE;
         public override void _validate(string value) {
             // todo:
         }
     }
+
+    [Serializable]
+    public class FileField : TextField
+    {
+        private FileField() { }
+        public FileField(string name = null, string replace_tag = null, string file_path = null, bool is_readonly = false, string default_value = null, bool is_required = false, string validation_error_msg = "")
+        : base(name: name, replace_tag: replace_tag, text: file_path, is_readonly: is_readonly, default_value: default_value, is_required: is_required, validation_error_msg: validation_error_msg) { }
+
+        override public FieldType getType() => FieldType.FILE;
+        public override void _validate(string value) {
+            if (!File.Exists(value)) { throw new FileNotFoundException("path: " + value); }
+        }
+    }
+
 
     [Serializable]
     public class ListField<T> : Field
@@ -380,6 +397,8 @@ namespace Core.Data
             this.value = (List<T>)value; this.is_readonly = is_readonly; is_null = false;
         }
     }
+
+
 
     // [Serializable]
     // public class DropDownField<T> : Field
@@ -425,7 +444,7 @@ namespace Core.Data
     //     public List<T> getItems() => items;
     // 
     // }
-    
+
 
 
 }

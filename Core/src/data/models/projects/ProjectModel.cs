@@ -47,5 +47,7 @@ namespace Core.Data.Models
 		public override void validateRelation() {
 			Model.getModel(client_id.value, ModelType.MODEL_CLIENT); // throws model does not exists
 		}
+
+		
 	}
 }

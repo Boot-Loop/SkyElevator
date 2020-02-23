@@ -37,9 +37,13 @@ namespace Core.Data.Files
 		public List<string> upload_cache_files = new List<string>();
 
 		public void addProject(string name, string client_name, string path) {
-			if (!File.Exists(Path.GetFullPath(path))) { Logger.logThrow(new FileNotFoundException("project file not found")); }
-			if (!path.EndsWith(Reference.PROJECT_FILE_EXTENSION)) { Logger.logThrow(new InvalidPathError("project file path must ends with : " + Reference.PROJECT_FILE_EXTENSION)); }
-			//if (!recent_projects.Contains(path)) recent_projects.Add(path); // TODO:
+			if (!File.Exists(Path.GetFullPath(path))) { throw new FileNotFoundException("project file not found"); }
+			if (!path.EndsWith(Reference.PROJECT_FILE_EXTENSION)) { throw new InvalidPathError("project file path must ends with : " + Reference.PROJECT_FILE_EXTENSION); }
+			foreach(var proj in recent_projects) {
+				if (Path.GetFullPath(path).Equals(Path.GetFullPath(proj.path))) {
+					return;
+				}
+			}
 			ProjectViewData data = new ProjectViewData(name, client_name, path);
 			recent_projects.Insert(0, data);
 		}

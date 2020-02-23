@@ -26,12 +26,23 @@ namespace Core.Data.Models
 	[Serializable]
 	public abstract class Model
 	{
+		public class AppNames
+		{
+			private AppNames() { }
+			public static readonly string ACCOUNTS	= "accounts";
+			public static readonly string DOCUMENTS = "documents";
+			public static readonly string PROJECTS	= "projects";
+		}
+
 		public abstract bool matchPK(object pk);
 		public abstract object getPK();
 		public abstract ModelType getType();
 		public abstract void saveUpdates();
 		public abstract void saveNew();
 		public abstract void validateRelation();
+		//public abstract string getAppName();
+		//public abstract string getVerboseNameSingular();
+		//public abstract string getVerboseNamePlural();
 
 		public static ModelType toModelType(Type type)
 		{
@@ -50,16 +61,57 @@ namespace Core.Data.Models
 		{
 			switch (model_type)
 			{
-				case ModelType.PROJECT_MODEL:		return new ProjectModel();
-				case ModelType.MODEL_CLIENT:		return new ClientModel();
-				case ModelType.MODEL_SUPPLIER:		throw new Exception("TODO: suppiler model didn't created yet");
-				case ModelType.PROGRESS_CLIENT:		return new ClientProgressModel();
-				case ModelType.PROGRESS_SUPPLIER:	return new SupplierProgressModel();
-				case ModelType.PROGRESS_PAYMENT:	return new PaymentModel();
-				default:							throw new Exception("un handled model type " + model_type.ToString());
+				case ModelType.PROJECT_MODEL:		return	new ProjectModel();
+				case ModelType.MODEL_CLIENT:		return	new ClientModel();
+				case ModelType.MODEL_SUPPLIER:		throw	new Exception("TODO: suppiler model didn't created yet");
+				case ModelType.PROGRESS_CLIENT:		return	new ClientProgressModel();
+				case ModelType.PROGRESS_SUPPLIER:	return	new SupplierProgressModel();
+				case ModelType.PROGRESS_PAYMENT:	return	new PaymentModel();
+				default:							throw	new Exception("un handled model type " + model_type.ToString());
 			}
 		}
 
+		public static string getAppName(ModelType model_type)
+		{
+			switch (model_type)
+			{
+				case ModelType.MODEL_CLIENT:		return Model.AppNames.ACCOUNTS;
+				case ModelType.MODEL_SUPPLIER:		return Model.AppNames.ACCOUNTS;
+				case ModelType.PROGRESS_CLIENT:		return Model.AppNames.DOCUMENTS;
+				case ModelType.PROGRESS_SUPPLIER:	return Model.AppNames.DOCUMENTS;
+				case ModelType.PROGRESS_PAYMENT:	return Model.AppNames.PROJECTS;
+				case ModelType.PROJECT_MODEL:		return Model.AppNames.PROJECTS;
+				default: throw new Exception("un handled model type : " + model_type.ToString());
+			}
+		}
+
+		public static string getVerboseSinglar(ModelType model_type)
+		{
+			switch (model_type)
+			{
+				case ModelType.MODEL_CLIENT:		return "client";
+				case ModelType.MODEL_SUPPLIER:		return "supplier";
+				case ModelType.PROGRESS_CLIENT:		return "progress-client-file";
+				case ModelType.PROGRESS_SUPPLIER:	return "progress-supplier-file";
+				case ModelType.PROGRESS_PAYMENT:	return "";
+				case ModelType.PROJECT_MODEL:		return "project";
+				default: throw new Exception("un handled model type : " + model_type.ToString());
+			}
+		}
+
+		public static string getVerbosePlural(ModelType model_type)
+		{
+			switch (model_type)
+			{
+				case ModelType.MODEL_CLIENT:		return "clients";
+				case ModelType.MODEL_SUPPLIER:		return "suppliers";
+				case ModelType.PROGRESS_CLIENT:		return "progress-client-files";
+				case ModelType.PROGRESS_SUPPLIER:	return "progress-supplier-files";
+				case ModelType.PROGRESS_PAYMENT:	return "";
+				case ModelType.PROJECT_MODEL:		return "projects";
+				default: throw new Exception("un handled model type : " + model_type.ToString());
+			}
+		}
 
 		public static Model getModel( object pk, ModelType model_type) {
 			switch (model_type)

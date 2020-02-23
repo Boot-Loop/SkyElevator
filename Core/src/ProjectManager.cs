@@ -194,9 +194,9 @@ namespace Core
 		public void createProjectTemplate(string path, ModelAPI<ProjectModel> api ) {
 			var project_model = api.model;
 			string project_name = project_model.name.value;
-			if (!Directory.Exists(path)) Logger.logThrow( new DirectoryNotFoundException() );
+			if (!Directory.Exists(path)) throw new DirectoryNotFoundException();
 			string project_dir = Path.Combine(path, project_name); // TODO: project_name validation - throws illegal characters in path
-			if (Directory.Exists(project_dir)) Logger.logThrow( new AlreadyExistsError("project directory already exists"));
+			if (Directory.Exists(project_dir)) throw new AlreadyExistsError("project directory already exists");
 			Directory.CreateDirectory(project_dir);
 			foreach (FileTreeItem item in getProjectTemplate(project_model.getProjectType())) buildRecursiveDirectory(project_dir, item);
 
@@ -205,7 +205,6 @@ namespace Core
 			// project file
 			var proj_file_path  = Path.Combine(path, project_name, project_name + Reference.PROJECT_FILE_EXTENSION);
 			project_file.path	= proj_file_path;
-			// project_file.data.project_model = project_model;
 			api.update(); // creates project file and save, upload cache
 
 			var file_items = getProjectTemplate(project_model.getProjectType());
@@ -242,7 +241,7 @@ namespace Core
 		public void loadProject(string path) {
 			project_file.path = path;
 			project_file.load();
-			if (has_progress_tracking is null) Logger.logThrow(new NullReferenceException("did you call Application.singleton.initialize()"));
+			if (has_progress_tracking is null) throw new NullReferenceException("did you call Application.singleton.initialize()");
 			if (has_progress_tracking[project_file.data.project_model.getProjectType()]) {
 				path = Path.GetDirectoryName(path);
 

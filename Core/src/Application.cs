@@ -18,10 +18,10 @@ namespace Core
 	public class Application
 	{
 		/* attribute */
-		static Logger logger = new Logger();
-		public XmlFile<ProgrameData> programe_data_file	{ get; } = new XmlFile<ProgrameData>( file_path: Paths.PROGRAME_DATA_FILE );
-		public BinFile<ClientsData> clients_file		{ get; } = new BinFile<ClientsData>(file_path: Paths.CLIENTS_DATA_FILE);
-		public BinFile<SuppliersData> suppliers_file	{ get; } = new BinFile<SuppliersData>(file_path: Paths.SUPPLIERS_DATA_FILE);
+		static Logger logger							{ get; } = new Logger();
+		public XmlFile<ProgrameData> programe_data_file	{ get; } = new XmlFile<ProgrameData>(	file_path: Paths.PROGRAME_DATA_FILE );
+		public BinFile<ClientsData> clients_file		{ get; } = new BinFile<ClientsData>(	file_path: Paths.CLIENTS_DATA_FILE	);
+		public BinFile<SuppliersData> suppliers_file	{ get; } = new BinFile<SuppliersData>(	file_path: Paths.SUPPLIERS_DATA_FILE);
 
 		private bool _is_proj_loaded = false;
 		public bool is_proj_loaded { get { return _is_proj_loaded; } }
@@ -92,8 +92,9 @@ namespace Core
 		}
 		public void addAndLoadExistingProject(string path) {
 			var proj = _addExistingProject(path);
-			ProjectManager.singleton.project_file.data = proj.data;
+			ProjectManager.singleton.loadProject(path);
 			Directory.SetCurrentDirectory( path );
+			_is_proj_loaded = true;
 		}
 
 		public void loadProject(int index) {
@@ -128,5 +129,6 @@ namespace Core
 			}
 			return _dropdown_clients_list;
 		}
+
 	}
 }

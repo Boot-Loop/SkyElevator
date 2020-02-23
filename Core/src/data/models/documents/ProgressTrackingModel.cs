@@ -37,6 +37,7 @@ namespace Core.Data.Models
 			ProjectManager.singleton.progress_payments.save();
 		}
 		public override void validateRelation() { }
+
 	}
 
 	
@@ -82,10 +83,12 @@ namespace Core.Data.Models
 		}
 
 		public override void validateRelation() {
-			if (ProjectManager.singleton.project_file.data.project_model.id.value != project_id.value) {
+			if (ProjectManager.singleton.project_file.data.project_model.id.value != project_id.value) 
 				throw new ModelNotExists("project id didn't match with client progress model's fk");
-			}
+			
+			if (payments.value != null) foreach (var payment_id in payments.value) Model.getModel(payment_id, ModelType.PROGRESS_PAYMENT);
 		}
+
 	}
 
 	[Serializable]
@@ -119,13 +122,13 @@ namespace Core.Data.Models
 			progress_supplier_file.save();
 		}
 		public override void validateRelation() {
-			if (ProjectManager.singleton.project_file.data.project_model.id.value != project_id.value) {
+			if (ProjectManager.singleton.project_file.data.project_model.id.value != project_id.value)
 				throw new ModelNotExists("project id didn't match with supplier progress model's fk");
-			}
-			foreach( var payment_id in payments.value) {
-				Model.getModel(payment_id, ModelType.PROGRESS_PAYMENT);
-			}
+
+			if (payments.value != null) foreach( var payment_id in payments.value) Model.getModel(payment_id, ModelType.PROGRESS_PAYMENT);
+				
 		}
+
 	}
 
 

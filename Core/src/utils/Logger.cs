@@ -49,10 +49,6 @@ namespace Core.Utils
 			}
 		}
 
-		public static void logThrow(Exception err) {
-			logger.logError(err); throw err;
-		}
-
 		public string getLoggerName()	=> logger_name;
 		public string getFilePath()		=> file_path;
 
