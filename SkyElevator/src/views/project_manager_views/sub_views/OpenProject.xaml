@@ -8,7 +8,7 @@
              mc:Ignorable="d" Background="White"
              d:DesignHeight="420" d:DesignWidth="680">
     <UserControl.Resources>
-        <vm:OpenProjectViewModel x:Key="OpenProjectViewModel"/>
+        <!--<vm:ItemViewModel x:Key="MainViewModel"/>-->
         <BooleanToVisibilityConverter x:Key="BoolToVisConvertor"/>
     </UserControl.Resources>
     <Grid>
@@ -29,25 +29,25 @@
                 <Label Content="Open a recent project" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Style="{DynamicResource LabelTitleOne}"/>
                 <Label Content="Continue on recently started project" Margin="12 38 0 0" Style="{DynamicResource LabelSubTitle}"/>
                 <Grid Margin="16 72 16 16">
-                    <ListView Style="{DynamicResource ListViewCommon}" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}">
+                    <ListView Style="{DynamicResource ListViewCommon}" ItemsSource="{Binding RecentProjects}" SelectedIndex="{Binding SelectedIndex}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Height="40" Width="250" Background="{StaticResource COLOR_PRIMARY_LIGHTER}" Margin="2" DataContext="{Binding Source={StaticResource OpenProjectViewModel}}">
+                                <Grid Height="40" Width="250" Background="{StaticResource COLOR_PRIMARY_LIGHTER}" Margin="2">
                                     <Grid.InputBindings>
-                                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ItemSelectedCommand}"/>
+                                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding DisplayName}"/>
                                     </Grid.InputBindings>
                                     <Border BorderBrush="{StaticResource COLOR_PRIMARY_DARKER}" BorderThickness="1"/>
                                     <Image Source="/res/images/Sky_Elevator_Logo.png" HorizontalAlignment="Left" Height="32" Width="32" Margin="4"/>
                                     <StackPanel  Margin="40 0 0 0">
-                                        <Label Style="{DynamicResource LabelTitleFour}" Margin="2 2 0 0"/>
-                                        <Label Style="{DynamicResource LabelSubTitle}" Margin="0 0 0 8"/>
+                                        <Label Content="{Binding DisplayName}" Style="{DynamicResource LabelTitleFour}" Margin="2 2 0 0"/>
+                                        <Label Content="{Binding Path}" Style="{DynamicResource LabelSubTitle}" Margin="0 0 0 8"/>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <Label Content="No Recent Projects" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource LabelSubTitle}" FontSize="14" Visibility="{Binding Path=NoRecentProjectsVisibility, Converter={StaticResource BoolToVisConvertor}}"/>
-                    <Button Content="Open another project..." HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{DynamicResource ButtonCommon}" BorderThickness="0" Margin="8 0 0 4" Width="140"/>
+                    <Button Content="Open another project..." HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{DynamicResource ButtonCommon}" BorderThickness="0" Margin="8 0 0 4" Width="140" Command="{Binding ItemSelectedCommand}"/>
                 </Grid>
             </Grid>
         </Grid>
