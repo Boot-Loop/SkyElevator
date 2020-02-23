@@ -34,20 +34,17 @@ namespace Core.SebeClient
 		public async Task logout() => await connector.logout();
 		
 		// TODO: after update delete file
-		public async Task update() {
-			loadUpdateCache();
-			// try {
+		// NotLoggedInError, HttpNotFoundError, HttpBadRequestError, HttpRequestException // 1. not connected to internet
+		public async Task upload() {
+			while( anyUploadCacheLeft()) {
+				loadUpdateCache();
 				await sendRequest();
-			// }
-			// catch (NotLoggedInError)	{ }
-			// catch (HttpNotFoundError)	{ }
-			// catch (HttpBadRequestError) { }
-			// catch (HttpRequestException) { } // 1. not connected to internet
+				deleteLastCache();
+			}
 		}
 
 
 		/* private methods */
-
 		private async Task sendRequest() {
 			ModelType model_type = cache_file.data.model_type;
 			string request_path = getRequestPath(model_type, cache_file.data.method);
@@ -73,12 +70,31 @@ namespace Core.SebeClient
 		}
 
 		private void loadUpdateCache() {
-			if (Application.singleton.programe_data_file.data is null) throw new NullReferenceException("did you call Application.singleton.initialize()?");
-			var cache_file_names = Application.singleton.programe_data_file.data.upload_cache_files;
+			var file = Application.singleton.programe_data_file;
+			if (file.data is null) throw new NullReferenceException("did you call Application.singleton.initialize()?");
+			var cache_file_names = file.data.upload_cache_files;
 			if (cache_file_names.Count > 0) {
 				cache_file.path = Path.Combine( Core.Paths.UPLOAD_CACHE, cache_file_names[0] );
 				cache_file.load();
 			}
+		}
+
+		/// <summary>
+		/// return if any cache files left
+		/// </summary>
+		/// <returns></returns>
+		private void deleteLastCache() {
+			var file = Application.singleton.programe_data_file;
+			if (file.data is null) throw new NullReferenceException( "did you call Application.singleton.initialize()" );
+			if (file.data.upload_cache_files.Count == 0) return;
+			var cache_file_name = file.data.upload_cache_files[0];
+			var path = Path.Combine(Core.Paths.UPLOAD_CACHE, cache_file_name);
+			file.data.upload_cache_files.RemoveAt(0);
+			file.save(); File.Delete(path);
+		}
+
+		private bool anyUploadCacheLeft() {
+			return Application.singleton.programe_data_file.data.upload_cache_files.Count != 0;
 		}
 
 		private static string getRequestPath(ModelType model_type, HttpRequestMethod method, string pk = null)

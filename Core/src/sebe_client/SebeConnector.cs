@@ -252,7 +252,14 @@ namespace Core.SebeClient
 			string csrf_token = keys_and_values[3].Trim();
 			csrf_token = csrf_token.Substring(1, csrf_token.Length- 2);
 			logger.logSuccess( "drf csrf token found : "+csrf_token);
+			http_client.DefaultRequestHeaders.Remove(csrf_header);
 			http_client.DefaultRequestHeaders.Add(csrf_header, csrf_token);
+			// foreach( var x in http_client.DefaultRequestHeaders) {
+			// 	  Console.WriteLine( String.Format("{0}", x.Key) );
+			// 	  foreach( var y in x.Value) {
+			// 	  	  Console.WriteLine( String.Format("\t{0}", y) );
+			// 	  }
+			// }
 			return new KeyValuePair<string, string>(csrf_header, csrf_token);
 		}
 

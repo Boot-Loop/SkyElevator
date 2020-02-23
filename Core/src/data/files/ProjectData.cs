@@ -14,13 +14,7 @@ namespace Core.Data.Files
 	{
 
 		public string application_version = Reference.VERSION;
-		public ProjectModel project_model; // = new ProjectModel();
-		// public String project_name;
-		// public ProjectManager.ProjectType project_type	= ProjectManager.ProjectType.INSTALLATION;
-		// public string location;
-		// public long client_id;
-		// public DateTime date;
-		// public DateTime creation_date;
+		public ProjectModel project_model;
 
 		public DirectoryItem dirs = new DirectoryItem();
 

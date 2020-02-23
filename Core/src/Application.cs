@@ -120,6 +120,7 @@ namespace Core
 		}
 
 		public List<ClientModel> getClients() => clients_file.data.clients;
+		public List<SupplierModel> getSuppliers() => suppliers_file.data.suppliers;
 		public List<ClientModel> getClientsDropDownList() {
 			if (_dropdown_clients_list is null) {
 				var create_new_client = new ClientModel("<create new client>");

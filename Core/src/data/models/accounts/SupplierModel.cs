@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,21 @@ namespace Core.Data.Models
 		override public object getPK()				=> id.value;
 		override public void saveUpdates()			=> Application.singleton.suppliers_file.save();
 		override public void saveNew() {
-			Application.singleton.suppliers_file.data.suppliers.Add(this);
-			Application.singleton.suppliers_file.save();
+			var file = Application.singleton.suppliers_file;
+			if (file.data is null) throw new Exception("did you call Application.singleton.initialize()");
+			file.data.suppliers.Add(this);
+			file.save();
 		}
 		public override void validateRelation() { }
+
+		public override void delete() {
+			var file = Application.singleton.suppliers_file;
+			if (file.data is null) throw new Exception("did you call Application.singleton.initialize()");
+			if (file.data.suppliers.Contains(this)) {
+				file.data.suppliers.Remove(this); file.save();
+			}
+			else Logger.logger.logWarning("trying to delete a supplier -> was not in supplier file");
+		}
 
 	}
 }

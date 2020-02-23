@@ -83,8 +83,7 @@
     <Compile Include="src\data\Document.cs" />
     <Compile Include="src\data\doc\InquirySheet.cs" />
     <Compile Include="src\data\doc\WarrantyCertification.cs" />
-    <Compile Include="src\data\files\ClientsData.cs" />
-    <Compile Include="src\data\files\SuppliersData.cs" />
+    <Compile Include="src\data\files\accounts.cs" />
     <Compile Include="src\data\files\UploadData.cs" />
     <Compile Include="src\data\models\Model.cs" />
     <Compile Include="src\data\models\projects\ProjectModel.cs" />

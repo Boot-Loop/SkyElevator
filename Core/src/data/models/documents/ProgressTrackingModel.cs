@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +19,9 @@ namespace Core.Data.Models
 			DEBIT_CARD		= 4,
 			BANK_DEPOSIT	= 5,
 		}
-		public IntergerField id { get; set; }			= new IntergerField();
-		public FloatField amount { get; set; }			= new FloatField();
-		public IntergerField payment_type { get; set; }	= new IntergerField();
+		public IntergerField	id			 { get; set; }	= new IntergerField( name: "id" );
+		public FloatField		amount		 { get; set; }	= new FloatField(	 name: "ammount" );
+		public IntergerField	payment_type { get; set; }	= new IntergerField( name: "payment_type" );
 
 		public void setPaymentType( PaymentType type)	=> payment_type.value = (int)type;
 		/* overrides */
@@ -33,11 +35,25 @@ namespace Core.Data.Models
 			else throw new InvalidOperationException("project has no progress tracking");
 		}
 		public override void saveNew() {
-			ProjectManager.singleton.progress_payments.data.Add(this);
-			ProjectManager.singleton.progress_payments.save();
+			if (!ProjectManager.singleton.hasProgressTracking()) 
+				throw new InvalidOperationException("project has no progress tracking");
+			var file = ProjectManager.singleton.progress_payments;
+			file.data.Add(this);
+			file.save();
 		}
 		public override void validateRelation() { }
 
+		public override void delete()
+		{
+			if (!ProjectManager.singleton.hasProgressTracking())
+				throw new InvalidOperationException("project has no progress tracking");
+			var file = ProjectManager.singleton.progress_payments;
+			if (file.data is null) throw new Exception("did you call Application.singleton.initialize()");
+			if (file.data.Contains(this)) {
+				file.data.Remove(this); file.save();
+			}
+			else Logger.logger.logWarning("trying to delete a payment -> was not in payment file");
+		}
 	}
 
 	
@@ -46,7 +62,7 @@ namespace Core.Data.Models
 	public class ClientProgressModel : Model
 	{
 		public IntergerField	id								{ get; set; } = new IntergerField(	name: "id",			is_required: true	);
-		public IntergerField	project_id						{ get; set; } = new IntergerField(	name: "project_id", is_required: true	);
+		public IntergerField	project_id						{ get; set; } = new IntergerField(	name: "project",    is_required: true	);
 		public FloatField		total_amount_tobe_paid			{ get; set; } = new FloatField(		name: "total_ammount"					);
 		public ListField<int>   payments						{ get; set; } = new ListField<int>(	name: "payments"						);
 		public DateTimeField	arrived_date					{ get; set; } = new DateTimeField(	name: "arrival_date"					);
@@ -75,6 +91,8 @@ namespace Core.Data.Models
 			else throw new InvalidOperationException("project has no progress tracking");
 		}
 		public override void saveNew() {
+			if (!ProjectManager.singleton.hasProgressTracking())
+				throw new InvalidOperationException("project has no progress tracking");
 			if (Application.singleton.is_proj_loaded) throw new InvalidOperationException("can't create project when another project already loaded");
 			var progress_client_file = ProjectManager.singleton.progress_client;
 			if (progress_client_file.path is null) throw new Exception("path is null -> did you call Application.createNewProject()");
@@ -89,13 +107,24 @@ namespace Core.Data.Models
 			if (payments.value != null) foreach (var payment_id in payments.value) Model.getModel(payment_id, ModelType.PROGRESS_PAYMENT);
 		}
 
+		public override void delete() {
+			if (!ProjectManager.singleton.hasProgressTracking())
+				throw new InvalidOperationException("project has no progress tracking");
+			var file = ProjectManager.singleton.progress_client;
+			if (file.data is null) throw new Exception("did you load on a project");
+			if (file.data.Equals(this)) {
+				Logger.logger.logWarning("removing progress client file");
+				File.Delete(file.path);
+			}
+		}
+
 	}
 
 	[Serializable]
 	public class SupplierProgressModel : Model
 	{
 		public IntergerField id						{ get; set; } = new IntergerField(	name: "id",			is_required: true	);
-		public IntergerField project_id				{ get; set; } = new IntergerField(	name: "project_id", is_required: true	);
+		public IntergerField project_id				{ get; set; } = new IntergerField(	name: "project",	is_required: true	);
 		public FloatField total_amount_tobe_paid	{ get; set; } = new FloatField(		name: "total_ammount"					);
 		public ListField<int> payments				{ get; set; } = new ListField<int>(	name: "payments"						);
 		public DateTimeField production_start_date	{ get; set; } = new DateTimeField(	name: "production_start_date"			);
@@ -129,6 +158,16 @@ namespace Core.Data.Models
 				
 		}
 
+		public override void delete() {
+			if (!ProjectManager.singleton.hasProgressTracking())
+				throw new InvalidOperationException("project has no progress tracking");
+			var file = ProjectManager.singleton.progress_supplier;
+			if (file.data is null) throw new Exception("did you load on a project");
+			if (file.data.Equals(this)) {
+				Logger.logger.logWarning("removing progress supplier file");
+				File.Delete(file.path);
+			}
+		}
 	}
 
 

@@ -87,8 +87,8 @@ namespace Core.Data
 						break;
 					}
 				case ModelApiMode.MODE_DELETE: {
-						/* TODO: delete the model from the disc : model.delete() or something */
 						generateUploadFiles(HttpRequestMethod.DELETE, model.getType(), model.getPK(), null, null);
+						model.delete();
 						break;
 					}
 

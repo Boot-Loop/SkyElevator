@@ -39,16 +39,14 @@ namespace Core.Data.Models
 		public abstract ModelType getType();
 		public abstract void saveUpdates();
 		public abstract void saveNew();
+		public abstract void delete();
 		public abstract void validateRelation();
-		//public abstract string getAppName();
-		//public abstract string getVerboseNameSingular();
-		//public abstract string getVerboseNamePlural();
 
 		public static ModelType toModelType(Type type)
 		{
 			if ( type == typeof(ProjectModel))				return ModelType.PROJECT_MODEL;
 			if ( type == typeof(ClientModel))				return ModelType.MODEL_CLIENT;
-			// TODO: supplier model if ( type == typeof() ) return 
+			if ( type == typeof(SupplierModel))				return ModelType.MODEL_SUPPLIER;
 			if ( type == typeof(ClientProgressModel))		return ModelType.PROGRESS_CLIENT;
 			if ( type == typeof(SupplierProgressModel))		return ModelType.PROGRESS_SUPPLIER;
 			if ( type == typeof(PaymentModel))				return ModelType.PROGRESS_PAYMENT;
@@ -63,7 +61,7 @@ namespace Core.Data.Models
 			{
 				case ModelType.PROJECT_MODEL:		return	new ProjectModel();
 				case ModelType.MODEL_CLIENT:		return	new ClientModel();
-				case ModelType.MODEL_SUPPLIER:		throw	new Exception("TODO: suppiler model didn't created yet");
+				case ModelType.MODEL_SUPPLIER:		return	new SupplierModel();
 				case ModelType.PROGRESS_CLIENT:		return	new ClientProgressModel();
 				case ModelType.PROGRESS_SUPPLIER:	return	new SupplierProgressModel();
 				case ModelType.PROGRESS_PAYMENT:	return	new PaymentModel();
@@ -75,12 +73,12 @@ namespace Core.Data.Models
 		{
 			switch (model_type)
 			{
+				case ModelType.PROJECT_MODEL:		return Model.AppNames.PROJECTS;
 				case ModelType.MODEL_CLIENT:		return Model.AppNames.ACCOUNTS;
 				case ModelType.MODEL_SUPPLIER:		return Model.AppNames.ACCOUNTS;
 				case ModelType.PROGRESS_CLIENT:		return Model.AppNames.DOCUMENTS;
 				case ModelType.PROGRESS_SUPPLIER:	return Model.AppNames.DOCUMENTS;
 				case ModelType.PROGRESS_PAYMENT:	return Model.AppNames.PROJECTS;
-				case ModelType.PROJECT_MODEL:		return Model.AppNames.PROJECTS;
 				default: throw new Exception("un handled model type : " + model_type.ToString());
 			}
 		}
@@ -89,12 +87,12 @@ namespace Core.Data.Models
 		{
 			switch (model_type)
 			{
+				case ModelType.PROJECT_MODEL:		return "project";
 				case ModelType.MODEL_CLIENT:		return "client";
 				case ModelType.MODEL_SUPPLIER:		return "supplier";
 				case ModelType.PROGRESS_CLIENT:		return "progress-client-file";
 				case ModelType.PROGRESS_SUPPLIER:	return "progress-supplier-file";
 				case ModelType.PROGRESS_PAYMENT:	return "";
-				case ModelType.PROJECT_MODEL:		return "project";
 				default: throw new Exception("un handled model type : " + model_type.ToString());
 			}
 		}
@@ -103,12 +101,12 @@ namespace Core.Data.Models
 		{
 			switch (model_type)
 			{
+				case ModelType.PROJECT_MODEL:		return "projects";
 				case ModelType.MODEL_CLIENT:		return "clients";
 				case ModelType.MODEL_SUPPLIER:		return "suppliers";
 				case ModelType.PROGRESS_CLIENT:		return "progress-client-files";
 				case ModelType.PROGRESS_SUPPLIER:	return "progress-supplier-files";
 				case ModelType.PROGRESS_PAYMENT:	return "";
-				case ModelType.PROJECT_MODEL:		return "projects";
 				default: throw new Exception("un handled model type : " + model_type.ToString());
 			}
 		}
@@ -125,8 +123,11 @@ namespace Core.Data.Models
 						}
 						throw new ModelNotExists("model for client not exists pk: " + pk.ToString());
 					}
-				case ModelType.MODEL_SUPPLIER: { // TODO: create an interface for supplier same as clients
-						throw new Exception("TODO: supplier didn't created");
+				case ModelType.MODEL_SUPPLIER: {
+						foreach (var supplier in Application.singleton.getSuppliers()) {
+							if (supplier.matchPK(pk)) return supplier;
+						}
+						throw new ModelNotExists("model for supplier not exists pk: " + pk.ToString());
 					}
 				case ModelType.PROGRESS_CLIENT: {
 						if (ProjectManager.singleton.hasProgressTracking())

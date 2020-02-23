@@ -80,10 +80,10 @@ namespace Core
 	{
 		public enum ProjectType
 		{
-			INSTALLATION,
-			MAINTENANCE,
-			REPAIR_OR_MODERNIZATION,
-			OTHERS,
+			INSTALLATION			= 1,
+			MAINTENANCE				= 2,
+			REPAIR_OR_MODERNIZATION = 3,
+			OTHERS					= 4,
 		}
 		private static Dictionary<ProjectType, bool> has_progress_tracking = null;
 

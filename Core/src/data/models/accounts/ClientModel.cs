@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,11 +31,20 @@ namespace Core.Data.Models
 		override public void saveUpdates()				=> Application.singleton.clients_file.save();
 
 		override public void saveNew() {
-			Application.singleton.clients_file.data.clients.Add(this);
-			Application.singleton.clients_file.save();
+			var file = Application.singleton.clients_file;
+			if (file.data is null) throw new Exception( "did you call Application.singleton.initialize()" );
+			file.data.clients.Add(this);
+			file.save();
 		}
 		public override void validateRelation() { }
 
-
+		public override void delete() {
+			var file = Application.singleton.clients_file;
+			if (file.data is null) throw new Exception( "did you call Application.singleton.initialize()" );
+			if (file.data.clients.Contains(this)) {
+				file.data.clients.Remove(this); file.save();
+			}
+			else Logger.logger.logWarning( "trying to delete a client -> was not in clients file" );
+		}
 	}
 }
