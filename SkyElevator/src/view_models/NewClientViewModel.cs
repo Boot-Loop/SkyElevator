@@ -57,7 +57,7 @@ namespace SkyElevator.src.view_models
                 NewClient.ProjectManager.closeWindow();
             }
             catch (Exception err) {
-                Core.Reference.logger.logError(err);
+                Core.Reference.uilogger.logError(err);
                 AlertView alertView = new AlertView("Unknown error", "Unknown error has occured while creating a project. Please try again.", AlertViewType.ERROR, button);
                 alertView.ShowDialog();
             }

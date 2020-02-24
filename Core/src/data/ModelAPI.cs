@@ -13,8 +13,8 @@ using Core.Utils;
 
 /** TODO:
  * modified field -> check value has changed
- * check pk already exists
  * save models data a dictionary { pk 1: model }
+ * may be save attachment file to cache
  */
 
 namespace Core.Data
@@ -55,19 +55,25 @@ namespace Core.Data
 								if (!field.isNull()) {
 									object value = field.getValue();
 									if (!(value is String)) value = JsonSerializer.Serialize(value);
-									if (field is FileField) attachments.Add(field.getName(), field.getValue().ToString());
+									if (field is FileField) {
+										if (!Application.singleton.is_proj_loaded) throw new Exception("project must be loaded to use ModelAPI for attachments");
+										var f_field = field as FileField;
+										string file_name = model.getPK().ToString() + getFileExtension(Path.GetFullPath(f_field.value));
+										File.Copy(Path.GetFullPath(f_field.value), Path.Combine( Paths.ATTACHMENT_CACHE,  file_name ));
+										attachments.Add(f_field.getName(), file_name);
+									}
 									else request_data.Add(field.getName(), value.ToString());
 								}
 								field._setNotModified();
 							}
 						}
 						model.validateRelation();
-						generateUploadFiles(HttpRequestMethod.POST, model.getType(), model.getPK(), request_data, attachments);
 						model.saveNew();
+						generateUploadFiles(HttpRequestMethod.POST, model.getType(), model.getPK(), request_data, attachments);
 						break;
 					}
 				case ModelApiMode.MODE_READ:
-					throw new NotImplementedException("read mode for api not implimented");
+					throw new InvalidOperationException("can't update api when in read mode");
 					// break; // TODO: maybe check if any field modfied
 
 				case ModelApiMode.MODE_UPDATE: {
@@ -75,28 +81,39 @@ namespace Core.Data
 							if (prop_info.GetValue(model) is Field) {
 								Field field = prop_info.GetValue(model) as Field;
 								if (field.isModified()) {
-									if (field is FileField) attachments.Add(field.getName(), field.getValue().ToString());
+									if (field is FileField) {
+										if (!Application.singleton.is_proj_loaded) throw new Exception("project must be loaded to use ModelAPI for attachments");
+										var f_field = field as FileField;
+										string file_name = model.getPK().ToString() + getFileExtension(Path.GetFullPath(f_field.value));
+										File.Copy(Path.GetFullPath(f_field.value), Path.Combine(Paths.ATTACHMENT_CACHE, file_name));
+										attachments.Add(f_field.getName(), file_name);
+									}
 									else request_data.Add(field.getName(), JsonSerializer.Serialize(field.getValue()));
 									field._setNotModified();
 								}
 							}
 						}
 						model.validateRelation();
-						generateUploadFiles(HttpRequestMethod.PATCH, model.getType(), model.getPK(), request_data, attachments);
 						model.saveUpdates();
+						generateUploadFiles(HttpRequestMethod.PATCH, model.getType(), model.getPK(), request_data, attachments);
 						break;
 					}
 				case ModelApiMode.MODE_DELETE: {
-						generateUploadFiles(HttpRequestMethod.DELETE, model.getType(), model.getPK(), null, null);
 						model.delete();
+						generateUploadFiles(HttpRequestMethod.DELETE, model.getType(), model.getPK(), null, null);
 						break;
 					}
-
 			}
 		}
 
 
 		/* private methods */
+		private string getFileExtension(string path) {
+			if (!path.Contains(".")) throw new Exception("unable to get file extension -> path does not contain a dot");
+			var list = path.Split('.');
+			return "."+list[list.Length - 1];
+		}
+
 		private void generateUploadFiles(HttpRequestMethod method, ModelType model_type, object pk = null, Dictionary<string, string> request_data = null, Dictionary<string, string> attachments = null) {
 			DateTime date_time = DateTime.Now;
 			UploadData upload_data = new UploadData(method, model_type, pk, request_data, attachments, date_time);
@@ -109,11 +126,6 @@ namespace Core.Data
 
 		private void setModel(object pk)
 		{
-			// if (_api_mode == ModelApiMode.MODE_CREATE) {
-			// 		if (model_type == ModelType.PROGRESS_CLIENT || model_type == ModelType.PROGRESS_SUPPLIER) {
-			// 			throw new ArgumentException( "can't create model : " + model_type.ToString() );
-			// 		}
-			// }
 			if (_api_mode != ModelApiMode.MODE_CREATE) { // need pk
 				if (pk is null) throw new ArgumentNullException("required argument pk");
 			}

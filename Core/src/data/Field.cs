@@ -114,8 +114,8 @@ namespace Core.Data
         }
 
         private BoolField() { }
-        public BoolField(string name = null, string replace_tag = null, bool read_only = false, bool default_value = false, string validation_error_msg = "") {
-            this.name = name; this.replace_tag = replace_tag; this.is_readonly = read_only;
+        public BoolField(string name = null, string replace_tag = null, bool is_required = false, bool is_readonly = false, bool default_value = false, string validation_error_msg = "") {
+            this.name = name; this.replace_tag = replace_tag; this.is_readonly = is_readonly;
             this.default_value = default_value; this.validation_error_msg = validation_error_msg;
         }
 
@@ -362,7 +362,8 @@ namespace Core.Data
 
         override public FieldType getType() => FieldType.FILE;
         public override void _validate(string value) {
-            if (!File.Exists(value)) { throw new FileNotFoundException("path: " + value); }
+            var path = Path.Combine(ProjectManager.singleton.project_dir, value);
+            if (!File.Exists(path)) { throw new FileNotFoundException("path: " + path); }
         }
     }
 

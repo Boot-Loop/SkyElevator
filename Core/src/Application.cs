@@ -51,17 +51,19 @@ namespace Core
 		{
 			ProjectManager.initialize();
 
-			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
-			if (!Directory.Exists(Paths.DEFAULT_PROJ_DIR)) Directory.CreateDirectory(Paths.DEFAULT_PROJ_DIR);
-			if (!Directory.Exists(Paths.SEBE_CLIENT)) Directory.CreateDirectory(Paths.SEBE_CLIENT);
-			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
+			if (!Directory.Exists(Paths.PROGRAMME_DATA))	Directory.CreateDirectory(Paths.PROGRAMME_DATA);
+			if (!Directory.Exists(Paths.DEFAULT_PROJ_DIR))	Directory.CreateDirectory(Paths.DEFAULT_PROJ_DIR);
+			if (!Directory.Exists(Paths.LOGS))				Directory.CreateDirectory(Paths.LOGS);
+			if (!Directory.Exists(Paths.SEBE_CLIENT))		Directory.CreateDirectory(Paths.SEBE_CLIENT);
+			if (!Directory.Exists(Paths.UPLOAD_CACHE))		Directory.CreateDirectory(Paths.UPLOAD_CACHE);
+			if (!Directory.Exists(Paths.ATTACHMENT_CACHE))	Directory.CreateDirectory(Paths.ATTACHMENT_CACHE);
+
 			if (!File.Exists( Paths.PROGRAME_DATA_FILE)) { programe_data_file.data = new ProgrameData(); programe_data_file.save();  }
 			else { programe_data_file.load(); }
 			if (!File.Exists(Paths.CLIENTS_DATA_FILE)) { clients_file.data = new ClientsData(); clients_file.save(); }
 			else { clients_file.load(); }
 			if (!File.Exists(Paths.SUPPLIERS_DATA_FILE)) { suppliers_file.data = new SuppliersData(); suppliers_file.save(); }
 			else { suppliers_file.load(); }
-			if (!Directory.Exists(Paths.UPLOAD_CACHE)) Directory.CreateDirectory(Paths.UPLOAD_CACHE);
 
 			programe_data_file.data.cleanProjectPaths();
 			programe_data_file.save(); 

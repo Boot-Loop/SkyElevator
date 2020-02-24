@@ -47,9 +47,13 @@ namespace Core.SebeClient
 		/* private methods */
 		private async Task sendRequest() {
 			ModelType model_type = cache_file.data.model_type;
-			string request_path = getRequestPath(model_type, cache_file.data.method);
+			string request_path = getRequestPath(model_type, cache_file.data.method, cache_file.data.pk);
 			Dictionary<string, string> request_data = cache_file.data.getRequestData();
-			Dictionary<string, string> attachments = cache_file.data.getAttachments();
+			Dictionary<string, string> attachments = new Dictionary<string, string>();
+
+			if (cache_file.data.getAttachments() != null)
+			foreach(var pair in cache_file.data.getAttachments()) attachments[pair.Key] = Path.Combine( Core.Paths.ATTACHMENT_CACHE, pair.Value );
+			
 			switch (cache_file.data.method)
 			{
 				case HttpRequestMethod.GET:
@@ -91,6 +95,11 @@ namespace Core.SebeClient
 			var path = Path.Combine(Core.Paths.UPLOAD_CACHE, cache_file_name);
 			file.data.upload_cache_files.RemoveAt(0);
 			file.save(); File.Delete(path);
+			var attachments = cache_file.data.getAttachments();
+			if (attachments != null)
+				foreach (var pair in attachments) {
+					var cache_file = Path.Combine(Core.Paths.ATTACHMENT_CACHE, pair.Value); File.Delete(cache_file);
+				}
 		}
 
 		private bool anyUploadCacheLeft() {

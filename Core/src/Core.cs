@@ -16,22 +16,23 @@ namespace Core
 		public static readonly string APP_DATA              = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		public static readonly string PROGRAMME_DATA        = Path.Combine(APP_DATA, "SkyElevator/");
         public static readonly string DEFAULT_PROJ_DIR      = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SkyElevator/" );
-		public static readonly string SEBE_CLIENT           = Path.Combine(PROGRAMME_DATA, "Sebe Client/");
-		public static readonly string LOGS                  = Path.Combine(PROGRAMME_DATA, "Logs/");
-        public static readonly string UPLOAD_CACHE          = Path.Combine(SEBE_CLIENT, "Upload Cache/");
+		public static readonly string LOGS                  = Path.Combine(PROGRAMME_DATA,  "Logs/"             );
+		public static readonly string SEBE_CLIENT           = Path.Combine(PROGRAMME_DATA,  "Sebe Client/"      );
+        public static readonly string UPLOAD_CACHE          = Path.Combine(SEBE_CLIENT,     "Upload Cache/"     );
+        public static readonly string ATTACHMENT_CACHE      = Path.Combine(SEBE_CLIENT,     "Attachment Cache"  );
 
         public static readonly string EXECUTABLE            = new DirectoryInfo(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)).FullName;
-        public static readonly string DOCUMENT_TEMPLATE     = Path.Combine(EXECUTABLE, "templates");
-        public static readonly string PROGRAME_DATA_FILE    = Path.Combine(PROGRAMME_DATA, "programe-data.xml");
-        public static readonly string CLIENTS_DATA_FILE     = Path.Combine(PROGRAMME_DATA, "clients.dat");
-        public static readonly string SUPPLIERS_DATA_FILE   = Path.Combine(PROGRAMME_DATA, "suppliers.dat");
+        public static readonly string DOCUMENT_TEMPLATE     = Path.Combine(EXECUTABLE,      "templates"         );
+        public static readonly string PROGRAME_DATA_FILE    = Path.Combine(PROGRAMME_DATA,  "ProgrammeData.xml" );
+        public static readonly string CLIENTS_DATA_FILE     = Path.Combine(PROGRAMME_DATA,  "clients.dat"       );
+        public static readonly string SUPPLIERS_DATA_FILE   = Path.Combine(PROGRAMME_DATA,  "suppliers.dat"     );
 
         public class Template
         {
-            public static readonly string INQUERY_SHEET             = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx");
-            public static readonly string COMPLETION_REPORT         = Path.Combine(DOCUMENT_TEMPLATE, "completion_report.docx");
-            public static readonly string WARRANTY_CERTIFICATION    = Path.Combine(DOCUMENT_TEMPLATE, "warranty_certification.docx");
-            public static readonly string ELEVATOR_INSPECTION_SHEET = Path.Combine(DOCUMENT_TEMPLATE, "elevator_inspection_sheet.docx");
+            public static readonly string INQUERY_SHEET             = Path.Combine(DOCUMENT_TEMPLATE, "inquery_sheet.docx"              );
+            public static readonly string COMPLETION_REPORT         = Path.Combine(DOCUMENT_TEMPLATE, "completion_report.docx"          );
+            public static readonly string WARRANTY_CERTIFICATION    = Path.Combine(DOCUMENT_TEMPLATE, "warranty_certification.docx"     );
+            public static readonly string ELEVATOR_INSPECTION_SHEET = Path.Combine(DOCUMENT_TEMPLATE, "elevator_inspection_sheet.docx"  );
         }
 
     }
@@ -40,7 +41,7 @@ namespace Core
     {
         public static readonly string VERSION                   = "1.0.0";
         public static readonly string PROJECT_FILE_EXTENSION    = ".skyproj";
-        public static Logger logger { get; }                    = new Logger("ui.logs");
+        public static Logger uilogger { get; }                  = new Logger("ui.logs");
     }
 
     public enum HttpRequestMethod

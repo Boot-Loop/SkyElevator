@@ -20,6 +20,8 @@ namespace Core.Data.Models
 		PROGRESS_CLIENT,
 		PROGRESS_SUPPLIER,
 		PROGRESS_PAYMENT,
+
+		INQUIRY_SHEET,
 	}
 
 
@@ -50,9 +52,8 @@ namespace Core.Data.Models
 			if ( type == typeof(ClientProgressModel))		return ModelType.PROGRESS_CLIENT;
 			if ( type == typeof(SupplierProgressModel))		return ModelType.PROGRESS_SUPPLIER;
 			if ( type == typeof(PaymentModel))				return ModelType.PROGRESS_PAYMENT;
-
+			if ( type == typeof(InquirySheetModel))			return ModelType.INQUIRY_SHEET;
 			throw new Exception( "un handled model type or type is not model, Type : " + type.ToString() );
-			
 		}
 
 		public static Model newModel(ModelType model_type)
@@ -65,7 +66,8 @@ namespace Core.Data.Models
 				case ModelType.PROGRESS_CLIENT:		return	new ClientProgressModel();
 				case ModelType.PROGRESS_SUPPLIER:	return	new SupplierProgressModel();
 				case ModelType.PROGRESS_PAYMENT:	return	new PaymentModel();
-				default:							throw	new Exception("un handled model type " + model_type.ToString());
+				case ModelType.INQUIRY_SHEET:		return	new InquirySheetModel();
+				default: throw	new Exception("un handled model type " + model_type.ToString());
 			}
 		}
 
@@ -79,6 +81,7 @@ namespace Core.Data.Models
 				case ModelType.PROGRESS_CLIENT:		return Model.AppNames.DOCUMENTS;
 				case ModelType.PROGRESS_SUPPLIER:	return Model.AppNames.DOCUMENTS;
 				case ModelType.PROGRESS_PAYMENT:	return Model.AppNames.PROJECTS;
+				case ModelType.INQUIRY_SHEET:		return Model.AppNames.DOCUMENTS;
 				default: throw new Exception("un handled model type : " + model_type.ToString());
 			}
 		}
@@ -92,7 +95,8 @@ namespace Core.Data.Models
 				case ModelType.MODEL_SUPPLIER:		return "supplier";
 				case ModelType.PROGRESS_CLIENT:		return "progress-client-file";
 				case ModelType.PROGRESS_SUPPLIER:	return "progress-supplier-file";
-				case ModelType.PROGRESS_PAYMENT:	return "";
+				case ModelType.PROGRESS_PAYMENT:	return null;
+				case ModelType.INQUIRY_SHEET:		return "inquirysheet";
 				default: throw new Exception("un handled model type : " + model_type.ToString());
 			}
 		}
@@ -106,7 +110,8 @@ namespace Core.Data.Models
 				case ModelType.MODEL_SUPPLIER:		return "suppliers";
 				case ModelType.PROGRESS_CLIENT:		return "progress-client-files";
 				case ModelType.PROGRESS_SUPPLIER:	return "progress-supplier-files";
-				case ModelType.PROGRESS_PAYMENT:	return "";
+				case ModelType.PROGRESS_PAYMENT:	return null;
+				case ModelType.INQUIRY_SHEET:	return "inquirysheets";
 				default: throw new Exception("un handled model type : " + model_type.ToString());
 			}
 		}
@@ -147,6 +152,14 @@ namespace Core.Data.Models
 							}
 						}
 						else throw new ArgumentException("this project has no tracking data");
+						throw new ModelNotExists("model for progress payment not exists pk: " + pk.ToString());
+					}
+				case ModelType.INQUIRY_SHEET: {
+						var sheet = ProjectManager.singleton.project_file.data.items.inquiry_sheets;
+						// client
+						foreach (var tag in sheet.clients) if (tag.id == Convert.ToInt64(pk)) return tag.asModel(is_client:true);
+						// supplier
+						foreach (var tag in sheet.suppliers) if (tag.id == Convert.ToInt64(pk)) return tag.asModel(is_client:false);
 						throw new ModelNotExists("model for progress payment not exists pk: " + pk.ToString());
 					}
 				default:

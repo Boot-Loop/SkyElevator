@@ -24,7 +24,6 @@ namespace Core
 			REPAIR_OR_MODERNIZATION = 3,
 			OTHERS					= 4,
 		}
-		private static Dictionary<ProjectType, bool> has_progress_tracking = null;
 
 		public class Dirs
 		{
@@ -58,6 +57,11 @@ namespace Core
 		public XmlFile<SupplierProgressModel>	progress_supplier	{ get; } = new XmlFile<SupplierProgressModel>();
 		public XmlFile<List<PaymentModel>>		progress_payments	{ get; } = new XmlFile<List<PaymentModel>>(data:new List<PaymentModel>());
 
+		public string project_dir { get {
+				if (project_file.path is null) throw new NullReferenceException("project_file.path was null. did you load a project?");
+				return Path.GetDirectoryName(project_file.path);  
+			} }
+		private  List<string> project_template = null; // set when create and load a project
 
 		private static ProjectManager _singleton;
 		public static ProjectManager singleton {
@@ -68,14 +72,8 @@ namespace Core
 		}
 		private ProjectManager() { }
 
-		public static void initialize() {
-			if (has_progress_tracking is null) {
-				has_progress_tracking = new Dictionary<ProjectType, bool>();
-				foreach (var type in Enum.GetValues(typeof(ProjectType))) {
-					has_progress_tracking[(ProjectType)type] = hasProgressTracking((ProjectType)type);
-				}
-			}
-		}
+		public static void initialize() { }
+
 
 		public static List<string> getProjectTemplate(ProjectType project_type = ProjectType.INSTALLATION) {
 			switch (project_type)
@@ -143,8 +141,12 @@ namespace Core
 		}
 
 		public bool hasProgressTracking() {
-			if (project_file.data is null) throw new NullReferenceException("project data is null"); 
-			return has_progress_tracking[ project_file.data.project_model.getProjectType() ];
+			if (project_file.data is null) throw new NullReferenceException("project data is null");
+			return project_template.Contains(Dirs.PROGRESS_TRACKING);
+		}
+		public bool hasInquirySheet() {
+			if (project_file.data is null) throw new NullReferenceException("project data is null");
+			return project_template.Contains(Dirs.INQUIRY_SHEET_CLIENT);
 		}
 
 
@@ -152,6 +154,7 @@ namespace Core
 			var project_model = api.model;
 			string project_name = project_model.name.value;
 			if (project_model.client_id.isNull()) throw new Exception("client must not be null for a project");
+			project_template = getProjectTemplate(project_model.getProjectType());
 
 			if (!Directory.Exists(path)) throw new DirectoryNotFoundException();
 			string project_dir = Path.Combine(path, project_name); // TODO: project_name validation - throws illegal characters in path
@@ -168,11 +171,9 @@ namespace Core
 			api.update(); // creates project file and save, upload cache
 
 			var file_items = getProjectTemplate(project_model.getProjectType());
-			if (has_progress_tracking is null) throw new NullReferenceException("did you call Application.singleton.initialize()");
-			if (has_progress_tracking[project_model.getProjectType()]) {
+			if (hasProgressTracking()) {
 
 				var progress_pk = DateTime.Now.Ticks;
-				//project_file.data.items.progress_tracking = new Items.ProgressTrackingItems();
 
 				// progress client
 				progress_client.path = Path.Combine(path, project_name, Files.PROGRESS_CLIENT);
@@ -202,8 +203,8 @@ namespace Core
 		public void loadProject(string path) {
 			project_file.path = path;
 			project_file.load();
-			if (has_progress_tracking is null) throw new NullReferenceException("did you call Application.singleton.initialize()");
-			if (has_progress_tracking[project_file.data.project_model.getProjectType()]) {
+			project_template = getProjectTemplate(project_file.data.project_model.getProjectType());
+			if (hasProgressTracking()) {
 				path = Path.GetDirectoryName(path);
 
 				var progress_client_path = Path.Combine(path, project_file.data.items.progress_tracking.client);
@@ -222,21 +223,6 @@ namespace Core
 		}
 
 		/***** PRIVATE *****/
-		//private static void buildRecursiveDirectory(string path, FileTreeItem item) {
-		//	if (item is DirectoryItem) {
-		//		var directory = (DirectoryItem)item;
-		//		DirectoryInfo dir_info = Directory.CreateDirectory(Path.Combine(path, directory.path));
-		//		if (directory.name == Dirs.DOT_SKY_DIR) { dir_info.Attributes |= FileAttributes.Hidden; }
-		//		foreach (FileTreeItem _item in directory.items) {
-		//			buildRecursiveDirectory(path, _item);
-		//		}
-		//	}
-		//	else if (item is FileItem) { } // do nothing
-		//}
-
-		private static bool hasProgressTracking(ProjectType type) {
-			return getProjectTemplate(type).Contains(Dirs.PROGRESS_TRACKING);
-		}
 
 	}
 }
