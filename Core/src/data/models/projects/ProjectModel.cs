@@ -44,7 +44,7 @@ namespace Core.Data.Models
 			var project_file = ProjectManager.singleton.project_file;
 			if (project_file.path is null) throw new Exception("path is null -> did you call Application.createNewProject()");
 			project_file.data = new ProjectData(this.name.value, this);
-			project_file.data.dirs.addFile(this.name.value + Reference.PROJECT_FILE_EXTENSION);
+			// project_file.data.dirs.addFile(this.name.value + Reference.PROJECT_FILE_EXTENSION);
 			project_file.save();
 		}
 		public override void validateRelation() {

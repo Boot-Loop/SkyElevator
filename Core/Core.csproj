@@ -85,6 +85,11 @@
     <Compile Include="src\data\doc\WarrantyCertification.cs" />
     <Compile Include="src\data\files\accounts.cs" />
     <Compile Include="src\data\files\UploadData.cs" />
+    <Compile Include="src\data\models\documents\HandoverModel.cs" />
+    <Compile Include="src\data\models\documents\InquirySheetModel.cs" />
+    <Compile Include="src\data\models\documents\MaintenanceModel.cs" />
+    <Compile Include="src\data\models\documents\QuotationModel.cs" />
+    <Compile Include="src\data\models\documents\SalesAgreementModel.cs" />
     <Compile Include="src\data\models\Model.cs" />
     <Compile Include="src\data\models\projects\ProjectModel.cs" />
     <Compile Include="src\data\models\accounts\ClientModel.cs" />
