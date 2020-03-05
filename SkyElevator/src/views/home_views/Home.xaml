@@ -4,10 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkyElevator.src.views.home_views"
-        xmlns:Model="clr-namespace:SkyElevator.src.view_models"
+        xmlns:Model="clr-namespace:Core;assembly=Core"
         xmlns:tab="clr-namespace:SkyElevator.src.views.custom_views.scrollable_tab_control"
         mc:Ignorable="d" Background="{StaticResource COLOR_PRIMARY_LIGHTER}"
         Title="Home" Height="768" Width="1366">
+    <Window.Resources>
+        <HierarchicalDataTemplate DataType="{x:Type Model:DirectoryItem}" ItemsSource="{Binding items}">
+            <TextBlock Text="{Binding name}"/>
+        </HierarchicalDataTemplate>
+        <DataTemplate DataType="{x:Type Model:FileItem}">
+            <Label Content="{Binding name}"/>
+        </DataTemplate>
+    </Window.Resources>
 
     <DockPanel>
         <Menu Height="22" DockPanel.Dock="Top" Margin="2 2 0 0" Style="{DynamicResource MenuCommon}">
@@ -58,28 +66,13 @@
                     <Border Background="White"/>
                     <!--<Button Content="Add a new tab" Height="40"/>-->
 
-                    <TreeView BorderThickness="0" Style="{DynamicResource TreeViewCommon1}">
-                        <TreeViewItem Header="Home">
-                            <TreeViewItem Header="Inquiry Sheets"/>
-                            <TreeViewItem Header="Client"/>
-                            <TreeViewItem Header="Supplier"/>
-                        </TreeViewItem>
-
-                        <TreeViewItem Header="Progress Tracker">
-                            <TreeViewItem Header="Client"/>
-                            <TreeViewItem Header="Supplier"/>
-                            <TreeViewItem Header="More Details"/>
-                        </TreeViewItem>
-                        <TreeViewItem Header="Help">
-                            <TreeViewItem Header="Contact Us"/>
-                            <TreeViewItem Header="About Application"/>
-                            <TreeViewItem Header="About NKC"/>
-                        </TreeViewItem>
+                    <TreeView BorderThickness="0" Style="{DynamicResource TreeViewCommon1}" ItemsSource="{Binding}">
+                        
                     </TreeView>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <Button Content="Inquiry Sheet" Height="40" Click="Button_Click" Width="100" Margin="5"/>
-                        <Button Content="Client" Height="40" Click="Button_Click" Width="100" Margin="5"/>
-                        <Button Content="Supplier" Height="40" Click="Button_Click" Width="100" Margin="5"/>
+                        <Button Content="Client" Height="40" Width="100" Margin="5"/>
+                        <Button Content="Supplier" Height="40" Width="100" Margin="5"/>
                     </StackPanel>
                 </Grid>
                 <GridSplitter Grid.Column="0" Width="3"/>

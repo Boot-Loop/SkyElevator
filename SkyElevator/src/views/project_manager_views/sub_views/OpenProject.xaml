@@ -47,7 +47,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <Label Content="No Recent Projects" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource LabelSubTitle}" FontSize="14" Visibility="{Binding Path=NoRecentProjectsVisibility, Converter={StaticResource BoolToVisConvertor}}"/>
-                    <Button Content="Open another project..." HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{DynamicResource ButtonCommon}" BorderThickness="0" Margin="8 0 0 4" Width="140" Command="{Binding ItemSelectedCommand}"/>
+                    <Button Content="Open another project..." HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{DynamicResource ButtonCommon}" BorderThickness="0" Margin="8 0 0 4" Width="140" Command="{Binding OpenExistingProjectCommand}"/>
                 </Grid>
             </Grid>
         </Grid>

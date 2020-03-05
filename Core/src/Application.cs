@@ -85,7 +85,7 @@ namespace Core
 			// !path.EndsWith(Core.Reference.PROJECT_FILE_EXTENSION
 			XmlFile<ProjectData> proj = new XmlFile<ProjectData>(file_path: path);
 			proj.load();
-			var client = Model.getModel(proj.data.project_model.client_id, ModelType.MODEL_CLIENT) as ClientModel;
+			var client = Model.getModel(proj.data.project_model.client_id.value, ModelType.MODEL_CLIENT) as ClientModel;
 			programe_data_file.data.addProject(proj.data.project_model.name.value, client.name.value, proj.path);
 			programe_data_file.save();
 			return proj;
@@ -93,7 +93,7 @@ namespace Core
 		public void addAndLoadExistingProject(string path) {
 			var proj = _addExistingProject(path);
 			ProjectManager.singleton.project_file.data = proj.data;
-			Directory.SetCurrentDirectory( path );
+			Directory.SetCurrentDirectory( Path.GetDirectoryName(path) );
 		}
 
 		public void loadProject(int index) {

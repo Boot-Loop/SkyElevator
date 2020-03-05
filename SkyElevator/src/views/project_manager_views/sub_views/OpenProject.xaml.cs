@@ -23,10 +23,13 @@ namespace SkyElevator.src.views.project_manager_views.sub_views
     /// </summary>
     public partial class OpenProject : UserControl
     {
-        public OpenProject()
+        public ProjectManager ProjectManager { get; set; }
+
+        public OpenProject(ProjectManager project_manager)
         {
             InitializeComponent();
-            this.DataContext = new OpenProjectViewModel();
+            this.ProjectManager = project_manager;
+            this.DataContext = new OpenProjectViewModel(this);
         }
     }
 }

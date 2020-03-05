@@ -35,14 +35,14 @@ namespace SkyElevator.src.views.project_manager_views
             InitializeComponent();
             this.ProjectManagerViewModel = new ProjectManagerViewModel(this);
 
-            Core.Application.getSingleton().initialize();
+            Core.Application.singleton.initialize();
 
             this.DataContext = _project_manager_view_model;
 
             new_client_content_control.Content = new NewClient(this);
             new_project_content_control.Content = new NewProject(this);
             this.NewProject = new_project_content_control.Content as NewProject;
-            open_project_content_control.Content = new OpenProject();
+            open_project_content_control.Content = new OpenProject(this);
             Console.WriteLine(this.NewProject.ToString());
         }
 

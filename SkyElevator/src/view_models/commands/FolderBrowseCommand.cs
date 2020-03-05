@@ -23,7 +23,7 @@ namespace SkyElevator.src.view_models.commands
         }
 
         public FolderBrowseCommand() {
-            FolderPath = CoreApp.getSingleton().programe_data_file.data.default_proj_dir;
+            FolderPath = CoreApp.singleton.programe_data_file.data.default_proj_dir;
         }
 
         public event EventHandler CanExecuteChanged {

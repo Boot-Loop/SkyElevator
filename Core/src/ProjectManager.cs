@@ -17,8 +17,8 @@ namespace Core
 	/* file tree items */
 	public class FileTreeItem
 	{
-		[XmlAttribute] public string path;
-		[XmlAttribute] public string name;
+		[XmlAttribute] public string path { get; set; }
+		[XmlAttribute] public string name { get; set; }
 		private FileTreeItem() { this.name = ""; this.path = ""; }
 		public FileTreeItem(string path) {
 			this.path = path;
@@ -35,7 +35,7 @@ namespace Core
 		[XmlArray("items")]
 		[XmlArrayItem("file", typeof(FileItem))]
 		[XmlArrayItem("directory", typeof(DirectoryItem))]
-		public List<FileTreeItem> items = new List<FileTreeItem>();
+		public List<FileTreeItem> items { get; set; } = new List<FileTreeItem>();
 
 		private DirectoryItem() : base("") { }
 		public DirectoryItem(string path="") : base(path) { }
